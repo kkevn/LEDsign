@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- contains labels for group of items in drawer -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_new_profile"
+            android:icon="@drawable/baseline_playlist_add_white_48dp"
+            android:title="@string/menu_new_profile" />
+        <item
+            android:id="@+id/nav_load_profile"
+            android:icon="@drawable/baseline_playlist_add_check_white_48dp"
+            android:title="@string/menu_load_profile" />
+        <item
+            android:id="@+id/nav_upload_profile"
+            android:icon="@drawable/baseline_developer_board_white_48dp"
+            android:title="@string/menu_upload_profile" />
+    </group>
+</menu>
