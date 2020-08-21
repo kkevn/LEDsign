@@ -26,4 +26,8 @@
     <string name="dialog_save_profile">Would you like to save your progress?</string>
     <string name="dialog_save">Save</string>
     <string name="dialog_discard">Discard</string>
+
+    <!-- effects list menu -->
+    <string name="menu_edit">Edit</string>
+    <string name="menu_remove">Remove</string>
 </resources>
