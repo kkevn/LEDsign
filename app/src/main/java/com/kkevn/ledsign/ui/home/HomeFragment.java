@@ -2,9 +2,11 @@ package com.kkevn.ledsign.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.support.annotation.NonNull;
@@ -25,9 +27,9 @@ public class HomeFragment extends Fragment {
 
     private PApplet sketch;
 
-    private ListView lv_list;
+    private static ListView lv_list;
 
-    private Vector<Effect> effects_list = new Vector<>();
+    private static Vector<Effect> effects_list = new Vector<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
@@ -45,19 +47,20 @@ public class HomeFragment extends Fragment {
 
         // setup custom effects list
         lv_list = (ListView) root.findViewById(R.id.lv_list);
+
+        //effects_list.clear();
         effects_list.add(new Effect(Effect.EFFECT_TEXT_SCROLL, "Hello there!"));
 
         lv_list.setAdapter(new EffectListView(getContext(), effects_list));
-
-        /*final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });*/
+        
         return root;
     }
+
+    public static void addEffect(String n, String p) {
+        effects_list.add(new Effect(n, p));
+        ((BaseAdapter) lv_list.getAdapter()).notifyDataSetChanged();
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {

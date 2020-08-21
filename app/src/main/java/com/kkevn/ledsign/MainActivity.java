@@ -22,11 +22,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
+import com.kkevn.ledsign.ui.home.Effect;
+import com.kkevn.ledsign.ui.home.HomeFragment;
+
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private AppBarConfiguration mAppBarConfiguration;
     private NavController navController;
+    FloatingActionButton fab;
 
     private int prev_page = -1;
     private int curr_page;
@@ -41,12 +45,13 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        /*FloatingActionButton*/ fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                //HomeFragment.effects_list.add(new Effect("lol", "test"));
+                HomeFragment.addEffect("lol", "test");
             }
         });
 
@@ -89,8 +94,10 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     if (destination.getId() == R.id.nav_new_profile) {
                         toolbar.getMenu().findItem(R.id.action_save).setVisible(true);
+                        fab.show();
                     } else {
                         toolbar.getMenu().findItem(R.id.action_save).setVisible(false);
+                        fab.hide();
                     }
                 } catch (NullPointerException npe) {
                     Log.e("MainActivity", "error finding toolbar's save button", npe);
@@ -125,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;*/
 
             case R.id.action_about:
-
                 return true;
 
             case R.id.action_help:
