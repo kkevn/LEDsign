@@ -14,6 +14,8 @@ import android.arch.lifecycle.ViewModelProviders;
 import com.kkevn.ledsign.R;
 import com.kkevn.ledsign.processing.Sketch;
 
+import java.util.Vector;
+
 import processing.android.PFragment;
 import processing.core.PApplet;
 
@@ -24,6 +26,8 @@ public class HomeFragment extends Fragment {
     private PApplet sketch;
 
     private ListView lv_list;
+
+    private Vector<Effect> effects_list = new Vector<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
@@ -41,6 +45,9 @@ public class HomeFragment extends Fragment {
 
         // setup custom effects list
         lv_list = (ListView) root.findViewById(R.id.lv_list);
+        effects_list.add(new Effect(Effect.EFFECT_TEXT_SCROLL, "Hello there!"));
+
+        lv_list.setAdapter(new EffectListView(getContext(), effects_list));
 
         /*final TextView textView = root.findViewById(R.id.text_home);
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
