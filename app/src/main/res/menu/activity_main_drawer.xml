@@ -9,11 +9,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_new_profile"
-            android:icon="@drawable/baseline_playlist_add_white_48dp"
+            android:icon="@drawable/baseline_create_24"
             android:title="@string/menu_new_profile" />
         <item
             android:id="@+id/nav_load_profile"
-            android:icon="@drawable/baseline_playlist_add_check_white_48dp"
+            android:icon="@drawable/baseline_folder_open_24"
             android:title="@string/menu_load_profile" />
         <item
             android:id="@+id/nav_upload_profile"
