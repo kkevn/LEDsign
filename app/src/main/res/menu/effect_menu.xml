@@ -5,6 +5,9 @@
         android:id="@+id/edit"
         android:title="@string/menu_edit"/>
     <item
+        android:id="@+id/duplicate"
+        android:title="@string/menu_duplicate"/>
+    <item
         android:id="@+id/remove"
         android:title="@string/menu_remove"/>
 

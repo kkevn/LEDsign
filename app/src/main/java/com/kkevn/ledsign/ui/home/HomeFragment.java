@@ -101,13 +101,17 @@ public class HomeFragment extends Fragment implements EffectListView.ItemClickLi
                 Toast.makeText(getContext(), "Edit Item", Toast.LENGTH_SHORT).show();
                 return true;
 
+            // duplicate selected effect from list
+            case R.id.duplicate:
+
+                adapter.duplicateItem(item.getGroupId());
+                return true;
+
             // remove selected effect from list
             case R.id.remove:
 
                 // context menu created with id's at adapter pos
                 adapter.removeItem(item.getGroupId());
-
-                Toast.makeText(getContext(), "Removed Item", Toast.LENGTH_SHORT).show();
                 return true;
 
             default:

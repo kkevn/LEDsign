@@ -81,13 +81,22 @@ public class EffectListView extends RecyclerView.Adapter<EffectListView.ViewHold
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
             contextMenu.setHeaderTitle("Effect Options:");
             contextMenu.add(this.getAdapterPosition(), R.id.edit, 0, R.string.menu_edit);
-            contextMenu.add(this.getAdapterPosition(), R.id.remove, 1, R.string.menu_remove);
+            contextMenu.add(this.getAdapterPosition(), R.id.duplicate, 1, R.string.menu_duplicate);
+            contextMenu.add(this.getAdapterPosition(), R.id.remove, 2, R.string.menu_remove);
         }
     }
 
     // convenience method for getting data at click position
     Effect getItem(int id) {
         return effects.get(id);
+    }
+
+    void duplicateItem(int i) {
+        //effects.remove(i);
+        effects.insertElementAt(effects.get(i), i + 1);
+        //effects.removeElementAt(i);
+        //notifyItemRemoved(i);
+        notifyItemInserted(i + 1);
     }
 
     void removeItem(int i) {

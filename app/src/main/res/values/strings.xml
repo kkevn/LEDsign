@@ -29,5 +29,6 @@
 
     <!-- effects list menu -->
     <string name="menu_edit">Edit</string>
+    <string name="menu_duplicate">Duplicate</string>
     <string name="menu_remove">Remove</string>
 </resources>

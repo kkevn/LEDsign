@@ -125,6 +125,9 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_save:
                 // User chose the "Save Profile" item, save profile to disk
+                String name = "test01";
+
+                Snackbar.make(getCurrentFocus(), "Profile \'"+ name + "\' saved", Snackbar.LENGTH_SHORT).show();
                 return true;
 
             /*case R.id.action_upload:
