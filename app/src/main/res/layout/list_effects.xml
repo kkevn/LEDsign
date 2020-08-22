@@ -6,20 +6,20 @@
     android:orientation="horizontal"
     android:background="@color/colorSecondaryLight"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.5"
-        android:padding="15dp">
+        android:layout_weight="1"
+        android:padding="4dp">
 
         <ImageView
             android:id="@+id/iv_icon"
             android:background="@drawable/effect_icon_border"
-            android:layout_width="91dp"
-            android:layout_height="76dp"
-            android:padding="10dp" />
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:padding="4dp" />
 
         <TextView
             android:id="@+id/tv_effect"
@@ -28,6 +28,8 @@
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@id/iv_icon"
             android:layout_toRightOf="@id/iv_icon"
+            android:paddingLeft="8dp"
+            android:paddingTop="2dp"
             android:textSize="24dp"
             android:textStyle="bold" />
 
@@ -38,11 +40,24 @@
             android:layout_below="@id/tv_effect"
             android:layout_toEndOf="@id/iv_icon"
             android:layout_toRightOf="@id/iv_icon"
+            android:paddingTop="2dp"
+            android:paddingLeft="8dp"
             android:textSize="18dp" />
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/iv_drag"
+        android:background="@drawable/drag_icon_border"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        android:layout_alignParentRight="true"
+        android:padding="1dp"
+        android:scaleX="0.75"
+        android:scaleY="0.75"/>
+
+    <!--<RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -56,6 +71,6 @@
             android:layout_alignParentRight="true"
             android:padding="1dp" />
 
-    </RelativeLayout>
+    </RelativeLayout>-->
 
 </LinearLayout>

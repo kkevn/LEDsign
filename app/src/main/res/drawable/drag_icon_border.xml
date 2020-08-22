@@ -14,7 +14,7 @@
         </shape>
     </item>
 
-    <!-- This is for border bottom but
+    <!-- This is for border left but
     you can change this according to your need -->
     <item android:left="1dp" >
         <shape
