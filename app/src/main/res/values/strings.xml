@@ -22,6 +22,11 @@
     <string name="status_connected">Paired</string>
     <string name="status_disconnected">Unpaired</string>
 
+    <!-- profile options menu -->
+    <string name="menu_rename">Rename Profile</string>
+    <string name="menu_reset">Reset Profile</string>
+    <string name="menu_upload">Upload Profile</string>
+
     <!-- save profile dialog fragment -->
     <string name="dialog_save_profile">Would you like to save your progress?</string>
     <string name="dialog_save">Save</string>

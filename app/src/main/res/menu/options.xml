@@ -1,39 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- contains menu items for options button in far right of toolbar -->
+<!-- contains menu items for custom toolbar actions -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- visible action items -->
+    <!-- toolbar save button -->
     <item
         android:id="@+id/action_save"
         android:icon="@drawable/baseline_save_white_48dp"
         android:title="@string/action_save"
         app:showAsAction="always"/>
-    <!--<item
-        android:id="@+id/action_upload"
-        android:icon="@drawable/baseline_developer_board_black_48dp"
-        android:title="@string/action_upload"
-        app:showAsAction="always"/>-->
 
     <!-- overflow menu items -->
-    <item android:id="@+id/action_about"
-        android:title="@string/action_about"
+    <item android:id="@+id/menu_rename"
+        android:title="@string/menu_rename"
         app:showAsAction="never"/>
-    <item android:id="@+id/action_help"
-        android:title="@string/action_help"
+    <item android:id="@+id/menu_reset"
+        android:title="@string/menu_reset"
         app:showAsAction="never"/>
-    <item
-        android:title="@string/title_bluetooth"
-        app:showAsAction="never">
-        <menu>
-            <item android:id="@+id/action_connect"
-                android:title="@string/action_connect"
-                app:showAsAction="never"/>
-            <item android:id="@+id/action_disconnect"
-                android:title="@string/action_disconnect"
-                app:showAsAction="never"/>
-        </menu>
-    </item>
+    <item android:id="@+id/menu_upload"
+        android:title="@string/menu_upload"
+        app:showAsAction="never"/>
 </menu>

@@ -35,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
     private int prev_page = -1;
     private int curr_page;
 
+    private boolean showOptions = true;
+    private Menu toolbar_menu;
+
     private boolean currentProfileSaved = true;
 
     @Override
@@ -93,11 +96,18 @@ public class MainActivity extends AppCompatActivity {
                 // attempt to change the toolbar's save button depending on current fragment in view
                 try {
                     if (destination.getId() == R.id.nav_new_profile) {
-                        toolbar.getMenu().findItem(R.id.action_save).setVisible(true);
+                        //toolbar.getMenu().findItem(R.id.action_save).setVisible(true);
                         fab.show();
+                        showOptions = true;
                     } else {
-                        toolbar.getMenu().findItem(R.id.action_save).setVisible(false);
+                        //toolbar.getMenu().findItem(R.id.action_save).setVisible(false);
                         fab.hide();
+                        showOptions = false;
+                    }
+
+                    // enable or disable save button and 3-dot options menu
+                    for (int i = 0; i < toolbar_menu.size(); i++) {
+                        toolbar_menu.getItem(i).setVisible(showOptions);
                     }
                 } catch (NullPointerException npe) {
                     Log.e("MainActivity", "error finding toolbar's save button", npe);
@@ -115,9 +125,17 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
+        toolbar_menu = menu;
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.options, menu);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        toolbar_menu.findItem(R.id.menu_upload).setEnabled(false);
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -130,21 +148,14 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(getCurrentFocus(), "Profile \'"+ name + "\' saved", Snackbar.LENGTH_SHORT).show();
                 return true;
 
-            /*case R.id.action_upload:
-                // User chose the "Upload Profile" action, upload profile to Arduino
-                return true;*/
-
-            case R.id.action_about:
+            case R.id.menu_rename:
                 return true;
 
-            case R.id.action_help:
-                Toast.makeText(this, "help", Toast.LENGTH_SHORT).show();
+            case R.id.menu_reset:
+                //Toast.makeText(this, "help", Toast.LENGTH_SHORT).show();
                 return true;
 
-            case R.id.action_connect:
-                return true;
-
-            case R.id.action_disconnect:
+            case R.id.menu_upload:
                 return true;
 
             default:
