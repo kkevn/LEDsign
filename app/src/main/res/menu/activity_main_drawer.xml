@@ -18,7 +18,8 @@
     </group>
 
     <!-- SET A UNIQUE ID TO THE BELOW GROUP -->
-    <group android:id="@+id/group_settings">
+    <group android:id="@+id/group_settings"
+        android:checkableBehavior="single">
 
         <item
             android:id="@+id/nav_bluetooth"
@@ -32,12 +33,8 @@
     </group>
 
     <!-- SET A UNIQUE ID TO THE BELOW GROUP -->
-    <group android:id="@+id/group_other">
-
-        <item
-            android:id="@+id/nav_about"
-            android:icon="@drawable/baseline_info_24"
-            android:title="@string/menu_about" />
+    <group android:id="@+id/group_other"
+        android:checkableBehavior="single">
 
         <item
             android:id="@+id/nav_help"
@@ -45,8 +42,8 @@
             android:title="@string/menu_help" />
 
         <item
-            android:id="@+id/nav_exit"
-            android:icon="@drawable/baseline_power_settings_new_24"
-            android:title="@string/menu_exit" />
+            android:id="@+id/nav_about"
+            android:icon="@drawable/baseline_info_24"
+            android:title="@string/menu_about" />
     </group>
 </menu>
