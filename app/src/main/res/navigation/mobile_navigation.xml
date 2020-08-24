@@ -10,19 +10,19 @@
 
     <fragment
         android:id="@+id/nav_new_profile"
-        android:name="com.kkevn.ledsign.ui.home.HomeFragment"
+        android:name="com.kkevn.ledsign.ui.create.CreateFragment"
         android:label="@string/menu_new_profile"
         tools:layout="@layout/fragment_new_profile" />
 
     <fragment
         android:id="@+id/nav_load_profile"
-        android:name="com.kkevn.ledsign.ui.gallery.GalleryFragment"
+        android:name="com.kkevn.ledsign.ui.profiles.ProfilesFragment"
         android:label="@string/menu_load_profile"
         tools:layout="@layout/fragment_load_profile" />
 
     <fragment
-        android:id="@+id/nav_upload_profile"
-        android:name="com.kkevn.ledsign.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_upload_profile"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_settings"
+        android:name="com.kkevn.ledsign.ui.settings.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

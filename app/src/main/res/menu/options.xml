@@ -7,19 +7,19 @@
 
     <!-- toolbar save button -->
     <item
-        android:id="@+id/action_save"
-        android:icon="@drawable/baseline_save_white_48dp"
-        android:title="@string/action_save"
+        android:id="@+id/menu_prof_save"
+        android:icon="@drawable/baseline_save_24"
+        android:title="@string/menu_prof_save"
         app:showAsAction="always"/>
 
     <!-- overflow menu items -->
-    <item android:id="@+id/menu_rename"
-        android:title="@string/menu_rename"
+    <item android:id="@+id/menu_prof_rename"
+        android:title="@string/menu_prof_rename"
         app:showAsAction="never"/>
-    <item android:id="@+id/menu_reset"
-        android:title="@string/menu_reset"
+    <item android:id="@+id/menu_prof_reset"
+        android:title="@string/menu_prof_reset"
         app:showAsAction="never"/>
-    <item android:id="@+id/menu_upload"
-        android:title="@string/menu_upload"
+    <item android:id="@+id/menu_prof_upload"
+        android:title="@string/menu_prof_upload"
         app:showAsAction="never"/>
 </menu>

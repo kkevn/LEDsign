@@ -23,12 +23,12 @@
         <item
             android:id="@+id/nav_bluetooth"
             android:icon="@drawable/baseline_settings_bluetooth_24"
-            android:title="Bluetooth" />
+            android:title="@string/menu_bluetooth" />
 
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/baseline_settings_24"
-            android:title="Settings" />
+            android:title="@string/menu_settings" />
     </group>
 
     <!-- SET A UNIQUE ID TO THE BELOW GROUP -->
@@ -37,16 +37,16 @@
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/baseline_info_24"
-            android:title="About" />
+            android:title="@string/menu_about" />
 
         <item
             android:id="@+id/nav_help"
             android:icon="@drawable/baseline_help_24"
-            android:title="Help" />
+            android:title="@string/menu_help" />
 
         <item
             android:id="@+id/nav_exit"
             android:icon="@drawable/baseline_power_settings_new_24"
-            android:title="Exit" />
+            android:title="@string/menu_exit" />
     </group>
 </menu>

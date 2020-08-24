@@ -1,4 +1,4 @@
-package com.kkevn.ledsign.ui.slideshow;
+package com.kkevn.ledsign.ui.settings;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,15 +13,15 @@ import android.arch.lifecycle.ViewModelProviders;
 
 import com.kkevn.ledsign.R;
 
-public class SlideshowFragment extends Fragment {
+public class SettingsFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private SettingsViewModel slideshowViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         slideshowViewModel =
-                ViewModelProviders.of(this).get(SlideshowViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
+                ViewModelProviders.of(this).get(SettingsViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_settings, container, false);
         final TextView textView = root.findViewById(R.id.text_slideshow);
         slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override

@@ -1,26 +1,17 @@
-package com.kkevn.ledsign.ui.home;
+package com.kkevn.ledsign.ui.create;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.arch.lifecycle.ViewModelProviders;
 import android.widget.Toast;
 
 import com.kkevn.ledsign.R;
@@ -31,9 +22,9 @@ import java.util.Vector;
 import processing.android.PFragment;
 import processing.core.PApplet;
 
-public class HomeFragment extends Fragment implements EffectListView.ItemClickListener {
+public class CreateFragment extends Fragment implements EffectListView.ItemClickListener {
 
-    private HomeViewModel homeViewModel;
+    private CreateViewModel homeViewModel;
 
     private PApplet sketch;
 
@@ -97,18 +88,18 @@ public class HomeFragment extends Fragment implements EffectListView.ItemClickLi
         switch(item.getItemId()) {
 
             // edit selected effect
-            case R.id.edit:
+            case R.id.menu_effect_edit:
                 Toast.makeText(getContext(), "Edit Item", Toast.LENGTH_SHORT).show();
                 return true;
 
             // duplicate selected effect from list
-            case R.id.duplicate:
+            case R.id.menu_effect_duplicate:
 
                 adapter.duplicateItem(item.getGroupId());
                 return true;
 
             // remove selected effect from list
-            case R.id.remove:
+            case R.id.menu_effect_remove:
 
                 // context menu created with id's at adapter pos
                 adapter.removeItem(item.getGroupId());

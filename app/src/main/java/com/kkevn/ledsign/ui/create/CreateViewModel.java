@@ -1,14 +1,14 @@
-package com.kkevn.ledsign.ui.home;
+package com.kkevn.ledsign.ui.create;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+public class CreateViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public HomeViewModel() {
+    public CreateViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is home fragment");
     }

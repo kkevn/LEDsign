@@ -1,4 +1,4 @@
-package com.kkevn.ledsign.ui.gallery;
+package com.kkevn.ledsign.ui.profiles;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,12 +13,12 @@ import android.arch.lifecycle.ViewModelProviders;
 
 import com.kkevn.ledsign.R;
 
-public class GalleryFragment extends Fragment {
+public class ProfilesFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+    private ProfilesViewModel galleryViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel = ViewModelProviders.of(this).get(GalleryViewModel.class);
+        galleryViewModel = ViewModelProviders.of(this).get(ProfilesViewModel.class);
         View root = inflater.inflate(R.layout.fragment_load_profile, container, false);
 
         final TextView textView = root.findViewById(R.id.text_gallery);

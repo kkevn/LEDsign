@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/edit"
-        android:title="@string/menu_edit"/>
+        android:id="@+id/menu_effect_edit"
+        android:title="@string/menu_effect_edit"/>
     <item
-        android:id="@+id/duplicate"
-        android:title="@string/menu_duplicate"/>
+        android:id="@+id/menu_effect_duplicate"
+        android:title="@string/menu_effect_duplicate"/>
     <item
-        android:id="@+id/remove"
-        android:title="@string/menu_remove"/>
+        android:id="@+id/menu_effect_remove"
+        android:title="@string/menu_effect_remove"/>
 
 </menu>

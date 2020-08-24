@@ -1,4 +1,4 @@
-package com.kkevn.ledsign.ui.home;
+package com.kkevn.ledsign.ui.create;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -80,9 +80,9 @@ public class EffectListView extends RecyclerView.Adapter<EffectListView.ViewHold
         @Override
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
             contextMenu.setHeaderTitle("Effect Options:");
-            contextMenu.add(this.getAdapterPosition(), R.id.edit, 0, R.string.menu_edit);
-            contextMenu.add(this.getAdapterPosition(), R.id.duplicate, 1, R.string.menu_duplicate);
-            contextMenu.add(this.getAdapterPosition(), R.id.remove, 2, R.string.menu_remove);
+            contextMenu.add(this.getAdapterPosition(), R.id.menu_effect_edit, 0, R.string.menu_effect_edit);
+            contextMenu.add(this.getAdapterPosition(), R.id.menu_effect_duplicate, 1, R.string.menu_effect_duplicate);
+            contextMenu.add(this.getAdapterPosition(), R.id.menu_effect_remove, 2, R.string.menu_effect_remove);
         }
     }
 
@@ -124,7 +124,7 @@ public class EffectListView extends RecyclerView.Adapter<EffectListView.ViewHold
                 return R.drawable.baseline_text_fields_24;
 
             default:
-                return R.drawable.baseline_add_circle_outline_white_48dp;
+                return R.drawable.baseline_help_24;
         }
     }
 }

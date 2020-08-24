@@ -20,10 +20,8 @@ import androidx.navigation.ui.NavigationUI;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
 
-import com.kkevn.ledsign.ui.home.Effect;
-import com.kkevn.ledsign.ui.home.HomeFragment;
+import com.kkevn.ledsign.ui.create.CreateFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 //HomeFragment.effects_list.add(new Effect("lol", "test"));
-                HomeFragment.addEffect("lol", "test");
+                CreateFragment.addEffect("lol", "test");
             }
         });
 
@@ -63,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_new_profile, R.id.nav_load_profile, R.id.nav_upload_profile)
+                R.id.nav_new_profile, R.id.nav_load_profile, R.id.nav_settings)
                 .setDrawerLayout(drawer)
                 .build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -137,28 +135,28 @@ public class MainActivity extends AppCompatActivity {
 
         // customize menu so that it can be icon or in menu, tap on title to edit prof
 
-        toolbar_menu.findItem(R.id.menu_upload).setEnabled(false);
+        toolbar_menu.findItem(R.id.menu_prof_upload).setEnabled(false);
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_save:
+            case R.id.menu_prof_save:
                 // User chose the "Save Profile" item, save profile to disk
                 String name = "test01";
 
                 Snackbar.make(getCurrentFocus(), "Profile \'"+ name + "\' saved", Snackbar.LENGTH_SHORT).show();
                 return true;
 
-            case R.id.menu_rename:
+            case R.id.menu_prof_rename:
                 return true;
 
-            case R.id.menu_reset:
+            case R.id.menu_prof_reset:
                 //Toast.makeText(this, "help", Toast.LENGTH_SHORT).show();
                 return true;
 
-            case R.id.menu_upload:
+            case R.id.menu_prof_upload:
                 return true;
 
             default:
