@@ -134,6 +134,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+
+        // customize menu so that it can be icon or in menu, tap on title to edit prof
+
         toolbar_menu.findItem(R.id.menu_upload).setEnabled(false);
         return super.onPrepareOptionsMenu(menu);
     }
