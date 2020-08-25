@@ -29,6 +29,7 @@
     <string name="menu_prof_upload">Upload Profile</string>
 
     <!-- effects list menu -->
+    <string name="menu_effect_header">Effect Options:</string>
     <string name="menu_effect_edit">Edit</string>
     <string name="menu_effect_duplicate">Duplicate</string>
     <string name="menu_effect_remove">Remove</string>

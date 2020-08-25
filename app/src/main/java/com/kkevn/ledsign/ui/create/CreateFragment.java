@@ -24,8 +24,6 @@ import processing.core.PApplet;
 
 public class CreateFragment extends Fragment implements EffectListView.ItemClickListener {
 
-    private CreateViewModel homeViewModel;
-
     private PApplet sketch;
 
     private static ListView lv_list;
@@ -35,7 +33,6 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
     private static Vector<Effect> effects_list = new Vector<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_new_profile, container, false);
 
         // setup Processing sketch
