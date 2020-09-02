@@ -252,7 +252,8 @@ public class BluetoothFragment extends Fragment {
         super.onDestroyView();
 
         // unregister the ACTION_FOUND receiver
-        getActivity().unregisterReceiver(blReceiver);
+
+        //getActivity().unregisterReceiver(blReceiver);
     }
 
     private void listPairedDevices(View view){
