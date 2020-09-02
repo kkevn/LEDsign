@@ -66,6 +66,7 @@ public class BluetoothFragment extends Fragment {
     final static int REQUEST_ENABLE_BT = 1; // used to identify adding bluetooth names
     final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
     final static int CONNECTING_STATUS = 3; // used in bluetooth handler to identify message status
+    final static int MESSAGE_WRITE = 4; //
 
 
     // https://github.com/bauerjj/Android-Simple-Bluetooth-Example/blob/master/app/src/main/java/com/mcuhq/simplebluetooth/MainActivity.java
@@ -84,13 +85,18 @@ public class BluetoothFragment extends Fragment {
         mBTArrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1);
         mBTAdapter = BluetoothAdapter.getDefaultAdapter(); // get a handle on the bluetooth radio
 
+        if (mBTAdapter == null) {
+            // device doesnt support BT
+            Toast.makeText(getContext(), "< Missing BT Support >", Toast.LENGTH_LONG);
+        }
+
         mDevicesListView = (ListView) root.findViewById(R.id.devicesListView);
         mDevicesListView.setAdapter(mBTArrayAdapter); // assign model to view
         mDevicesListView.setOnItemClickListener(mDeviceClickListener);
 
         // Ask for location permission if not already allowed
-        if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        //if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            //ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
 
         Handler mHandler = new Handler(){
             public void handleMessage(android.os.Message msg){
@@ -227,11 +233,12 @@ public class BluetoothFragment extends Fragment {
         }
     }
 
+    // create a BroadcastReceiver for ACTION_FOUND
     final BroadcastReceiver blReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if(BluetoothDevice.ACTION_FOUND.equals(action)){
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 // add the name to the list
                 mBTArrayAdapter.add(device.getName() + "\n" + device.getAddress());
@@ -240,11 +247,19 @@ public class BluetoothFragment extends Fragment {
         }
     };
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        // unregister the ACTION_FOUND receiver
+        getActivity().unregisterReceiver(blReceiver);
+    }
+
     private void listPairedDevices(View view){
 
         try {
             mPairedDevices = mBTAdapter.getBondedDevices();
-            if(mBTAdapter.isEnabled()) {
+            if(mBTAdapter.isEnabled() && mPairedDevices.size() > 0) {
                 // put it's one to the adapter
                 for (BluetoothDevice device : mPairedDevices)
                     mBTArrayAdapter.add(device.getName() + "\n" + device.getAddress());
@@ -286,6 +301,11 @@ public class BluetoothFragment extends Fragment {
                         fail = true;
                         Toast.makeText(getContext(), "Socket creation failed", Toast.LENGTH_SHORT).show();
                     }
+
+                    // !!!
+                    mBTAdapter.cancelDiscovery();
+
+
                     // Establish the Bluetooth socket connection.
                     try {
                         mBTSocket.connect();
@@ -293,8 +313,7 @@ public class BluetoothFragment extends Fragment {
                         try {
                             fail = true;
                             mBTSocket.close();
-                            mHandler.obtainMessage(CONNECTING_STATUS, -1, -1)
-                                    .sendToTarget();
+                            mHandler.obtainMessage(CONNECTING_STATUS, -1, -1).sendToTarget();
                         } catch (IOException e2) {
                             //insert code to deal with this
                             Toast.makeText(getContext(), "Socket creation failed", Toast.LENGTH_SHORT).show();
@@ -304,8 +323,7 @@ public class BluetoothFragment extends Fragment {
                         mConnectedThread = new ConnectedThread(mBTSocket);
                         mConnectedThread.start();
 
-                        mHandler.obtainMessage(CONNECTING_STATUS, 1, -1, name)
-                                .sendToTarget();
+                        mHandler.obtainMessage(CONNECTING_STATUS, 1, -1, name).sendToTarget();
                     }
                 }
             }.start();
