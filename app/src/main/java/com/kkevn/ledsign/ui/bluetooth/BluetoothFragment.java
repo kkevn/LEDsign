@@ -130,7 +130,7 @@ public class BluetoothFragment extends Fragment {
                 @Override
                 public void onClick(View v){
                     if(mConnectedThread != null) //First check to make sure thread created
-                        mConnectedThread.write("1");
+                        mConnectedThread.write("1".getBytes());
                 }
             });
 
@@ -321,7 +321,7 @@ public class BluetoothFragment extends Fragment {
                         }
                     }
                     if(fail == false) {
-                        mConnectedThread = new ConnectedThread(mBTSocket);
+                        mConnectedThread = new ConnectedThread(mBTSocket, mHandler);
                         mConnectedThread.start();
 
                         mHandler.obtainMessage(CONNECTING_STATUS, 1, -1, name).sendToTarget();

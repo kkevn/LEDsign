@@ -1,11 +1,15 @@
 package com.kkevn.ledsign.ui.bluetooth;
 
 import android.bluetooth.BluetoothSocket;
+import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 public class ConnectedThread extends Thread {
@@ -13,10 +17,13 @@ public class ConnectedThread extends Thread {
     private final BluetoothSocket socket;
     private final InputStream inStream;
     private final OutputStream outStream;
-    private byte[] buffer;
+    //private byte[] buffer;
+    public static final int RESPONSE_MESSAGE = 10;
+    Handler uih;
 
-    public ConnectedThread(BluetoothSocket socket) {
+    public ConnectedThread(BluetoothSocket socket, Handler uih) {
         this.socket = socket;
+        this.uih = uih;
         InputStream tmpIn = null;
         OutputStream tmpOut = null;
 
@@ -29,11 +36,19 @@ public class ConnectedThread extends Thread {
 
         this.inStream = tmpIn;
         this.outStream = tmpOut;
+
+        try {
+            outStream.flush();
+        } catch (IOException e) {
+            return;
+        }
     }
 
     public void run() {
-        buffer = new byte[1024]; // buffer store for stream
-        int bytes; // bytes returned from read()
+        //buffer = new byte[1024]; // buffer store for stream
+        //int bytes; // bytes returned from read()
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(this.inStream));
 
         while (true) {
             try {
@@ -47,9 +62,16 @@ public class ConnectedThread extends Thread {
                     BluetoothFragment.mHandler.obtainMessage(BluetoothFragment.MESSAGE_READ, bytes, -1, buffer).sendToTarget(); // send obtained bytes to UI
                 }*/
 
-                bytes = this.inStream.read(buffer);
+                String resp = br.readLine();
 
-                BluetoothFragment.mHandler.obtainMessage(BluetoothFragment.MESSAGE_READ, bytes, -1, buffer).sendToTarget(); // send obtained bytes to UI
+                Message msg = new Message();
+                msg.what = RESPONSE_MESSAGE;
+                msg.obj = resp;
+                uih.sendMessage(msg);
+
+                //bytes = this.inStream.read(buffer);
+
+                //BluetoothFragment.mHandler.obtainMessage(BluetoothFragment.MESSAGE_READ, bytes, -1, buffer).sendToTarget(); // send obtained bytes to UI
             } catch (IOException ioe) {
                 Log.e("ConnectedThread", "error reading incoming bytes", ioe);
                 break;
@@ -57,11 +79,11 @@ public class ConnectedThread extends Thread {
         }
     }
 
-    public void write(String input) {
-        byte[] bytes = input.getBytes();
+    public void write(/*String input*/byte[] bytes) {
+        //byte[] bytes = input.getBytes();
         try {
             this.outStream.write(bytes);
-            BluetoothFragment.mHandler.obtainMessage(BluetoothFragment.MESSAGE_WRITE, -1, -1, buffer).sendToTarget();
+            //BluetoothFragment.mHandler.obtainMessage(BluetoothFragment.MESSAGE_WRITE, -1, -1, buffer).sendToTarget();
         } catch (IOException ioe) {
             Log.e("ConnectedThread", "error writing outgoing bytes", ioe);
         }
