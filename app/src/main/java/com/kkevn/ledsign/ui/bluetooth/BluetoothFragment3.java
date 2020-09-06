@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kkevn.ledsign.MainActivity;
 import com.kkevn.ledsign.R;
 
 import java.io.IOException;
@@ -39,17 +40,17 @@ public class BluetoothFragment3 extends Fragment {
     private Button mOffBtn;
     private Button mListPairedDevicesBtn;
     private Button mDiscoverBtn;
+    private ListView mDevicesListView;
+    private CheckBox mLED1;
+
+    //static ConnectedThread ct;
+    static Handler handler;
+
+    ConnectedThread ct;
     private BluetoothAdapter mBTAdapter;
     BluetoothDevice device = null;
     private Set<BluetoothDevice> mPairedDevices;
     private ArrayAdapter<String> mBTArrayAdapter;
-    private ListView mDevicesListView;
-    private CheckBox mLED1;
-
-    static ConnectedThread ct;
-    static Handler handler;
-
-    private BluetoothSocket mBTSocket = null; // bi-directional client-to-client data path
 
     static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // "random" unique identifier
 
