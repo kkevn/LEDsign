@@ -24,6 +24,7 @@
 
     <!-- profile options menu -->
     <string name="menu_prof_save">Save Profile</string>
+    <string name="menu_prof_bt">Bluetooth</string>
     <string name="menu_prof_rename">Rename Profile</string>
     <string name="menu_prof_reset">Reset Profile</string>
     <string name="menu_prof_upload">Upload Profile</string>
@@ -38,5 +39,10 @@
     <string name="dialog_save_profile">Would you like to save your progress?</string>
     <string name="dialog_save">Save</string>
     <string name="dialog_discard">Discard</string>
+
+    <!-- bluetooth dialog fragment -->
+    <string name="dialog_bt_profile">Select a paired device to connect to:</string>
+    <string name="dialog_scan">Scan for Devices</string>
+    <string name="dialog_discover">Discover</string>
 
 </resources>

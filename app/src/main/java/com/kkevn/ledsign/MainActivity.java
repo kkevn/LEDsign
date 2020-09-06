@@ -1,5 +1,8 @@
 package com.kkevn.ledsign;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,9 +23,14 @@ import androidx.navigation.ui.NavigationUI;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.kkevn.ledsign.ui.bluetooth.ConnectedThread;
 import com.kkevn.ledsign.ui.create.CreateFragment;
+
+import java.util.Set;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +46,25 @@ public class MainActivity extends AppCompatActivity {
     private Menu toolbar_menu;
 
     private boolean currentProfileSaved = true;
+
+
+
+    // BLUETOOTH objects
+    static ConnectedThread ct;
+    static BluetoothAdapter mBTAdapter;
+    BluetoothDevice device = null;
+    static Set<BluetoothDevice> mPairedDevices;
+    public static ArrayAdapter<String> mBTArrayAdapter;
+
+    static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // "random" unique identifier
+
+    // #defines for identifying shared types between calling functions
+    final static int REQUEST_ENABLE_BT = 1; // used to identify adding bluetooth names
+    final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
+    final static int CONNECTING_STATUS = 3; // used in bluetooth handler to identify message status
+    static final int MESSAGE_WRITE = 4;
+    static final int MESSAGE_TOAST = 5;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
         curr_page = navController.getCurrentDestination().getId();
 
         onFragmentChange();
+
+        mBTArrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1);
+        mBTAdapter = BluetoothAdapter.getDefaultAdapter(); // get a handle on the bluetooth radio
     }
 
     /**
@@ -90,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // prompt user to save profile before navigating away from the edit profile fragment
                 if (prev_page == R.id.nav_new_profile /*&& currentProfileSaved == false*/) {
-                    new SaveProfileDialogFragment().show(getSupportFragmentManager(), "MainActivity");;
+                    new SaveProfileDialogFragment().show(getSupportFragmentManager(), "MainActivity");
                 }
 
                 // attempt to change the toolbar's save button depending on current fragment in view
@@ -151,6 +181,12 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(getCurrentFocus(), "Profile \'"+ name + "\' saved", Snackbar.LENGTH_SHORT).show();
                 return true;
 
+            case R.id.menu_prof_bt:
+                // launch bluetooth dialog
+                bluetoothOn();
+                //new BluetoothDialogFragment().show(getSupportFragmentManager(), "MainActivity");
+                return true;
+
             case R.id.menu_prof_rename:
                 return true;
 
@@ -173,5 +209,72 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+
+    private void bluetoothOn() {
+        try {
+            if (!mBTAdapter.isEnabled()) {
+                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+                //mBluetoothStatus.setText("Bluetooth enabled");
+                Toast.makeText(getApplicationContext(),"Bluetooth turned on",Toast.LENGTH_SHORT).show();
+            }
+            else{
+                new BluetoothDialogFragment().show(getSupportFragmentManager(), "MainActivity");
+                Toast.makeText(getApplicationContext(),"Bluetooth is already on", Toast.LENGTH_SHORT).show();
+            }
+        } catch (NullPointerException npe) {
+            Log.e("MainActivity", "error finding bluetooth adapter", npe);
+        }
+    }
+
+    // Enter here after user selects "yes" or "no" to enabling radio
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent Data){
+        // Check which request we're responding to
+        if (requestCode == REQUEST_ENABLE_BT) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                // The user picked a contact.
+                // The Intent's data Uri identifies which contact was selected.
+                //mBluetoothStatus.setText("Enabled");
+                new BluetoothDialogFragment().show(getSupportFragmentManager(), "MainActivity");
+                //pairedDevicesList();
+            } else
+                Toast.makeText(getApplicationContext(),"Bluetooth disabled", Toast.LENGTH_SHORT).show();
+                //mBluetoothStatus.setText("Disabled");
+        }
+    }
+
+    private void bluetoothOff(){
+        try {
+            mBTAdapter.disable(); // turn off
+            //mBluetoothStatus.setText("Bluetooth disabled");
+            Toast.makeText(getApplicationContext(),"Bluetooth turned Off", Toast.LENGTH_SHORT).show();
+        } catch (NullPointerException npe) {
+            Log.e("MainActivity", "error finding bluetooth adapter", npe);
+        }
+    }
+
+
+    public static void pairedDevicesList() {
+        try {
+            mBTArrayAdapter.clear();
+            mPairedDevices = mBTAdapter.getBondedDevices();
+            //ArrayList list = new ArrayList();
+
+            if (mBTAdapter.isEnabled() && mPairedDevices.size() > 0) {
+                for(BluetoothDevice bt : mPairedDevices) {
+                    mBTArrayAdapter.add(bt.getName() + "\n" + bt.getAddress()); //Get the device's name and the address
+                }
+            }
+            //new BluetoothDialogFragment().show(getSupportFragmentManager(), "MainActivity");
+            /*else {
+                Toast.makeText(getApplicationContext(), "No Paired Bluetooth Devices Found.", Toast.LENGTH_LONG).show();
+            }*/
+        } catch (NullPointerException npe) {
+            Log.e("MainActivity", "error finding bluetooth adapter", npe);
+        }
     }
 }

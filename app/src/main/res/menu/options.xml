@@ -12,6 +12,13 @@
         android:title="@string/menu_prof_save"
         app:showAsAction="always"/>
 
+    <!-- bluetooth button -->
+    <item
+        android:id="@+id/menu_prof_bt"
+        android:icon="@drawable/baseline_settings_bluetooth_24"
+        android:title="@string/menu_prof_bt"
+        app:showAsAction="always"/>
+
     <!-- overflow menu items -->
     <item android:id="@+id/menu_prof_rename"
         android:title="@string/menu_prof_rename"

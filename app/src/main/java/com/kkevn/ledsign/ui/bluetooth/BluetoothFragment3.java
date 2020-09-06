@@ -46,7 +46,7 @@ public class BluetoothFragment3 extends Fragment {
     //static ConnectedThread ct;
     static Handler handler;
 
-    ConnectedThread ct;
+    static ConnectedThread ct;
     private BluetoothAdapter mBTAdapter;
     BluetoothDevice device = null;
     private Set<BluetoothDevice> mPairedDevices;
