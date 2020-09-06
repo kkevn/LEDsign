@@ -88,7 +88,6 @@ public class BluetoothFragment2 extends Fragment {
             Log.e("BluetoothFragment2", "error finding bluetooth adapter", npe);
         }*/
 
-
         try {
             if (mBTArrayAdapter == null) {
                 // Device does not support Bluetooth
@@ -102,7 +101,7 @@ public class BluetoothFragment2 extends Fragment {
             Log.e("BluetoothFragment2", "error finding bluetooth adapter", npe);
         }
 
-        pairedDevicesList();
+
 
             mLED1.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -112,11 +111,15 @@ public class BluetoothFragment2 extends Fragment {
                     if (mBTSocket.isConnected()) {
                         //btt.write("1".getBytes());
                         try {
-                            if (mLED1.isChecked())
+                            if (mLED1.isChecked()) {
                                 mBTSocket.getOutputStream().write("1".getBytes());
-                            else
+                                //ct2.write("1".getBytes());
+                            }
+                            else {
                                 mBTSocket.getOutputStream().write("0".getBytes());
-                        } catch (IOException ioe) {
+                                //ct2.write("0".getBytes());
+                            }
+                        } catch (Exception ioe) {
                             Log.e("BluetoothFragment2", "error writing to socket", ioe);
                         }
                         Toast.makeText(getContext(),"Wrote 1",Toast.LENGTH_SHORT).show();
@@ -168,6 +171,7 @@ public class BluetoothFragment2 extends Fragment {
             if (mBTAdapter.isEnabled() && mPairedDevices.size() > 0) {
                 for(BluetoothDevice bt : mPairedDevices) {
                     mBTArrayAdapter.add(bt.getName() + "\n" + bt.getAddress()); //Get the device's name and the address
+                    mmDevice = bt;
                 }
             }
             else {
@@ -271,6 +275,7 @@ public class BluetoothFragment2 extends Fragment {
                 // The user picked a contact.
                 // The Intent's data Uri identifies which contact was selected.
                 mBluetoothStatus.setText("Enabled");
+                pairedDevicesList();
             }
             else
                 mBluetoothStatus.setText("Disabled");
