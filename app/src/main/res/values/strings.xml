@@ -41,8 +41,8 @@
     <string name="dialog_discard">Discard</string>
 
     <!-- bluetooth dialog fragment -->
-    <string name="dialog_bt_profile">Select a paired device to connect to:</string>
-    <string name="dialog_scan">Scan for Devices</string>
+    <string name="dialog_bt_profile">Select a Paired Device:</string>
+    <string name="dialog_refresh">Refresh</string>
     <string name="dialog_discover">Discover</string>
 
 </resources>

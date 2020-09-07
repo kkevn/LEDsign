@@ -265,8 +265,8 @@ public class MainActivity extends AppCompatActivity {
             //ArrayList list = new ArrayList();
 
             if (mBTAdapter.isEnabled() && mPairedDevices.size() > 0) {
-                for(BluetoothDevice bt : mPairedDevices) {
-                    mBTArrayAdapter.add(bt.getName() + "\n" + bt.getAddress()); //Get the device's name and the address
+                for (BluetoothDevice bt : mPairedDevices) {
+                    mBTArrayAdapter.add(bt.getName() + "\n\t" + bt.getAddress()); //Get the device's name and the address
                 }
             }
             //new BluetoothDialogFragment().show(getSupportFragmentManager(), "MainActivity");
