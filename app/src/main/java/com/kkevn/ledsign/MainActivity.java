@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.kkevn.ledsign.ui.bluetooth.ConnectedThread;
 import com.kkevn.ledsign.ui.create.CreateFragment;
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
 
@@ -48,13 +49,14 @@ public class MainActivity extends AppCompatActivity {
     private boolean currentProfileSaved = true;
 
 
-
     // BLUETOOTH objects
     static ConnectedThread ct;
     static BluetoothAdapter mBTAdapter;
     BluetoothDevice device = null;
-    static Set<BluetoothDevice> mPairedDevices;
-    public static ArrayAdapter<String> mBTArrayAdapter;
+    //static Set<BluetoothDevice> mPairedDevices;
+    static ArrayList<BluetoothDevice> mPairedDevices = new ArrayList<>();
+    static ArrayList<BTD> testing = new ArrayList<>();
+    public static ArrayAdapter mBTArrayAdapter;
 
     static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // "random" unique identifier
 
@@ -101,8 +103,17 @@ public class MainActivity extends AppCompatActivity {
 
         onFragmentChange();
 
-        mBTArrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1);
+        //mBTArrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1);
+        mBTArrayAdapter = new PairedListView(getApplicationContext(), mPairedDevices);
+
         mBTAdapter = BluetoothAdapter.getDefaultAdapter(); // get a handle on the bluetooth radio
+
+        /*
+        mBTArrayAdapter = new PairedListView(getApplicationContext(), testing);
+        testing.add(new BTD("test", "00:00:00:00:00:00"));
+        testing.add(new BTD("lmao", "11:00:00:00:00:00"));
+        testing.add(new BTD("ripperino", "22:00:00:00:00:00"));
+         */
     }
 
     /**
@@ -261,12 +272,15 @@ public class MainActivity extends AppCompatActivity {
     public static void pairedDevicesList() {
         try {
             mBTArrayAdapter.clear();
-            mPairedDevices = mBTAdapter.getBondedDevices();
+
+            //mPairedDevices = mBTAdapter.getBondedDevices();
+            mPairedDevices = new ArrayList<>(mBTAdapter.getBondedDevices());
             //ArrayList list = new ArrayList();
 
             if (mBTAdapter.isEnabled() && mPairedDevices.size() > 0) {
                 for (BluetoothDevice bt : mPairedDevices) {
-                    mBTArrayAdapter.add(bt.getName() + "\n\t" + bt.getAddress()); //Get the device's name and the address
+                    //mBTArrayAdapter.add(bt.getName() + "\n\t" + bt.getAddress()); //Get the device's name and the address
+                    mBTArrayAdapter.add(bt); //Get the device's name and the address
                 }
             }
             //new BluetoothDialogFragment().show(getSupportFragmentManager(), "MainActivity");
@@ -275,6 +289,24 @@ public class MainActivity extends AppCompatActivity {
             }*/
         } catch (NullPointerException npe) {
             Log.e("MainActivity", "error finding bluetooth adapter", npe);
+        }
+    }
+
+    class BTD {
+
+        String a, b;
+
+        BTD(String a, String b) {
+            this.a = a;
+            this.b = b;
+        }
+
+        String getName() {
+            return a;
+        }
+
+        String getAddress() {
+            return b;
         }
     }
 }

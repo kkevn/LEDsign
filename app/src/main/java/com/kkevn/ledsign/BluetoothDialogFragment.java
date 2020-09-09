@@ -14,6 +14,8 @@ public class BluetoothDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
+        MainActivity.pairedDevicesList();
+
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         //builder.setMessage(R.string.dialog_bt_profile)
@@ -24,7 +26,7 @@ public class BluetoothDialogFragment extends DialogFragment {
                         String item = MainActivity.mBTArrayAdapter.getItem(which).toString();
                         final String address = item.substring(item.length() - 17);
 
-                        Toast.makeText(getContext(), address, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), item, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNeutralButton(R.string.dialog_refresh, new DialogInterface.OnClickListener() {
