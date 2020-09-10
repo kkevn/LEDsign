@@ -1,4 +1,4 @@
-package com.kkevn.ledsign;
+package com.kkevn.ledsign.bluetooth;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+
+import com.kkevn.ledsign.R;
 
 import java.util.ArrayList;
 
@@ -21,6 +23,15 @@ public class PairedListView extends ArrayAdapter<BluetoothDevice> {
         super(context, 0, objects);
         this.mInflater = LayoutInflater.from(context);
         this.mPairedDevices = objects;
+    }
+
+    public String yolo() {
+        return "";
+    }
+
+    //@Override
+    public BluetoothDevice getat(int i) {
+        return mPairedDevices.get(i);
     }
 
     @Override
@@ -54,7 +65,7 @@ public class PairedListView extends ArrayAdapter<BluetoothDevice> {
 
         // populate item based on current position
         viewHolder.tv_device_name.setText(mPairedDevices.get(i).getName());
-        viewHolder.tv_device_address.setText(mPairedDevices.get(i).getAddress());
+        viewHolder.tv_device_address.setText("[" + mPairedDevices.get(i).getAddress() + "]");
 
         // return the view
         return v;

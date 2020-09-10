@@ -1,10 +1,12 @@
-package com.kkevn.ledsign.ui.bluetooth;
+package com.kkevn.ledsign.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
 import android.util.Log;
+
+import com.kkevn.ledsign.MainActivity;
 
 import java.io.IOException;
 
@@ -29,7 +31,7 @@ public class ConnectThread extends Thread {
         try {
             // Get a BluetoothSocket to connect with the given BluetoothDevice.
             // MY_UUID is the app's UUID string, also used in the server code.
-            tmp = device.createRfcommSocketToServiceRecord(BluetoothFragment3.BTMODULEUUID);
+            tmp = mmDevice.createRfcommSocketToServiceRecord(MainActivity.BTMODULEUUID);
         } catch (IOException e) {
             fail = true;
             Log.e("ConnectThread", "Socket's create() method failed", e);
@@ -50,7 +52,7 @@ public class ConnectThread extends Thread {
             try {
                 fail = true;
                 mmSocket.close();
-                mHandler.obtainMessage(BluetoothFragment3.CONNECTING_STATUS, -1, -1)
+                mHandler.obtainMessage(MainActivity.CONNECTING_STATUS, -1, -1)
                         .sendToTarget();
             } catch (IOException closeException) {
                 Log.e("ConnectThread", "Could not close the client socket", closeException);
@@ -59,9 +61,10 @@ public class ConnectThread extends Thread {
         }
 
         if (fail == false) {
-            BluetoothFragment3.manageMyConnectedSocket(mmSocket);
+            //BluetoothFragment3.manageMyConnectedSocket(mmSocket);
+            MainActivity.manageMyConnectedSocket(mmSocket);
 
-            mHandler.obtainMessage(BluetoothFragment3.CONNECTING_STATUS, 1, -1, mmDevice.getName())
+            mHandler.obtainMessage(MainActivity.CONNECTING_STATUS, 1, -1, mmDevice.getName())
                     .sendToTarget();
         }
 

@@ -1,7 +1,9 @@
-package com.kkevn.ledsign;
+package com.kkevn.ledsign.bluetooth;
 
 import android.view.View;
 import android.widget.TextView;
+
+import com.kkevn.ledsign.R;
 
 public class PairedListViewHolder {
     TextView tv_device_name;

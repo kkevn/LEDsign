@@ -1,10 +1,12 @@
-package com.kkevn.ledsign.ui.bluetooth;
+package com.kkevn.ledsign.bluetooth;
 
 import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+
+import com.kkevn.ledsign.MainActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,7 +54,7 @@ public class ConnectedThread extends Thread {
                 numBytes = mmInStream.read(mmBuffer);
                 // Send the obtained bytes to the UI activity.
                 Message readMsg = mHandler.obtainMessage(
-                        BluetoothFragment3.MESSAGE_READ, numBytes, -1,
+                        MainActivity.MESSAGE_READ, numBytes, -1,
                         mmBuffer);
                 readMsg.sendToTarget();
             } catch (IOException e) {
@@ -69,14 +71,14 @@ public class ConnectedThread extends Thread {
 
             // Share the sent message with the UI activity.
             Message writtenMsg = mHandler.obtainMessage(
-                    BluetoothFragment3.MESSAGE_WRITE, -1, -1, mmBuffer);
+                    MainActivity.MESSAGE_WRITE, -1, -1, mmBuffer);
             writtenMsg.sendToTarget();
         } catch (IOException e) {
             Log.e("ConnectedThread", "Error occurred when sending data", e);
 
             // Send a failure message back to the activity.
             Message writeErrorMsg =
-                    mHandler.obtainMessage(BluetoothFragment3.MESSAGE_TOAST);
+                    mHandler.obtainMessage(MainActivity.MESSAGE_TOAST);
             Bundle bundle = new Bundle();
             bundle.putString("toast",
                     "Couldn't send data to the other device");

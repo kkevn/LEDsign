@@ -1,10 +1,9 @@
-package com.kkevn.ledsign.ui.bluetooth;
+package com.kkevn.ledsign.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -21,10 +20,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kkevn.ledsign.MainActivity;
 import com.kkevn.ledsign.R;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Set;
 import java.util.UUID;
@@ -278,7 +275,7 @@ public class BluetoothFragment3 extends Fragment {
     }
 
     public static void manageMyConnectedSocket(BluetoothSocket bts) {
-        ct = new ConnectedThread(bts, handler);
-        ct.start();
+        //ct = new ConnectedThread(bts, handler);
+        //ct.start();
     }
 }

@@ -2,8 +2,11 @@ package com.kkevn.ledsign;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -24,13 +27,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kkevn.ledsign.ui.bluetooth.ConnectedThread;
+import com.kkevn.ledsign.bluetooth.BluetoothDialogFragment;
+import com.kkevn.ledsign.bluetooth.ConnectedThread;
+import com.kkevn.ledsign.bluetooth.PairedListView;
 import com.kkevn.ledsign.ui.create.CreateFragment;
 
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,25 +52,29 @@ public class MainActivity extends AppCompatActivity {
     private Menu toolbar_menu;
 
     private boolean currentProfileSaved = true;
+    TextView tv_status;
 
+    static Context c2e2;
 
     // BLUETOOTH objects
     static ConnectedThread ct;
-    static BluetoothAdapter mBTAdapter;
+    public static BluetoothAdapter mBTAdapter;
     BluetoothDevice device = null;
     //static Set<BluetoothDevice> mPairedDevices;
     static ArrayList<BluetoothDevice> mPairedDevices = new ArrayList<>();
     static ArrayList<BTD> testing = new ArrayList<>();
     public static ArrayAdapter mBTArrayAdapter;
 
-    static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // "random" unique identifier
+    public static Handler handler;
+
+    public static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // "random" unique identifier
 
     // #defines for identifying shared types between calling functions
-    final static int REQUEST_ENABLE_BT = 1; // used to identify adding bluetooth names
-    final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
-    final static int CONNECTING_STATUS = 3; // used in bluetooth handler to identify message status
-    static final int MESSAGE_WRITE = 4;
-    static final int MESSAGE_TOAST = 5;
+    final public static int REQUEST_ENABLE_BT = 1; // used to identify adding bluetooth names
+    final public static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
+    final public static int CONNECTING_STATUS = 3; // used in bluetooth handler to identify message status
+    static public final int MESSAGE_WRITE = 4;
+    static public final int MESSAGE_TOAST = 5;
 
 
     @Override
@@ -76,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        tv_status = findViewById(R.id.tv_status);
+
         /*FloatingActionButton*/ fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +94,19 @@ public class MainActivity extends AppCompatActivity {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 //HomeFragment.effects_list.add(new Effect("lol", "test"));
                 CreateFragment.addEffect("???", "test");
+
+                try {
+                    if (ct.isAlive()) {
+                        //mBTSocket.getOutputStream().write("1".getBytes());
+                        ct.write("1".getBytes());
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(),"ct dead",Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception ioe) {
+                    Log.e("BluetoothFragment2", "error writing to socket", ioe);
+                }
+
             }
         });
 
@@ -92,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_new_profile, R.id.nav_load_profile, R.id.nav_bluetooth, R.id.nav_settings)
+                R.id.nav_new_profile, R.id.nav_load_profile, R.id.nav_settings)
                 .setDrawerLayout(drawer)
                 .build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -114,6 +138,50 @@ public class MainActivity extends AppCompatActivity {
         testing.add(new BTD("lmao", "11:00:00:00:00:00"));
         testing.add(new BTD("ripperino", "22:00:00:00:00:00"));
          */
+
+        handler = new Handler(){
+            public void handleMessage(android.os.Message msg){
+                /*if(msg.what == MESSAGE_READ){
+                    String readMessage = null;
+                    try {
+                        readMessage = new String((byte[]) msg.obj, "UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    //mReadBuffer.setText(readMessage);
+                }*/
+
+                if(msg.what == CONNECTING_STATUS){
+                    if(msg.arg1 == 1) {
+                        //tv_status.setText(R.string.status_connected + " [" + (String) (msg.obj) + "]");
+                        Toast.makeText(getApplicationContext(),"Connected to " + (String) (msg.obj),Toast.LENGTH_SHORT).show();
+                        //mBluetoothStatus.setText("Connected to Device: " + (String)(msg.obj));
+                    }
+                    else {
+                        //tv_status.setText(R.string.status_disconnected);
+                        Toast.makeText(getApplicationContext(),"Failed to connect",Toast.LENGTH_SHORT).show();
+                        //mBluetoothStatus.setText("Connection Failed");
+                    }
+                }
+
+                if(msg.what == MESSAGE_WRITE){
+                    Toast.makeText(getApplicationContext(),"Wrote #",Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+
+        try {
+            if (mBTArrayAdapter == null) {
+                // Device does not support Bluetooth
+                //mBluetoothStatus.setText("Status: Bluetooth not found");
+                Toast.makeText(getApplicationContext(), "< Missing BT Support >", Toast.LENGTH_SHORT).show();
+            }
+        } catch (NullPointerException npe) {
+            Log.e("MainActivity", "error finding bluetooth adapter", npe);
+            Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_SHORT).show();
+        }
+
+        c2e2 = getApplicationContext();
     }
 
     /**
@@ -199,6 +267,17 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.menu_prof_rename:
+                try {
+                    if (ct.isAlive()) {
+                        //mBTSocket.getOutputStream().write("1".getBytes());
+                        ct.write("0".getBytes());
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(),"ct dead",Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception ioe) {
+                    Log.e("MainActivity", "error writing to socket", ioe);
+                }
                 return true;
 
             case R.id.menu_prof_reset:
@@ -292,11 +371,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /*@Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        try {
+            mBTAdapter.disable(); // turn off
+            //mBluetoothStatus.setText("Bluetooth disabled");
+            Toast.makeText(getApplicationContext(),"Bluetooth turned Off", Toast.LENGTH_SHORT).show();
+        } catch (NullPointerException npe) {
+            Log.e("MainActivity", "error finding bluetooth adapter", npe);
+        }
+    }*/
+
+    public static void manageMyConnectedSocket(BluetoothSocket bts) {
+        ct = new ConnectedThread(bts, handler);
+        ct.start();
+    }
+
     class BTD {
 
         String a, b;
 
-        BTD(String a, String b) {
+        BTD (String a, String b) {
             this.a = a;
             this.b = b;
         }
