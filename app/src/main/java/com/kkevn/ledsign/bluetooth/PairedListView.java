@@ -11,9 +11,6 @@ import com.kkevn.ledsign.R;
 
 import java.util.ArrayList;
 
-// MainActivity.BTD
-// BluetoothDevice
-
 public class PairedListView extends ArrayAdapter<BluetoothDevice> {
 
     private ArrayList<BluetoothDevice> mPairedDevices;
@@ -23,15 +20,6 @@ public class PairedListView extends ArrayAdapter<BluetoothDevice> {
         super(context, 0, objects);
         this.mInflater = LayoutInflater.from(context);
         this.mPairedDevices = objects;
-    }
-
-    public String yolo() {
-        return "";
-    }
-
-    //@Override
-    public BluetoothDevice getat(int i) {
-        return mPairedDevices.get(i);
     }
 
     @Override

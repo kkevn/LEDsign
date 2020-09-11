@@ -88,6 +88,18 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
 
             // edit selected effect
             case R.id.menu_effect_edit:
+                try {
+                    if (MainActivity.ct.isAlive()) {
+                        //mBTSocket.getOutputStream().write("1".getBytes());
+                        MainActivity.ct.write("1".getBytes());
+                    }
+                    else {
+                        Toast.makeText(getContext(),"ct dead",Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception ioe) {
+                    Log.e("BluetoothFragment2", "error writing to socket", ioe);
+                }
+
                 Toast.makeText(getContext(), "Edit Item", Toast.LENGTH_SHORT).show();
                 return true;
 
@@ -99,6 +111,18 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
 
             // remove selected effect from list
             case R.id.menu_effect_remove:
+
+                try {
+                    if (MainActivity.ct.isAlive()) {
+                        //mBTSocket.getOutputStream().write("1".getBytes());
+                        MainActivity.ct.write("0".getBytes());
+                    }
+                    else {
+                        Toast.makeText(getContext(),"ct dead",Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception ioe) {
+                    Log.e("MainActivity", "error writing to socket", ioe);
+                }
 
                 // context menu created with id's at adapter pos
                 adapter.removeItem(item.getGroupId());

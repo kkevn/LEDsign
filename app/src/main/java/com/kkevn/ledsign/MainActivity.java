@@ -3,7 +3,6 @@ package com.kkevn.ledsign;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,6 +39,9 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
+    /* UI objects */
+    private TextView tv_status;
+    private Menu toolbar_menu;
     private Toolbar toolbar;
     private AppBarConfiguration mAppBarConfiguration;
     private NavController navController;
@@ -49,33 +51,22 @@ public class MainActivity extends AppCompatActivity {
     private int curr_page;
 
     private boolean showOptions = true;
-    private Menu toolbar_menu;
-
     private boolean currentProfileSaved = true;
-    TextView tv_status;
 
-    static Context c2e2;
-
-    // BLUETOOTH objects
-    static ConnectedThread ct;
+    /* Bluetooth objects */
+    public static ConnectedThread ct;
     public static BluetoothAdapter mBTAdapter;
-    BluetoothDevice device = null;
-    //static Set<BluetoothDevice> mPairedDevices;
-    static ArrayList<BluetoothDevice> mPairedDevices = new ArrayList<>();
-    static ArrayList<BTD> testing = new ArrayList<>();
     public static ArrayAdapter mBTArrayAdapter;
-
+    static ArrayList<BluetoothDevice> mPairedDevices = new ArrayList<>();   // ArrayList over Set for get()
     public static Handler handler;
-
     public static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // "random" unique identifier
 
-    // #defines for identifying shared types between calling functions
+    // defines for identifying shared types between calling functions
     final public static int REQUEST_ENABLE_BT = 1; // used to identify adding bluetooth names
     final public static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
     final public static int CONNECTING_STATUS = 3; // used in bluetooth handler to identify message status
     static public final int MESSAGE_WRITE = 4;
     static public final int MESSAGE_TOAST = 5;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,19 +85,6 @@ public class MainActivity extends AppCompatActivity {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 //HomeFragment.effects_list.add(new Effect("lol", "test"));
                 CreateFragment.addEffect("???", "test");
-
-                try {
-                    if (ct.isAlive()) {
-                        //mBTSocket.getOutputStream().write("1".getBytes());
-                        ct.write("1".getBytes());
-                    }
-                    else {
-                        Toast.makeText(getApplicationContext(),"ct dead",Toast.LENGTH_SHORT).show();
-                    }
-                } catch (Exception ioe) {
-                    Log.e("BluetoothFragment2", "error writing to socket", ioe);
-                }
-
             }
         });
 
@@ -127,21 +105,17 @@ public class MainActivity extends AppCompatActivity {
 
         onFragmentChange();
 
+
+        /* Bluetooth code */
+
         //mBTArrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1);
         mBTArrayAdapter = new PairedListView(getApplicationContext(), mPairedDevices);
 
         mBTAdapter = BluetoothAdapter.getDefaultAdapter(); // get a handle on the bluetooth radio
 
-        /*
-        mBTArrayAdapter = new PairedListView(getApplicationContext(), testing);
-        testing.add(new BTD("test", "00:00:00:00:00:00"));
-        testing.add(new BTD("lmao", "11:00:00:00:00:00"));
-        testing.add(new BTD("ripperino", "22:00:00:00:00:00"));
-         */
-
         handler = new Handler(){
             public void handleMessage(android.os.Message msg){
-                /*if(msg.what == MESSAGE_READ){
+                /*ifo (msg.what == MESSAGE_READ) o{
                     String readMessage = null;
                     try {
                         readMessage = new String((byte[]) msg.obj, "UTF-8");
@@ -151,37 +125,32 @@ public class MainActivity extends AppCompatActivity {
                     //mReadBuffer.setText(readMessage);
                 }*/
 
-                if(msg.what == CONNECTING_STATUS){
-                    if(msg.arg1 == 1) {
-                        //tv_status.setText(R.string.status_connected + " [" + (String) (msg.obj) + "]");
+                if (msg.what == CONNECTING_STATUS) {
+                    if (msg.arg1 == 1) {
+                        try {
+                            tv_status.setText(R.string.status_connected + " [" + (String) (msg.obj) + "]");
+                        } catch (NullPointerException npe) {
+                            Log.e("MainActivity", "error finding text view", npe);
+                        }
                         Toast.makeText(getApplicationContext(),"Connected to " + (String) (msg.obj),Toast.LENGTH_SHORT).show();
-                        //mBluetoothStatus.setText("Connected to Device: " + (String)(msg.obj));
                     }
                     else {
-                        //tv_status.setText(R.string.status_disconnected);
+                        try {
+                            tv_status.setText(R.string.status_disconnected);
+                        } catch (NullPointerException npe) {
+                            Log.e("MainActivity", "error finding text view", npe);
+                        }
                         Toast.makeText(getApplicationContext(),"Failed to connect",Toast.LENGTH_SHORT).show();
-                        //mBluetoothStatus.setText("Connection Failed");
                     }
                 }
 
-                if(msg.what == MESSAGE_WRITE){
-                    Toast.makeText(getApplicationContext(),"Wrote #",Toast.LENGTH_SHORT).show();
+                if (msg.what == MESSAGE_WRITE) {
+                    Toast.makeText(getApplicationContext(),"Wrote command",Toast.LENGTH_SHORT).show();
                 }
             }
         };
 
-        try {
-            if (mBTArrayAdapter == null) {
-                // Device does not support Bluetooth
-                //mBluetoothStatus.setText("Status: Bluetooth not found");
-                Toast.makeText(getApplicationContext(), "< Missing BT Support >", Toast.LENGTH_SHORT).show();
-            }
-        } catch (NullPointerException npe) {
-            Log.e("MainActivity", "error finding bluetooth adapter", npe);
-            Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_SHORT).show();
-        }
-
-        c2e2 = getApplicationContext();
+        notifyMissingBluetooth();
     }
 
     /**
@@ -267,17 +236,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.menu_prof_rename:
-                try {
-                    if (ct.isAlive()) {
-                        //mBTSocket.getOutputStream().write("1".getBytes());
-                        ct.write("0".getBytes());
-                    }
-                    else {
-                        Toast.makeText(getApplicationContext(),"ct dead",Toast.LENGTH_SHORT).show();
-                    }
-                } catch (Exception ioe) {
-                    Log.e("MainActivity", "error writing to socket", ioe);
-                }
                 return true;
 
             case R.id.menu_prof_reset:
@@ -301,71 +259,105 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-
-    private void bluetoothOn() {
-        try {
-            if (!mBTAdapter.isEnabled()) {
-                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-                //mBluetoothStatus.setText("Bluetooth enabled");
-                Toast.makeText(getApplicationContext(),"Bluetooth turned on",Toast.LENGTH_SHORT).show();
-            }
-            else{
-                new BluetoothDialogFragment().show(getSupportFragmentManager(), "MainActivity");
-                Toast.makeText(getApplicationContext(),"Bluetooth is already on", Toast.LENGTH_SHORT).show();
-            }
-        } catch (NullPointerException npe) {
-            Log.e("MainActivity", "error finding bluetooth adapter", npe);
-        }
-    }
-
-    // Enter here after user selects "yes" or "no" to enabling radio
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent Data){
+    public void onActivityResult(int requestCode, int resultCode, Intent Data) {
         // Check which request we're responding to
         if (requestCode == REQUEST_ENABLE_BT) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                // The user picked a contact.
-                // The Intent's data Uri identifies which contact was selected.
-                //mBluetoothStatus.setText("Enabled");
+                // prompt user with list of paired devices to connect to
                 new BluetoothDialogFragment().show(getSupportFragmentManager(), "MainActivity");
-                //pairedDevicesList();
-            } else
-                Toast.makeText(getApplicationContext(),"Bluetooth disabled", Toast.LENGTH_SHORT).show();
-                //mBluetoothStatus.setText("Disabled");
+            } else {
+                Toast.makeText(getApplicationContext(), R.string.notify_require_bt, Toast.LENGTH_LONG).show();
+            }
         }
     }
 
-    private void bluetoothOff(){
+    /**
+     * Checks if device has support for bluetooth connectivity. Will notify userif no support
+     * detected or will prompt user to enable bluetooth if not already enabled. If already enabled,
+     * a dialog of paired devices will be shown asking the user to choose which to connect to.
+     */
+    private void bluetoothOn() {
         try {
-            mBTAdapter.disable(); // turn off
-            //mBluetoothStatus.setText("Bluetooth disabled");
-            Toast.makeText(getApplicationContext(),"Bluetooth turned Off", Toast.LENGTH_SHORT).show();
+            // check for bluetooth support on device
+            if (mBTAdapter != null) {
+
+                // check if user needs to enable bluetooth
+                if (!mBTAdapter.isEnabled()) {
+
+                    // request bluetooth to be enabled
+                    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+                } else {
+
+                    // draw the dialog box containing paired devices that can be connected to
+                    new BluetoothDialogFragment().show(getSupportFragmentManager(), "MainActivity");
+                }
+            } else {
+
+                // notify the user of their device missing bluetooth support
+                notifyMissingBluetooth();
+            }
         } catch (NullPointerException npe) {
             Log.e("MainActivity", "error finding bluetooth adapter", npe);
         }
     }
 
+    /**
+     * Disable any existing bluetooth connections and the bluetooth adapter. Also update the
+     * bluetooth status indicator.
+     */
+    private void bluetoothOff() {
+        try {
 
+            // TODO
+
+            mBTAdapter.disable();
+            tv_status.setText(R.string.status_disconnected);
+        } catch (NullPointerException npe) {
+            Log.e("MainActivity", "error finding bluetooth adapter", npe);
+        }
+    }
+
+    /**
+     * Refreshes the list of paired bluetooth devices and adds them to the bluetooth array adapter.
+     * If no device is found, a fake device is added as a flag to the BluetoothDialogFragment to
+     * know when to notify the user of no devices found.
+     */
     public static void pairedDevicesList() {
         try {
+
+            // clear the list to prevent duplicates upon population
             mBTArrayAdapter.clear();
 
-            //mPairedDevices = mBTAdapter.getBondedDevices();
+            // create an ArrayList of the paired bluetooth devices on this device
             mPairedDevices = new ArrayList<>(mBTAdapter.getBondedDevices());
-            //ArrayList list = new ArrayList();
 
+            // check if bluetooth is enabled and there is at least one paired device
             if (mBTAdapter.isEnabled() && mPairedDevices.size() > 0) {
+
+                // iterate over each paired device
                 for (BluetoothDevice bt : mPairedDevices) {
-                    //mBTArrayAdapter.add(bt.getName() + "\n\t" + bt.getAddress()); //Get the device's name and the address
-                    mBTArrayAdapter.add(bt); //Get the device's name and the address
+                    mBTArrayAdapter.add(bt);
                 }
+            } else {
+                mBTArrayAdapter.add(mBTAdapter.getRemoteDevice("-1"));
             }
-            //new BluetoothDialogFragment().show(getSupportFragmentManager(), "MainActivity");
-            /*else {
-                Toast.makeText(getApplicationContext(), "No Paired Bluetooth Devices Found.", Toast.LENGTH_LONG).show();
-            }*/
+        } catch (NullPointerException npe) {
+            Log.e("MainActivity", "error finding bluetooth adapter", npe);
+        }
+    }
+
+    /**
+     * Notifies the user with a toast that the current device does not have support for
+     * bluetooth connectivity.
+     */
+    private void notifyMissingBluetooth() {
+        try {
+            if (mBTAdapter == null) {
+                Toast.makeText(getApplicationContext(), R.string.notify_missing_bt, Toast.LENGTH_LONG).show();
+            }
         } catch (NullPointerException npe) {
             Log.e("MainActivity", "error finding bluetooth adapter", npe);
         }
@@ -384,26 +376,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }*/
 
-    public static void manageMyConnectedSocket(BluetoothSocket bts) {
-        ct = new ConnectedThread(bts, handler);
+    public static void manageMyConnectedSocket(BluetoothSocket socket) {
+        ct = new ConnectedThread(socket, handler);
         ct.start();
-    }
-
-    class BTD {
-
-        String a, b;
-
-        BTD (String a, String b) {
-            this.a = a;
-            this.b = b;
-        }
-
-        String getName() {
-            return a;
-        }
-
-        String getAddress() {
-            return b;
-        }
     }
 }

@@ -28,7 +28,7 @@ import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
 
-public class BluetoothFragment3 extends Fragment {
+public class BluetoothFragment extends Fragment {
 
     // GUI Components
     private TextView mBluetoothStatus;

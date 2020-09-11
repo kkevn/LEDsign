@@ -10,8 +10,8 @@
 
     <!-- nav header bluetooth labels -->
     <string name="nav_header_title">Bluetooth Status:</string>
-    <string name="status_connected">Paired</string>
-    <string name="status_disconnected">Unpaired</string>
+    <string name="status_connected">Connected</string>
+    <string name="status_disconnected">Disconnection</string>
 
     <!-- nav drawer destinations -->
     <string name="menu_new_profile">New Profile</string>
@@ -44,5 +44,9 @@
     <string name="dialog_bt_profile">Select a Paired Device:</string>
     <string name="dialog_refresh">Refresh</string>
     <string name="dialog_discover">Discover</string>
+
+    <string name="notify_missing_bt">Device Missing Bluetooth Support</string>
+    <string name="notify_no_paired_bt">No Paired Devices Found</string>
+    <string name="notify_require_bt">Allow Bluetooth for Uploading Profiles</string>
 
 </resources>

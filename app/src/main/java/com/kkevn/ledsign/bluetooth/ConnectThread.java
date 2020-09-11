@@ -60,18 +60,14 @@ public class ConnectThread extends Thread {
             return;
         }
 
+        // The connection attempt succeeded. Perform work associated with
+        // the connection in a separate thread.
         if (fail == false) {
-            //BluetoothFragment3.manageMyConnectedSocket(mmSocket);
             MainActivity.manageMyConnectedSocket(mmSocket);
 
             mHandler.obtainMessage(MainActivity.CONNECTING_STATUS, 1, -1, mmDevice.getName())
                     .sendToTarget();
         }
-
-        // The connection attempt succeeded. Perform work associated with
-        // the connection in a separate thread.
-        //BluetoothFragment3.manageMyConnectedSocket(mmSocket);
-        //new ConnectedThread(mmSocket, mHandler).start();
     }
 
     // Closes the client socket and causes the thread to finish.

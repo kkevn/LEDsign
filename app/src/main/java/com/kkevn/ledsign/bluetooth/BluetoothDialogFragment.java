@@ -18,6 +18,7 @@ public class BluetoothDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
+        // populate the list when it first appears
         MainActivity.pairedDevicesList();
 
         // Use the Builder class for convenient dialog construction
@@ -30,17 +31,17 @@ public class BluetoothDialogFragment extends DialogFragment {
                         //String item = MainActivity.mBTArrayAdapter.getItem(which).toString();
                         //final String address = item.substring(item.length() - 17);
 
+                        // retrieve the device selected from the list
                         final String address = ((PairedListView) MainActivity.mBTArrayAdapter).getItem(which).getAddress();
-                        //BluetoothDevice device = ((PairedListView) MainActivity.mBTArrayAdapter).getItem(which);
+                        final BluetoothDevice device = ((PairedListView) MainActivity.mBTArrayAdapter).getItem(which);
 
-                        //Toast.makeText(MainActivity.c2e2, "2", Toast.LENGTH_SHORT).show();
-
-                        final BluetoothDevice d = ((PairedListView) MainActivity.mBTArrayAdapter).getItem(which);
-
-                        //Toast.makeText(getContext(), "[" + d.getAddress() + "]", Toast.LENGTH_SHORT).show();
-
-                        //new ConnectThread(MainActivity.mBTAdapter.getRemoteDevice(address), MainActivity.mBTAdapter, MainActivity.handler).start();
-                        new ConnectThread(d, MainActivity.mBTAdapter, MainActivity.handler).start();
+                        if (!address.equals("-1")) {
+                            // initiate a new thread to handle connecting to the remote device via bluetooth
+                            //new ConnectThread(MainActivity.mBTAdapter.getRemoteDevice(address), MainActivity.mBTAdapter, MainActivity.handler).start();
+                            new ConnectThread(device, MainActivity.mBTAdapter, MainActivity.handler).start();
+                        } else {
+                            Toast.makeText(getContext(), R.string.notify_no_paired_bt, Toast.LENGTH_LONG).show();
+                        }
                     }
                 })
                 .setNeutralButton(R.string.dialog_refresh, new DialogInterface.OnClickListener() {
@@ -57,7 +58,7 @@ public class BluetoothDialogFragment extends DialogFragment {
     public void onStart() {
         super.onStart();
 
-        AlertDialog d = (AlertDialog)getDialog();
+        AlertDialog d = (AlertDialog) getDialog();
 
         if (d != null) {
             Button positiveButton = (Button) d.getButton(Dialog.BUTTON_NEUTRAL);
