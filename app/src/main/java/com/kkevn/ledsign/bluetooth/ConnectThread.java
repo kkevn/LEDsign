@@ -34,7 +34,7 @@ public class ConnectThread extends Thread {
             tmp = mmDevice.createRfcommSocketToServiceRecord(MainActivity.BTMODULEUUID);
         } catch (IOException e) {
             fail = true;
-            Log.e("ConnectThread", "Socket's create() method failed", e);
+            Log.e(this.getClass().getSimpleName(), "Socket's create() method failed", e);
         }
         mmSocket = tmp;
     }
@@ -55,7 +55,7 @@ public class ConnectThread extends Thread {
                 mHandler.obtainMessage(MainActivity.CONNECTING_STATUS, -1, -1)
                         .sendToTarget();
             } catch (IOException closeException) {
-                Log.e("ConnectThread", "Could not close the client socket", closeException);
+                Log.e(this.getClass().getSimpleName(), "Could not close the client socket", closeException);
             }
             return;
         }
@@ -75,7 +75,7 @@ public class ConnectThread extends Thread {
         try {
             mmSocket.close();
         } catch (IOException e) {
-            Log.e("ConnectThread", "Could not close the client socket", e);
+            Log.e(this.getClass().getSimpleName(), "Could not close the client socket", e);
         }
     }
 }

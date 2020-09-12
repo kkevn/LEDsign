@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             tv_status.setText(R.string.status_connected + " [" + (String) (msg.obj) + "]");
                         } catch (NullPointerException npe) {
-                            Log.e("MainActivity", "error finding text view", npe);
+                            Log.e(this.getClass().getSimpleName(), "error finding text view", npe);
                         }
                         Toast.makeText(getApplicationContext(),"Connected to " + (String) (msg.obj),Toast.LENGTH_SHORT).show();
                     }
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             tv_status.setText(R.string.status_disconnected);
                         } catch (NullPointerException npe) {
-                            Log.e("MainActivity", "error finding text view", npe);
+                            Log.e(this.getClass().getSimpleName(), "error finding text view", npe);
                         }
                         Toast.makeText(getApplicationContext(),"Failed to connect",Toast.LENGTH_SHORT).show();
                     }
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                         toolbar_menu.getItem(i).setVisible(showOptions);
                     }
                 } catch (NullPointerException npe) {
-                    Log.e("MainActivity", "error finding toolbar's save button", npe);
+                    Log.e(this.getClass().getSimpleName(), "error finding toolbar's save button", npe);
                 }
             }
         });
@@ -243,6 +243,17 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.menu_prof_upload:
+
+                try {
+                    if (MainActivity.ct.isAlive()) {
+                        MainActivity.ct.write("0".getBytes());
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(),R.string.notify_failed_upload,Toast.LENGTH_LONG).show();
+                    }
+                } catch (Exception ioe) {
+                    Log.e(this.getClass().getSimpleName(), "error writing to socket", ioe);
+                }
                 return true;
 
             default:
@@ -300,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
                 notifyMissingBluetooth();
             }
         } catch (NullPointerException npe) {
-            Log.e("MainActivity", "error finding bluetooth adapter", npe);
+            Log.e(this.getClass().getSimpleName(), "error finding bluetooth adapter", npe);
         }
     }
 
@@ -316,7 +327,7 @@ public class MainActivity extends AppCompatActivity {
             mBTAdapter.disable();
             tv_status.setText(R.string.status_disconnected);
         } catch (NullPointerException npe) {
-            Log.e("MainActivity", "error finding bluetooth adapter", npe);
+            Log.e(this.getClass().getSimpleName(), "error finding bluetooth adapter", npe);
         }
     }
 
@@ -359,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), R.string.notify_missing_bt, Toast.LENGTH_LONG).show();
             }
         } catch (NullPointerException npe) {
-            Log.e("MainActivity", "error finding bluetooth adapter", npe);
+            Log.e(this.getClass().getSimpleName(), "error finding bluetooth adapter", npe);
         }
     }
 
@@ -372,7 +383,7 @@ public class MainActivity extends AppCompatActivity {
             //mBluetoothStatus.setText("Bluetooth disabled");
             Toast.makeText(getApplicationContext(),"Bluetooth turned Off", Toast.LENGTH_SHORT).show();
         } catch (NullPointerException npe) {
-            Log.e("MainActivity", "error finding bluetooth adapter", npe);
+            Log.e(this.getClass().getSimpleName(), "error finding bluetooth adapter", npe);
         }
     }*/
 

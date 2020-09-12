@@ -64,7 +64,6 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
 
         // register a context menu (which uses long press by default)
         registerForContextMenu(rv);
-
         return root;
     }
 
@@ -97,7 +96,7 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
                         Toast.makeText(getContext(),"ct dead",Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception ioe) {
-                    Log.e("BluetoothFragment2", "error writing to socket", ioe);
+                    Log.e(this.getClass().getSimpleName(), "error writing to socket", ioe);
                 }
 
                 Toast.makeText(getContext(), "Edit Item", Toast.LENGTH_SHORT).show();
@@ -121,7 +120,7 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
                         Toast.makeText(getContext(),"ct dead",Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception ioe) {
-                    Log.e("MainActivity", "error writing to socket", ioe);
+                    Log.e(this.getClass().getSimpleName(), "error writing to socket", ioe);
                 }
 
                 // context menu created with id's at adapter pos

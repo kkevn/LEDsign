@@ -49,4 +49,6 @@
     <string name="notify_no_paired_bt">No Paired Devices Found</string>
     <string name="notify_require_bt">Allow Bluetooth for Uploading Profiles</string>
 
+    <string name="notify_failed_upload">Profile Failed to Upload</string>
+
 </resources>
