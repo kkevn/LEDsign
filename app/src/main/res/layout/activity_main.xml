@@ -16,6 +16,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <ProgressBar
+        android:id="@+id/pb_loader"
+        style="?android:attr/progressBarStyle"
+        android:indeterminateTint="@color/colorAccent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:scaleX="0.25"
+        android:scaleY="0.25"
+        android:indeterminate="true"
+        android:tooltipText="@string/status_connecting"
+        android:visibility="invisible" />
+
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -26,4 +39,5 @@
         app:itemTextColor="@color/colorPrimaryDark"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
+
 </android.support.v4.widget.DrawerLayout>

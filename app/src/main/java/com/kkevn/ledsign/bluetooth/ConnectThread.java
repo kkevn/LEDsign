@@ -37,6 +37,9 @@ public class ConnectThread extends Thread {
             Log.e(this.getClass().getSimpleName(), "Socket's create() method failed", e);
         }
         mmSocket = tmp;
+
+        mHandler.obtainMessage(MainActivity.CONNECTING_STATUS, 0, -1)
+                .sendToTarget();
     }
 
     public void run() {

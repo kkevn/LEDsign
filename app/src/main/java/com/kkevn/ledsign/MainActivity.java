@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     /* UI objects */
     private TextView tv_status;
+    private ProgressBar pb;
     private Menu toolbar_menu;
     private Toolbar toolbar;
     private AppBarConfiguration mAppBarConfiguration;
@@ -76,8 +79,6 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        tv_status = findViewById(R.id.tv_status);
-
         /*FloatingActionButton*/ fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        pb = findViewById(R.id.pb_loader);
+        tv_status = navigationView.getHeaderView(0).findViewById(R.id.tv_status);
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -126,20 +130,32 @@ public class MainActivity extends AppCompatActivity {
                 }*/
 
                 if (msg.what == CONNECTING_STATUS) {
-                    if (msg.arg1 == 1) {
+
+                    if (msg.arg1 == 0) {
+                        pb.setVisibility(View.VISIBLE);
+                    }
+                    else if (msg.arg1 == 1) {
                         try {
-                            tv_status.setText(R.string.status_connected + " [" + (String) (msg.obj) + "]");
+                            //tv_status.setText(getString(R.string.status_connected) + " [" + (String) (msg.obj) + "]");
+                            //tv_status.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorConnected));
                         } catch (NullPointerException npe) {
                             Log.e(this.getClass().getSimpleName(), "error finding text view", npe);
                         }
+                        tv_status.setText(getString(R.string.status_connected) + " [" + (String) (msg.obj) + "]");
+                        tv_status.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorConnected));
+                        pb.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(),"Connected to " + (String) (msg.obj),Toast.LENGTH_SHORT).show();
                     }
                     else {
                         try {
-                            tv_status.setText(R.string.status_disconnected);
+                            //tv_status.setText(getString(R.string.status_disconnected));
+                            //tv_status.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorDisconnected));
                         } catch (NullPointerException npe) {
                             Log.e(this.getClass().getSimpleName(), "error finding text view", npe);
                         }
+                        tv_status.setText(getString(R.string.status_disconnected));
+                        tv_status.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorDisconnected));
+                        pb.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(),"Failed to connect",Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -236,10 +252,14 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.menu_prof_rename:
+                //handler.obtainMessage(MainActivity.CONNECTING_STATUS, 0, -1).sendToTarget();
+                //pb.setVisibility(View.VISIBLE);
+                Toast.makeText(this, "Rename", Toast.LENGTH_SHORT).show();
                 return true;
 
             case R.id.menu_prof_reset:
-                //Toast.makeText(this, "help", Toast.LENGTH_SHORT).show();
+                //pb.setVisibility(View.GONE);
+                Toast.makeText(this, "Reset", Toast.LENGTH_SHORT).show();
                 return true;
 
             case R.id.menu_prof_upload:
@@ -325,7 +345,8 @@ public class MainActivity extends AppCompatActivity {
             // TODO
 
             mBTAdapter.disable();
-            tv_status.setText(R.string.status_disconnected);
+            tv_status.setText(getString(R.string.status_disconnected));
+            tv_status.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorDisconnected));
         } catch (NullPointerException npe) {
             Log.e(this.getClass().getSimpleName(), "error finding bluetooth adapter", npe);
         }

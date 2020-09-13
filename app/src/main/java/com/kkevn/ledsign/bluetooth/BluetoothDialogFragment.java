@@ -48,6 +48,11 @@ public class BluetoothDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         // do nothing, override this button in onStart() to prevent dialog dismissal
                     }
+                })
+                .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // dismiss dialog
+                    }
                 });
         // Create the AlertDialog object and return it
         return builder.create();
