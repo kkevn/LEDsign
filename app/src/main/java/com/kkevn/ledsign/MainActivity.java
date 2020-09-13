@@ -35,9 +35,12 @@ import com.kkevn.ledsign.bluetooth.BluetoothDialogFragment;
 import com.kkevn.ledsign.bluetooth.ConnectedThread;
 import com.kkevn.ledsign.bluetooth.PairedListView;
 import com.kkevn.ledsign.ui.create.CreateFragment;
+import com.kkevn.ledsign.ui.create.Effect;
+import com.kkevn.ledsign.ui.create.SelectEffectListView;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean showOptions = true;
     private boolean currentProfileSaved = true;
+
+    Vector<Effect> effects_list = new Vector<>();
+    static SelectEffectListView selv;
 
     /* Bluetooth objects */
     public static ConnectedThread ct;
@@ -85,7 +91,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 //HomeFragment.effects_list.add(new Effect("lol", "test"));
-                CreateFragment.addEffect("???", "test");
+                //CreateFragment.addEffect("???", "test");
+                new SelectEffectDialogFragment().show(getSupportFragmentManager(), this.getClass().getSimpleName());;
             }
         });
 
@@ -167,6 +174,15 @@ public class MainActivity extends AppCompatActivity {
         };
 
         notifyMissingBluetooth();
+
+        populateEffects();
+    }
+
+    private void populateEffects() {
+        for (Effect.Effect_Types e: Effect.Effect_Types.values()) {
+            effects_list.add(new Effect(e.toString()));
+        }
+        selv = new SelectEffectListView(this, effects_list);
     }
 
     /**
@@ -184,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // prompt user to save profile before navigating away from the edit profile fragment
                 if (prev_page == R.id.nav_new_profile /*&& currentProfileSaved == false*/) {
-                    new SaveProfileDialogFragment().show(getSupportFragmentManager(), "MainActivity");
+                    new SaveProfileDialogFragment().show(getSupportFragmentManager(), this.getClass().getSimpleName());
                 }
 
                 // attempt to change the toolbar's save button depending on current fragment in view
@@ -297,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 // prompt user with list of paired devices to connect to
-                new BluetoothDialogFragment().show(getSupportFragmentManager(), "MainActivity");
+                new BluetoothDialogFragment().show(getSupportFragmentManager(), this.getClass().getSimpleName());
             } else {
                 Toast.makeText(getApplicationContext(), R.string.notify_require_bt, Toast.LENGTH_LONG).show();
             }
@@ -323,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
 
                     // draw the dialog box containing paired devices that can be connected to
-                    new BluetoothDialogFragment().show(getSupportFragmentManager(), "MainActivity");
+                    new BluetoothDialogFragment().show(getSupportFragmentManager(), this.getClass().getSimpleName());
                 }
             } else {
 

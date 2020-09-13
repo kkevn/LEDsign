@@ -31,7 +31,7 @@ public class EffectListView extends RecyclerView.Adapter<EffectListViewHolder> {
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(EffectListViewHolder holder, int position) {
-        holder.iv_icon.setImageResource(getEffectIcon(position));
+        holder.iv_icon.setImageResource(getEffectIcon(effects, position));
         holder.tv_effect.setText(effects.get(position).getType());
         holder.tv_param.setText(effects.get(position).getParam());
         holder.iv_drag.setImageResource(R.drawable.baseline_drag_handle_24);
@@ -68,12 +68,11 @@ public class EffectListView extends RecyclerView.Adapter<EffectListViewHolder> {
         notifyItemRemoved(i);
     }
 
-    private int getEffectIcon(int i) {
+    public static int getEffectIcon(Vector<Effect> v, int i) {
 
-        switch (effects.get(i).getType()) {
-            case Effect.EFFECT_TEXT_SCROLL:
+        switch (v.get(i).getType()) {
+            case Effect.TEXT_SCROLL:
                 return R.drawable.baseline_text_fields_24;
-
             default:
                 return R.drawable.baseline_help_24;
         }

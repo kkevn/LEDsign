@@ -51,7 +51,7 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
         //lv_list = (ListView) root.findViewById(R.id.lv_list);
 
         //effects_list.clear();
-        effects_list.add(new Effect(Effect.EFFECT_TEXT_SCROLL, "Hello there!"));
+        effects_list.add(new Effect(Effect.TEXT_SCROLL, "Hello there!"));
 
         //lv_list.setAdapter(new EffectListView(getContext(), effects_list));
 

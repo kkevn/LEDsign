@@ -47,6 +47,9 @@
     <string name="dialog_discover">Discover</string>
     <string name="dialog_cancel">Cancel</string>
 
+    <!-- select effect dialog fragment -->
+    <string name="dialog_select_effect">Select an Effect:</string>
+
     <string name="notify_missing_bt">Device Missing Bluetooth Support</string>
     <string name="notify_no_paired_bt">No Paired Devices Found</string>
     <string name="notify_require_bt">Allow Bluetooth for Uploading Profiles</string>
