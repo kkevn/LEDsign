@@ -23,6 +23,8 @@
     <string name="menu_help">Help</string>
     <string name="menu_exit">Exit</string>
 
+    <string name="menu_configure_scrolling_text">Configure Scrolling Text Effect</string>
+
     <!-- profile options menu -->
     <string name="menu_prof_save">Save Profile</string>
     <string name="menu_prof_bt">Bluetooth</string>

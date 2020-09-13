@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private Menu toolbar_menu;
     private Toolbar toolbar;
     private AppBarConfiguration mAppBarConfiguration;
-    private NavController navController;
+    private static NavController navController;
     FloatingActionButton fab;
 
     private int prev_page = -1;
@@ -105,7 +105,8 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_new_profile, R.id.nav_load_profile, R.id.nav_settings)
+                R.id.nav_new_profile, R.id.nav_load_profile, R.id.nav_settings,
+                R.id.nav_config_scrolling_text)
                 .setDrawerLayout(drawer)
                 .build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -176,6 +177,17 @@ public class MainActivity extends AppCompatActivity {
         notifyMissingBluetooth();
 
         populateEffects();
+    }
+
+    public static void configureEffect(String selected_effect) {
+
+        switch (selected_effect) {
+            case Effect.TEXT_SCROLL:
+                navController.navigate(R.id.nav_config_scrolling_text);
+                break;
+            default:
+                break;
+        }
     }
 
     private void populateEffects() {

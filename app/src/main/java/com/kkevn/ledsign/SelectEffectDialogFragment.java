@@ -21,7 +21,8 @@ public class SelectEffectDialogFragment extends DialogFragment {
                         // The 'which' argument contains the index position of the selected item
 
                         final String effect_name = MainActivity.selv.getItem(which).getType();
-                        CreateFragment.addEffect(effect_name, "test");
+                        //CreateFragment.addEffect(effect_name, "test");
+                        MainActivity.configureEffect(effect_name);
                     }
                 })
                 .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
