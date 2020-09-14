@@ -10,7 +10,7 @@
     <color name="colorSecondaryDark">#1b1b1b</color>
     <color name="colorSecondaryText">#ffffff</color>
 
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorAccent">#44BBFF</color>
     <color name="colorDisconnected">#ff3232</color>
     <color name="colorConnected">#69ff69</color>
 </resources>

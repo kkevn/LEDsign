@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginVertical="4dp"
+    android:weightSum="1" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:text="Text Color:"
+            android:textSize="24dp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/ib_help"
+            android:background="@drawable/baseline_help_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:scaleX="0.75"
+            android:scaleY="0.75"
+            android:layout_margin="4dp" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/v_preview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2.5"
+        android:layout_margin="8dp"
+        android:background="@color/colorAccent" />
+
+    <SeekBar
+        android:id="@+id/sb_red"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progressBackgroundTint="@android:color/holo_red_dark"
+        android:progressTint="@android:color/holo_red_dark"
+        android:thumbTint="@android:color/holo_red_light"
+        android:max="255"
+        android:min="0"
+        android:progress="126"/>
+
+    <SeekBar
+        android:id="@+id/sb_green"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progressBackgroundTint="@android:color/holo_green_dark"
+        android:progressTint="@android:color/holo_green_dark"
+        android:thumbTint="@android:color/holo_green_light"
+        android:max="255"
+        android:min="0"
+        android:progress="126"/>
+
+    <SeekBar
+        android:id="@+id/sb_blue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progressBackgroundTint="@android:color/holo_blue_dark"
+        android:progressTint="@android:color/holo_blue_bright"
+        android:thumbTint="@android:color/holo_blue_light"
+        android:max="255"
+        android:min="0"
+        android:progress="126"/>
+
+    <EditText
+        android:id="@+id/et_hex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="24dp"
+        android:textSize="18dp"
+        android:tooltipText="Text color hex code"
+        android:hint="hex code"
+        android:maxLength="6"
+        android:maxLines="1"
+        android:digits="0123456789abcdefABCDEF"/>
+
+</LinearLayout>
