@@ -11,7 +11,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:weightSum="1">
 
         <include
             layout="@layout/configurator_scroll_text" />
@@ -19,7 +20,10 @@
         <View style="@style/Divider"/>
 
         <include
-            layout="@layout/configurator_color_picker" />
+            layout="@layout/configurator_color_picker"
+            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_weight="0.5"/>
 
     </LinearLayout>
 
