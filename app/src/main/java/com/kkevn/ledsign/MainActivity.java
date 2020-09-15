@@ -34,6 +34,7 @@ import android.widget.Toast;
 import com.kkevn.ledsign.bluetooth.BluetoothDialogFragment;
 import com.kkevn.ledsign.bluetooth.ConnectedThread;
 import com.kkevn.ledsign.bluetooth.PairedListView;
+import com.kkevn.ledsign.ui.configurators.ConfiguratorListeners;
 import com.kkevn.ledsign.ui.create.CreateFragment;
 import com.kkevn.ledsign.ui.create.Effect;
 import com.kkevn.ledsign.ui.create.SelectEffectListView;
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 //HomeFragment.effects_list.add(new Effect("lol", "test"));
                 //CreateFragment.addEffect("???", "test");
-                new SelectEffectDialogFragment().show(getSupportFragmentManager(), this.getClass().getSimpleName());;
+                new SelectEffectDialogFragment().show(getSupportFragmentManager(), this.getClass().getSimpleName());
             }
         });
 

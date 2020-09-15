@@ -50,7 +50,7 @@
         android:thumbTint="@android:color/holo_red_light"
         android:max="255"
         android:min="0"
-        android:progress="126"/>
+        android:progress="126" />
 
     <SeekBar
         android:id="@+id/sb_green"
@@ -100,7 +100,7 @@
             android:hint="hex code"
             android:maxLength="6"
             android:maxLines="1"
-            android:digits="0123456789abcdefABCDEF"/>
+            android:digits="0123456789abcdefABCDEF" />
 
     </LinearLayout>
 

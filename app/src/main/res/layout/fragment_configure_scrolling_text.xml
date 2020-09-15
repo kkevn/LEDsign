@@ -15,11 +15,13 @@
         android:weightSum="1">
 
         <include
+            android:id="@+id/scroll_text"
             layout="@layout/configurator_scroll_text" />
 
         <View style="@style/Divider"/>
 
         <include
+            android:id="@+id/color_picker"
             layout="@layout/configurator_color_picker"
             android:layout_height="0dp"
             android:layout_width="wrap_content"

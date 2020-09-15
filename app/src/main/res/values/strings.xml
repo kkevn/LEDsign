@@ -23,6 +23,7 @@
     <string name="menu_help">Help</string>
     <string name="menu_exit">Exit</string>
 
+    <!-- configurator titles -->
     <string name="menu_configure_scrolling_text">Configure Scrolling Text Effect</string>
 
     <!-- profile options menu -->
@@ -42,6 +43,17 @@
     <string name="dialog_save_profile">Would you like to save your progress?</string>
     <string name="dialog_save">Save</string>
     <string name="dialog_discard">Discard</string>
+
+    <!-- help info dialog fragment -->
+    <string name="dialog_help_info">Help</string>
+    <string name="dialog_ok">OK</string>
+
+    <!-- tips for help info dialog fragment -->
+    <string name="dialog_help_edit_text">Sets the desired text to appear.\n\nOnly letters
+        and numbers are allowed up to a maximum length of 32 characters.</string>
+    <string name="dialog_help_color_picker">Sets the desired color for your text.\n\nAdjust
+        the sliders for each RGB value and observe the current color in the preview box.
+        Additionally, manually enter a color HEX code in the field below the sliders.</string>
 
     <!-- bluetooth dialog fragment -->
     <string name="dialog_bt_profile">Select a Paired Device:</string>
