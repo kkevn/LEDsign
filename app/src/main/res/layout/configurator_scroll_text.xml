@@ -42,6 +42,6 @@
         android:hint="type here for custom text"
         android:maxLength="32"
         android:maxLines="1"
-        android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
+        android:digits=" 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
 
 </LinearLayout>

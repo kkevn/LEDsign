@@ -180,13 +180,14 @@ public class MainActivity extends AppCompatActivity {
         populateEffects();
     }
 
-    public static void configureEffect(String selected_effect) {
+    public static void navigateToFragment(String selected_effect) {
 
         switch (selected_effect) {
             case Effect.TEXT_SCROLL:
                 navController.navigate(R.id.nav_config_scrolling_text);
                 break;
             default:
+                navController.navigate(R.id.nav_new_profile);
                 break;
         }
     }

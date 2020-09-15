@@ -19,7 +19,7 @@ public class SelectEffectDialogFragment extends DialogFragment {
 
                         // obtain the selected effect and navigate to its configurator fragment
                         final String effect_name = MainActivity.selv.getItem(which).getType();
-                        MainActivity.configureEffect(effect_name);
+                        MainActivity.navigateToFragment(effect_name);
                     }
                 })
                 .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {

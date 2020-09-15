@@ -30,6 +30,7 @@
     </LinearLayout>
 
     <include
+        android:id="@+id/cancel_submit"
         layout="@layout/buttons_configurator" />
 
 </RelativeLayout>

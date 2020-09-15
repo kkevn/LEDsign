@@ -7,7 +7,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.kkevn.ledsign.HelpInfoDialogFragment;
+import com.kkevn.ledsign.MainActivity;
+import com.kkevn.ledsign.R;
 import com.kkevn.ledsign.SelectEffectDialogFragment;
+import com.kkevn.ledsign.ui.create.CreateFragment;
 
 public class ConfiguratorListeners {
 
@@ -18,6 +21,20 @@ public class ConfiguratorListeners {
     public ConfiguratorListeners(Context c, FragmentManager fm) {
         context = c;
         fragmentManager = fm;
+    }
+
+    public void onCancelClick() {
+        MainActivity.navigateToFragment("");
+    }
+
+    public void onSubmitClick(String effect, String param) {
+
+        if (!param.contains("-")) {
+            CreateFragment.addEffect(effect, param);
+            MainActivity.navigateToFragment("");
+        } else {
+            Toast.makeText(context, R.string.configure_missing_param, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onHelpClick(String msg) {

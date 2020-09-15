@@ -25,6 +25,7 @@
 
     <!-- configurator titles -->
     <string name="menu_configure_scrolling_text">Configure Scrolling Text Effect</string>
+    <string name="configure_missing_param">Blank Input Detected</string>
 
     <!-- profile options menu -->
     <string name="menu_prof_save">Save Profile</string>

@@ -28,7 +28,6 @@
             android:scaleX="0.75"
             android:scaleY="0.75"
             android:layout_margin="4dp" />
-
     </LinearLayout>
 
     <View
@@ -38,43 +37,88 @@
         android:layout_weight="1"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="8dp"
-        android:background="@color/colorAccent" />
+        android:background="#c44080" />
 
-    <SeekBar
-        android:id="@+id/sb_red"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:progressBackgroundTint="@android:color/holo_red_dark"
-        android:progressTint="@android:color/holo_red_dark"
-        android:thumbTint="@android:color/holo_red_light"
-        android:max="255"
-        android:min="0"
-        android:progress="126" />
+        android:orientation="horizontal"
+        android:layout_margin="8dp">
 
-    <SeekBar
-        android:id="@+id/sb_green"
+        <TextView
+            android:id="@+id/tv_red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="196"
+            android:textSize="18dp" />
+
+        <SeekBar
+            android:id="@+id/sb_red"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:progressBackgroundTint="@android:color/holo_red_dark"
+            android:progressTint="@android:color/holo_red_dark"
+            android:thumbTint="@android:color/holo_red_light"
+            android:max="255"
+            android:min="0"
+            android:progress="196" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:progressBackgroundTint="@android:color/holo_green_dark"
-        android:progressTint="@android:color/holo_green_dark"
-        android:thumbTint="@android:color/holo_green_light"
-        android:max="255"
-        android:min="0"
-        android:progress="126"/>
+        android:orientation="horizontal"
+        android:layout_margin="8dp">
 
-    <SeekBar
-        android:id="@+id/sb_blue"
+        <TextView
+            android:id="@+id/tv_green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="064"
+            android:textSize="18dp" />
+
+        <SeekBar
+            android:id="@+id/sb_green"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:progressBackgroundTint="@android:color/holo_green_dark"
+            android:progressTint="@android:color/holo_green_dark"
+            android:thumbTint="@android:color/holo_green_light"
+            android:max="255"
+            android:min="0"
+            android:progress="64"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:progressBackgroundTint="@android:color/holo_blue_dark"
-        android:progressTint="@android:color/holo_blue_bright"
-        android:thumbTint="@android:color/holo_blue_light"
-        android:max="255"
-        android:min="0"
-        android:progress="126"/>
+        android:orientation="horizontal"
+        android:layout_margin="8dp">
+
+        <TextView
+            android:id="@+id/tv_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="128"
+            android:textSize="18dp" />
+
+        <SeekBar
+            android:id="@+id/sb_blue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:progressBackgroundTint="@android:color/holo_blue_dark"
+            android:progressTint="@android:color/holo_blue_bright"
+            android:thumbTint="@android:color/holo_blue_light"
+            android:max="255"
+            android:min="0"
+            android:progress="128"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
