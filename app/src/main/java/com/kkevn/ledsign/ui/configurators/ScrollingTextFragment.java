@@ -119,7 +119,7 @@ public class ScrollingTextFragment extends Fragment {
         et_hex.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                if (i == keyEvent.KEYCODE_ENTER && et_hex.length() == 6) {
+                if (et_hex.length() == 6) {
 
                     String hex = "" + et_hex.getText();
 

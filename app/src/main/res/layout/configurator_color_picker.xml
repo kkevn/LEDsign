@@ -141,6 +141,7 @@
             android:layout_centerHorizontal="true"
             android:textSize="18dp"
             android:tooltipText="Text color hex code"
+            android:inputType="textNoSuggestions"
             android:hint="hex code"
             android:maxLength="6"
             android:maxLines="1"
