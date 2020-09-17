@@ -25,7 +25,7 @@
 
     <!-- configurator titles -->
     <string name="menu_configure_scrolling_text">Configure Scrolling Text Effect</string>
-    <string name="configure_missing_param">Blank Input Detected</string>
+    <string name="configure_missing_param">Blank Input(s) Detected</string>
 
     <!-- profile options menu -->
     <string name="menu_prof_save">Save Profile</string>
@@ -50,6 +50,9 @@
     <string name="dialog_ok">OK</string>
 
     <!-- tips for help info dialog fragment -->
+    <string name="dialog_help_matrix_select">Sets this effect to apply to only the selected sides.
+        \n\nEffects can be applied to any combination of at least one side of the cube. The sides
+        do not need to be adjacent to one another in order for the effect to work.</string>
     <string name="dialog_help_edit_text">Sets the desired text to appear.\n\nOnly letters
         and numbers are allowed up to a maximum length of 32 characters.</string>
     <string name="dialog_help_color_picker">Sets the desired color for your text.\n\nAdjust

@@ -15,6 +15,12 @@
         android:weightSum="1">
 
         <include
+            android:id="@+id/select_matrix"
+            layout="@layout/configurator_matrix_select" />
+
+        <View style="@style/Divider"/>
+
+        <include
             android:id="@+id/scroll_text"
             layout="@layout/configurator_scroll_text" />
 

@@ -1,7 +1,6 @@
 package com.kkevn.ledsign.ui.configurators;
 
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -9,21 +8,25 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kkevn.ledsign.R;
-import com.kkevn.ledsign.ui.create.CreateFragment;
 import com.kkevn.ledsign.ui.create.Effect;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class ScrollingTextFragment extends Fragment {
 
-    private View text_scroll, color_picker, cancel_submit;
+    private View matrix_select, text_scroll, color_picker, cancel_submit;
 
     private int red = 196, green = 64, blue = 128;
 
+    private CheckBox cb_front, cb_right, cb_back, cb_left, cb_top;
+    private List<CheckBox> cb_selections;
     private TextView tv_red, tv_green, tv_blue;
     private SeekBar sb_red, sb_green, sb_blue;
     private EditText et_text, et_hex;
@@ -35,13 +38,23 @@ public class ScrollingTextFragment extends Fragment {
         ConfiguratorListeners cl = new ConfiguratorListeners(getContext(), getFragmentManager());
 
         // find effect inputs
+        matrix_select = (View) root.findViewById(R.id.select_matrix);
         text_scroll = (View) root.findViewById(R.id.scroll_text);
         color_picker = (View) root.findViewById(R.id.color_picker);
         cancel_submit = (View) root.findViewById(R.id.cancel_submit);
 
         // apply help dialogs to help buttons
+        matrix_select.findViewById(R.id.ib_help).setOnClickListener(e -> cl.onHelpClick(getString(R.string.dialog_help_matrix_select)));
         text_scroll.findViewById(R.id.ib_help).setOnClickListener(e -> cl.onHelpClick(getString(R.string.dialog_help_edit_text)));
         color_picker.findViewById(R.id.ib_help).setOnClickListener(e -> cl.onHelpClick(getString(R.string.dialog_help_color_picker)));
+
+        // find check boxes
+        cb_front = matrix_select.findViewById(R.id.cb_matrix_front);
+        cb_right = matrix_select.findViewById(R.id.cb_matrix_right);
+        cb_back = matrix_select.findViewById(R.id.cb_matrix_back);
+        cb_left = matrix_select.findViewById(R.id.cb_matrix_left);
+        cb_top = matrix_select.findViewById(R.id.cb_matrix_top);
+        cb_selections = Arrays.asList(cb_front, cb_right, cb_back, cb_left, cb_top);
 
         et_text = text_scroll.findViewById(R.id.et_text_to_scroll);
 
@@ -160,10 +173,28 @@ public class ScrollingTextFragment extends Fragment {
 
     private String parseInputs() {
 
+        // get checkbox selections
+        String selections = "";
+        for (CheckBox cb : cb_selections) {
+            if (cb.isChecked()) {
+                selections += "1";
+            }
+            else {
+                selections += "0";
+            }
+        }
+
+        if (selections.contains("1") == false) {
+            selections = "-";
+        }
+
+        // get custom text input
         String text = "" + et_text.getText();
         if (text.trim().isEmpty())
             text = "-";
 
-        return "{" + text + ";" + red + ";" + green + ";" + blue + "}";
+        String colors = "" + red + ";" + green + ";" + blue + ";";
+
+        return "{" + selections + ";" + text + ";" + colors + "}";
     }
 }
