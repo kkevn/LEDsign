@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.kkevn.ledsign.MainActivity;
 import com.kkevn.ledsign.R;
 
 import java.util.Vector;
@@ -56,6 +57,12 @@ public class EffectListView extends RecyclerView.Adapter<EffectListViewHolder> {
     // convenience method for getting data at click position
     Effect getItem(int id) {
         return effects.get(id);
+    }
+
+    void editItem(int i) {
+        Effect selection = getItem(i);
+        MainActivity.navigateToFragmentWithBundle(selection.getType(), selection.getParam());
+        notifyItemChanged(i);
     }
 
     void duplicateItem(int i) {

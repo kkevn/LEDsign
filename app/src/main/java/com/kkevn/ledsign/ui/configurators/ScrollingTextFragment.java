@@ -153,6 +153,11 @@ public class ScrollingTextFragment extends Fragment {
             }
         });
 
+        Bundle arguments = getArguments();
+        if (arguments != null && arguments.containsKey("params")) {
+            updateInputs(getArguments().getString("params"));
+        }
+
         cancel_submit.findViewById(R.id.b_cancel).setOnClickListener(e -> cl.onCancelClick());
         cancel_submit.findViewById(R.id.b_submit).setOnClickListener(e -> cl.onSubmitClick(Effect.TEXT_SCROLL, parseInputs()));
         return root;
@@ -196,5 +201,39 @@ public class ScrollingTextFragment extends Fragment {
         String colors = "" + red + ";" + green + ";" + blue + ";";
 
         return "{" + selections + ";" + text + ";" + colors + "}";
+    }
+
+    private void updateInputs(String inputs) {
+
+        // "10101;hello there;120;10;10"
+
+        String trimmed_input = inputs.substring(1, inputs.length() - 1);
+
+        String[] isolated_inputs = trimmed_input.split(";");
+
+        for (int i = 0; i < cb_selections.size(); i++) {
+            if (isolated_inputs[0].charAt(i) == '1') {
+                cb_selections.get(i).setChecked(true);
+            } else {
+                cb_selections.get(i).setChecked(false);
+            }
+        }
+
+        et_text.setText(isolated_inputs[1]);
+
+        red = Integer.parseInt(isolated_inputs[2]);
+        green = Integer.parseInt(isolated_inputs[3]);
+        blue = Integer.parseInt(isolated_inputs[4]);
+
+        tv_red.setText(formatRGB(red));
+        sb_red.setProgress(red);
+        tv_green.setText(formatRGB(green));
+        sb_green.setProgress(green);
+        tv_blue.setText(formatRGB(blue));
+        sb_blue.setProgress(blue);
+
+        et_hex.setText(getHexString(false));
+
+        color_picker.findViewById(R.id.v_preview).setBackgroundColor(Color.rgb(red, green, blue));
     }
 }

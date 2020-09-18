@@ -192,6 +192,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public static void navigateToFragmentWithBundle(String selected_effect, String params) {
+
+        Bundle args = new Bundle();
+        args.putString("params", params);
+
+        switch (selected_effect) {
+            case Effect.TEXT_SCROLL:
+                navController.navigate(R.id.nav_config_scrolling_text, args);
+                break;
+            default:
+                navController.navigate(R.id.nav_new_profile);
+                break;
+        }
+    }
+
     private void populateEffects() {
         for (Effect.Effect_Types e: Effect.Effect_Types.values()) {
             effects_list.add(new Effect(e.toString()));
