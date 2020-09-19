@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kkevn.ledsign.R;
 import com.kkevn.ledsign.ui.create.Effect;
@@ -154,12 +155,21 @@ public class ScrollingTextFragment extends Fragment {
         });
 
         Bundle arguments = getArguments();
-        if (arguments != null && arguments.containsKey("params")) {
-            updateInputs(getArguments().getString("params"));
+        if (arguments != null) {
+
+            if (arguments.containsKey("params") && arguments.containsKey("pos")) {
+                updateInputs(getArguments().getString("params"));
+                cancel_submit.findViewById(R.id.b_submit).setOnClickListener(e -> cl.onSubmitClick(Effect.TEXT_SCROLL, parseInputs(), true, getArguments().getInt("pos")));
+            } else {
+                Toast.makeText(getContext(), "Missing Params", Toast.LENGTH_SHORT).show();
+            }
+
+        } else {
+            cancel_submit.findViewById(R.id.b_submit).setOnClickListener(e -> cl.onSubmitClick(Effect.TEXT_SCROLL, parseInputs(), false, -1));
         }
 
         cancel_submit.findViewById(R.id.b_cancel).setOnClickListener(e -> cl.onCancelClick());
-        cancel_submit.findViewById(R.id.b_submit).setOnClickListener(e -> cl.onSubmitClick(Effect.TEXT_SCROLL, parseInputs()));
+
         return root;
     }
 

@@ -192,9 +192,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static void navigateToFragmentWithBundle(String selected_effect, String params) {
+    public static void navigateToFragmentWithBundle(String selected_effect, int pos, String params) {
 
         Bundle args = new Bundle();
+        args.putInt("pos", pos);
         args.putString("params", params);
 
         switch (selected_effect) {

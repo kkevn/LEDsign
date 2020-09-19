@@ -61,7 +61,7 @@ public class EffectListView extends RecyclerView.Adapter<EffectListViewHolder> {
 
     void editItem(int i) {
         Effect selection = getItem(i);
-        MainActivity.navigateToFragmentWithBundle(selection.getType(), selection.getParam());
+        MainActivity.navigateToFragmentWithBundle(selection.getType(), i, selection.getParam());
         notifyItemChanged(i);
     }
 

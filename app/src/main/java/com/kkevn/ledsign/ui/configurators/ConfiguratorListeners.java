@@ -27,10 +27,15 @@ public class ConfiguratorListeners {
         MainActivity.navigateToFragment("");
     }
 
-    public void onSubmitClick(String effect, String param) {
+    public void onSubmitClick(String effect, String param, boolean isEdit, int pos) {
 
         if (!param.contains("-")) {
-            CreateFragment.addEffect(effect, param);
+            if (isEdit == false) {
+                CreateFragment.addEffect(effect, param);
+            }
+            else {
+                CreateFragment.editEffect(pos, effect, param);
+            }
             MainActivity.navigateToFragment("");
         } else {
             Toast.makeText(context, R.string.configure_missing_param, Toast.LENGTH_SHORT).show();
