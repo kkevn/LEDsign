@@ -108,7 +108,6 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
             // remove selected effect from list
             case R.id.menu_effect_remove:
 
-
                 // context menu created with id's at adapter pos
                 adapter.removeItem(item.getGroupId());
                 return true;

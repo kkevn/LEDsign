@@ -186,6 +186,9 @@ public class MainActivity extends AppCompatActivity {
             case Effect.TEXT_SCROLL:
                 navController.navigate(R.id.nav_config_scrolling_text);
                 break;
+            case Effect.COLOR_SOLID:
+                navController.navigate(R.id.nav_config_solid_color);
+                break;
             default:
                 navController.navigate(R.id.nav_new_profile);
                 break;
@@ -201,6 +204,9 @@ public class MainActivity extends AppCompatActivity {
         switch (selected_effect) {
             case Effect.TEXT_SCROLL:
                 navController.navigate(R.id.nav_config_scrolling_text, args);
+                break;
+            case Effect.COLOR_SOLID:
+                navController.navigate(R.id.nav_config_solid_color, args);
                 break;
             default:
                 navController.navigate(R.id.nav_new_profile);
