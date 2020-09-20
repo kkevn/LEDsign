@@ -86,6 +86,20 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
         adapter.notifyItemChanged(pos);
     }
 
+    // https://discourse.processing.org/t/how-to-pass-non-static-variable-values/12999s
+    public static String parseList() {
+
+        // SCROLL{},SOLID{},
+
+        String result = "";
+
+        for (Effect e: effects_list) {
+            result += e.getType() + e.getParam() + ",";
+        }
+
+        return result;
+    }
+
     /* process clicks on the context menu */
     @Override
     public boolean onContextItemSelected(MenuItem item) {
