@@ -283,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
 
         // customize menu so that it can be icon or in menu, tap on title to edit prof
 
-        toolbar_menu.findItem(R.id.menu_prof_upload).setEnabled(false);
+        //toolbar_menu.findItem(R.id.menu_prof_upload).setEnabled(false);
         return super.onPrepareOptionsMenu(menu);
     }
 

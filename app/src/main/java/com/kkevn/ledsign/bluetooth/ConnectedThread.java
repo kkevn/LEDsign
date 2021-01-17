@@ -20,6 +20,8 @@ public class ConnectedThread extends Thread {
 
     private Handler mHandler;
 
+    private int write_delay = 1000;
+
     public ConnectedThread(BluetoothSocket socket, Handler handler) {
         mmSocket = socket;
         mHandler = handler;
@@ -67,6 +69,14 @@ public class ConnectedThread extends Thread {
     // Call this from the main activity to send data to the remote device.
     public void write(byte[] bytes) {
         try {
+
+            // let thread wait in between writes to prevent Arduino from
+            // having too much incoming data in one write all at once
+            try {
+                this.sleep(write_delay);
+            } catch (InterruptedException e) {
+                Log.e(this.getClass().getSimpleName(), "Error occurred when sleeping", e);
+            }
             mmOutStream.write(bytes);
 
             // Share the sent message with the UI activity.
