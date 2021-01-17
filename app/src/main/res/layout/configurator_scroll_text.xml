@@ -40,7 +40,7 @@
         android:textSize="18dp"
         android:tooltipText="Text to scroll"
         android:hint="type here for custom text"
-        android:maxLength="32"
+        android:maxLength="24"
         android:maxLines="1"
         android:digits=" 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
 
