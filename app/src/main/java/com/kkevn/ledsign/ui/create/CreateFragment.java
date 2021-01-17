@@ -95,8 +95,13 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
 
         String result = "";
 
-        for (Effect e: effects_list) {
-            result += e.getType() + e.getParam() + ",";
+        // check if list is empty before building its parsable string
+        if (!effects_list.isEmpty()) {
+            for (Effect e: effects_list) {
+                result += e.getType() + e.getParam() + ",";
+            }
+        } else {
+            return ",";
         }
 
         return result;

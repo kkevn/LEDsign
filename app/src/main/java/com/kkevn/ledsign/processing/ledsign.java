@@ -6,6 +6,9 @@
 
 package com.kkevn.ledsign.processing;
 
+import com.kkevn.ledsign.R;
+import com.kkevn.ledsign.ui.create.CreateFragment;
+
 import processing.core.*;
 
 public class ledsign extends PApplet {
@@ -262,7 +265,8 @@ public class ledsign extends PApplet {
         textScroll(lm1, ("test "), 200, 200, 200);
       }*/
 
-            parseEffectList("Scrolling Text{11000;my name is kev;200;200;200},Solid Color{10001;200;200;0},");
+            parseEffectList(CreateFragment.parseList());
+            //parseEffectList("Scrolling Text{11000;my name is kev;200;200;200},Solid Color{10001;200;200;0},"); good one
             //parseEffectList("Solid Color{10001;200;200;0},Scrolling Text{11000;my name is kev;200;200;200},");
             //parseEffectList("Scrolling Text{11000;my name;200;200;200},");
 
