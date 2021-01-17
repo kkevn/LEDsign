@@ -17,7 +17,8 @@ import android.widget.Toast;
 
 import com.kkevn.ledsign.MainActivity;
 import com.kkevn.ledsign.R;
-import com.kkevn.ledsign.processing.Sketch;
+//import com.kkevn.ledsign.processing.Sketch;
+import com.kkevn.ledsign.processing.ledsign;
 
 import java.util.Vector;
 
@@ -43,7 +44,8 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
         //frame.setId(CompatUtils.getUniqueViewId());
         //setContentView(frame, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        sketch = new Sketch();
+        //sketch = new Sketch();
+        sketch = new ledsign();
         PFragment fragment = new PFragment(sketch);
         fragment.setView(frame, getActivity());
 

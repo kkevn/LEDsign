@@ -126,6 +126,7 @@ public class SolidColorFragment extends Fragment {
 
         // apply listener to hex edit text
         et_hex = color_picker.findViewById(R.id.et_hex);
+        // TODO only works on keyboard keys, software keyboard
         et_hex.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
