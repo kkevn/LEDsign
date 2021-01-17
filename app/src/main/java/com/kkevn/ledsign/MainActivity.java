@@ -318,7 +318,14 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
                     if (MainActivity.ct.isAlive()) {
-                        MainActivity.ct.write("0".getBytes());
+                        //MainActivity.ct.write("0".getBytes());
+                        //MainActivity.ct.write(CreateFragment.parseList().getBytes());
+                        String to_bt_effects = "<" + CreateFragment.parseList() + ">";
+                        String to_bt[] = to_bt_effects.split("(?<=,)");
+                        for (String s : to_bt) {
+                            //System.out.println(s);
+                            MainActivity.ct.write(s.getBytes());
+                        }
                     }
                     else {
                         Toast.makeText(getApplicationContext(),R.string.notify_failed_upload,Toast.LENGTH_LONG).show();
