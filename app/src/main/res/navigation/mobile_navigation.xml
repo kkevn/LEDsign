@@ -38,4 +38,10 @@
         android:label="@string/menu_configure_solid_color"
         tools:layout="@layout/fragment_configure_solid_color" />
 
+    <fragment
+        android:id="@+id/nav_config_fade_color"
+        android:name="com.kkevn.ledsign.ui.configurators.FadeColorFragment"
+        android:label="@string/menu_configure_fade_color"
+        tools:layout="@layout/fragment_configure_fade_color" />
+
 </navigation>

@@ -189,6 +189,9 @@ public class MainActivity extends AppCompatActivity {
             case Effect.COLOR_SOLID:
                 navController.navigate(R.id.nav_config_solid_color);
                 break;
+            case Effect.COLOR_RAINBOW:
+                navController.navigate(R.id.nav_config_fade_color);
+                break;
             default:
                 navController.navigate(R.id.nav_new_profile);
                 break;
@@ -207,6 +210,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case Effect.COLOR_SOLID:
                 navController.navigate(R.id.nav_config_solid_color, args);
+                break;
+            case Effect.COLOR_RAINBOW:
+                navController.navigate(R.id.nav_config_fade_color, args);
                 break;
             default:
                 navController.navigate(R.id.nav_new_profile);

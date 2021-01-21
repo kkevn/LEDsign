@@ -26,6 +26,7 @@
     <!-- configurator titles -->
     <string name="menu_configure_scrolling_text">Configure Scrolling Text Effect</string>
     <string name="menu_configure_solid_color">Configure Solid Color Effect</string>
+    <string name="menu_configure_fade_color">Configure Fade Color Effect</string>
     <string name="configure_missing_param">Blank Input(s) Detected</string>
 
     <!-- profile options menu -->

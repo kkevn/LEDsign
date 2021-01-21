@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- contains layout for scrolling text configurator -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.configurators.FadeColorFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1">
+
+        <include
+            android:id="@+id/select_matrix"
+            layout="@layout/configurator_matrix_select" />
+
+        <View style="@style/Divider"/>
+
+        <include
+            android:id="@+id/color_picker"
+            layout="@layout/configurator_color_picker"
+            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_weight="0.5"/>
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/cancel_submit"
+        layout="@layout/buttons_configurator" />
+
+</RelativeLayout>

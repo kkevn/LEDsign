@@ -292,6 +292,9 @@ public class ledsign extends PApplet {
                             //b_solid = false;
                         }
                         break;
+                    case COLOR_RAINBOW:
+                        rainbow(container.linked_matrix, 3);
+                        break;
                     case TEXT_SCROLL:
                         textScroll(container.linked_matrix, params[0] + " ", Integer.parseInt(params[1]), Integer.parseInt(params[2]), Integer.parseInt(params[3]));
                         break;
@@ -385,14 +388,16 @@ public class ledsign extends PApplet {
 
         // render the top face of cube
         push();
-            translate(0, 0, -size);
             rotateX(radians(90));
+            rotateZ(radians(270));
+            //translate(0, 0, -size);
+            //rotateX(radians(90));
             m4.display(); // blue
             push();
                 fill(200);
                 textSize(32);
                 translate(0, 0, 1);
-                text("Top", size / 2, size + 32);
+                //text("Top", size / 2, size + 32);
             pop();
         pop();
 
@@ -454,7 +459,7 @@ public class ledsign extends PApplet {
                     break;
                 case COLOR_RAINBOW:
                     //containers = (LinkedMatrixContainer[]) append(containers, new LinkedMatrixEffect_Rainbow(selections, params));
-                    //containers[i] = new LinkedMatrixContainer(selections, COLOR_RAINBOW, params);
+                    containers[i] = new LinkedMatrixContainer(selections, COLOR_RAINBOW, params);
                     break;
                 case TEXT_SCROLL:
                     //containers = (LinkedMatrixContainer[]) append(containers, new LinkedMatrixEffect_TextScroll(selections, params));
@@ -1004,7 +1009,7 @@ lm5 -> {}
         // generate a color for the current hue
         push();
         colorMode(HSB, 100);
-        float p = map(frames_rainbow, 0, max_rainbow, 0, 350);
+        float p = map(frames_rainbow, 0, max_rainbow, 0, 100/*350*/);
         //print(ceil(p));
         //color c = color("hsb(" + ceil(p) + ", 100%, 100%)");
         int c = color(ceil(p), 100, 100);
@@ -1339,6 +1344,9 @@ lm5 -> {}
                 //this.matrix = (LED[]) append(this.matrix, new LED(i, this.size, this.r, this.g, this.b));
                 this.matrix[i] = new ledsign.LED(i, this.size, this.r, this.g, this.b);
             }
+
+            // set initial color of LEDs as disabled color
+            this.disable();
         }
 
         /**
