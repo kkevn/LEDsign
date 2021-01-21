@@ -88,6 +88,12 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
         adapter.notifyItemChanged(pos);
     }
 
+    public static void removeEffects() {
+        int size = effects_list.size();
+        effects_list.clear();
+        adapter.notifyItemRangeRemoved(0, size);
+    }
+
     // https://discourse.processing.org/t/how-to-pass-non-static-variable-values/12999s
     public static String parseList() {
 

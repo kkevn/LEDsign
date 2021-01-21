@@ -317,7 +317,18 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.menu_prof_reset:
                 //pb.setVisibility(View.GONE);
+                CreateFragment.removeEffects();
                 Toast.makeText(this, "Reset", Toast.LENGTH_SHORT).show();
+                try {
+                    if (MainActivity.ct.isAlive()) {
+                        MainActivity.ct.write("<RESET{00000;},>".getBytes());
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(),R.string.notify_failed_upload,Toast.LENGTH_LONG).show();
+                    }
+                } catch (Exception ioe) {
+                    Log.e(this.getClass().getSimpleName(), "error writing to socket", ioe);
+                }
                 return true;
 
             case R.id.menu_prof_upload:
