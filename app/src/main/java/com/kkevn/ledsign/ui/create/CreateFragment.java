@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import com.kkevn.ledsign.R;
 //import com.kkevn.ledsign.processing.Sketch;
 import com.kkevn.ledsign.processing.ledsign;
 
+import java.util.Collections;
 import java.util.Vector;
 
 import processing.android.PFragment;
@@ -63,7 +65,8 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
         adapter.setClickListener(this);
         rv.setAdapter(adapter);
         //rv.animate();
-
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(rv);
         // register a context menu (which uses long press by default)
         registerForContextMenu(rv);
         return root;
@@ -143,6 +146,28 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
                 return false;
         }
     }
+
+    // https://www.youtube.com/watch?v=H9D_HoOeKWM
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.START | ItemTouchHelper.END, 0) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+
+            // obtain original and dropped position indices
+            int fromPos = viewHolder.getAdapterPosition();
+            int toPos = target.getAdapterPosition();
+
+            // swap list items at obtained positions and update the view to reflect the change
+            Collections.swap(effects_list, fromPos, toPos);
+            recyclerView.getAdapter().notifyItemMoved(fromPos, toPos);
+
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+            // swipe left or right
+        }
+    };
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
