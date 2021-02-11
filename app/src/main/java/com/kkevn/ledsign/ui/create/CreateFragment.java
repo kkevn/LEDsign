@@ -27,13 +27,15 @@ import java.util.Vector;
 import processing.android.PFragment;
 import processing.core.PApplet;
 
-public class CreateFragment extends Fragment implements EffectListView.ItemClickListener {
+public class CreateFragment extends Fragment implements EffectListView.ItemClickListener, DragListener {
 
     private PApplet sketch;
 
     private static ListView lv_list;
 
     static EffectListView adapter;
+
+    private ItemTouchHelper itemTouchHelper;
 
     private static Vector<Effect> effects_list = new Vector<>();
 
@@ -61,12 +63,15 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
 
         RecyclerView rv = root.findViewById(R.id.lv_list);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new EffectListView(getContext(), effects_list);
+        adapter = new EffectListView(getContext(), effects_list, this);
         adapter.setClickListener(this);
         rv.setAdapter(adapter);
         //rv.animate();
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        ItemTouchHelper.Callback customCallback = new CustomItemTouchHelperCallback(adapter);
+        itemTouchHelper = new ItemTouchHelper(customCallback);
         itemTouchHelper.attachToRecyclerView(rv);
+
+
         // register a context menu (which uses long press by default)
         registerForContextMenu(rv);
         return root;
@@ -147,8 +152,13 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
         }
     }
 
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        itemTouchHelper.startDrag(viewHolder);
+    }
+
     // https://www.youtube.com/watch?v=H9D_HoOeKWM
-    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.START | ItemTouchHelper.END, 0) {
+    /*ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.START | ItemTouchHelper.END, 0) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
 
@@ -167,7 +177,7 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
             // swipe left or right
         }
-    };
+    };*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {

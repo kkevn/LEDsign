@@ -1,25 +1,31 @@
 package com.kkevn.ledsign.ui.create;
 
 import android.content.Context;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.kkevn.ledsign.MainActivity;
 import com.kkevn.ledsign.R;
 
+import java.util.Collections;
 import java.util.Vector;
 
-public class EffectListView extends RecyclerView.Adapter<EffectListViewHolder> {
+// adapter class
+public class EffectListView extends RecyclerView.Adapter<EffectListViewHolder> implements ItemTouchHelperAdapter {
 
     private Vector<Effect> effects;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
+    private DragListener mDragListener;
 
-    public EffectListView(Context context, Vector<Effect> effects) {
+    public EffectListView(Context context, Vector<Effect> effects, DragListener dragListener) {
         this.mInflater = LayoutInflater.from(context);
         this.effects = effects;
+        this.mDragListener = dragListener;
     }
 
     // inflates the row layout from xml when needed
@@ -36,11 +42,34 @@ public class EffectListView extends RecyclerView.Adapter<EffectListViewHolder> {
         holder.tv_effect.setText(effects.get(position).getType());
         holder.tv_param.setText(effects.get(position).getParam());
         holder.iv_drag.setImageResource(R.drawable.baseline_drag_handle_24);
+
+        holder.iv_drag.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (MotionEventCompat.getActionMasked(motionEvent) == MotionEvent.ACTION_DOWN) {
+                    mDragListener.onStartDrag(holder);
+                }
+                return false;
+            }
+        });
     }
 
     // allows clicks events to be caught
     void setClickListener(ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
+    }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        // swap list items at obtained positions and update the view to reflect the change
+        Collections.swap(effects, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
+        return true;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        removeItem(position);
     }
 
     // parent activity will implement this method to respond to click events
@@ -74,6 +103,13 @@ public class EffectListView extends RecyclerView.Adapter<EffectListViewHolder> {
         effects.removeElementAt(i);
         notifyItemRemoved(i);
     }
+
+    /*@Override
+    public void onItemMove(int fromPos, int toPos) {
+        // swap list items at obtained positions and update the view to reflect the change
+        Collections.swap(effects, fromPos, toPos);
+        notifyItemMoved(fromPos, toPos);
+    }*/
 
     public static int getEffectIcon(Vector<Effect> v, int i) {
 

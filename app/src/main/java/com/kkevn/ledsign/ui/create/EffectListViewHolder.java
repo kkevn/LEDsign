@@ -4,7 +4,11 @@
 
 package com.kkevn.ledsign.ui.create;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.support.v13.view.DragStartHelper;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.DragEvent;
@@ -14,7 +18,7 @@ import android.widget.TextView;
 
 import com.kkevn.ledsign.R;
 
-public class EffectListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
+public class EffectListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, ItemTouchHelperViewHolder {
     ImageView iv_icon;
     TextView tv_effect;
     TextView tv_param;
@@ -66,5 +70,18 @@ public class EffectListViewHolder extends RecyclerView.ViewHolder implements Vie
         contextMenu.add(this.getAdapterPosition(), R.id.menu_effect_edit, 0, R.string.menu_effect_edit);
         contextMenu.add(this.getAdapterPosition(), R.id.menu_effect_duplicate, 1, R.string.menu_effect_duplicate);
         contextMenu.add(this.getAdapterPosition(), R.id.menu_effect_remove, 2, R.string.menu_effect_remove);
+    }
+
+    @Override
+    public void onItemSelected() {
+        itemView.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.colorSecondary));
+        itemView.findViewById(R.id.iv_drag).setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.colorSecondary));
+    }
+
+    @Override
+    public void onItemClear() {
+        itemView.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.colorSecondaryLight));
+        itemView.findViewById(R.id.iv_drag).setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.colorSecondaryLight));
+        // also set iv_drag's bg to the left side border
     }
 }
