@@ -172,7 +172,7 @@ public class ledsign extends PApplet {
     }
 
     public void draw() {
-        background(16);
+        background(128);
 
         int timeElapsed = millis() - lastPrint;
 
