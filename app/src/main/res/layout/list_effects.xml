@@ -1,7 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
+<com.chauthai.swipereveallayout.SwipeRevealLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:mode="same_level"
+    app:dragEdge="left">
+
+    <!-- hidden options layout on swipe -->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_test1"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@color/colorDisconnected"
+            android:text="Remove"/>
+
+        <TextView
+            android:id="@+id/tv_test2"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@color/colorAccent"
+            android:text="Duplicate"/>
+
+        <TextView
+            android:id="@+id/tv_test3"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@color/colorConnected"
+            android:text="Edit"/>
+
+    </LinearLayout>
+
+    <!-- main layout for a single effect item -->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:background="@color/colorSecondaryLight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="4dp">
+
+            <ImageView
+                android:id="@+id/iv_icon"
+                android:background="@drawable/effect_icon_border"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:padding="4dp" />
+
+            <TextView
+                android:id="@+id/tv_effect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@id/iv_icon"
+                android:layout_toRightOf="@id/iv_icon"
+                android:paddingLeft="8dp"
+                android:paddingTop="2dp"
+                android:textSize="24dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_param"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_effect"
+                android:layout_toEndOf="@id/iv_icon"
+                android:layout_toRightOf="@id/iv_icon"
+                android:paddingTop="2dp"
+                android:paddingLeft="8dp"
+                android:textSize="18dp" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_drag"
+            android:background="@drawable/drag_icon_border"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:layout_alignParentRight="true"
+            android:padding="1dp"
+            android:scaleX="0.75"
+            android:scaleY="0.75"/>
+
+        <!--<RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="15dp">
+
+            <ImageView
+                android:id="@+id/iv_drag"
+                android:background="@drawable/drag_icon_border"
+                android:layout_width="64dp"
+                android:layout_height="76dp"
+                android:layout_alignParentRight="true"
+                android:padding="1dp" />
+
+        </RelativeLayout>
+        -->
+
+    </LinearLayout>
+
+</com.chauthai.swipereveallayout.SwipeRevealLayout>
+
 
 <!-- contains elements for a single effect item in the effects list -->
-
+<!--
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:background="@color/colorSecondaryLight"
@@ -59,7 +179,8 @@
         android:scaleX="0.75"
         android:scaleY="0.75"/>
 
-    <!--<RelativeLayout
+    this rel layout was commented out
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -73,6 +194,7 @@
             android:layout_alignParentRight="true"
             android:padding="1dp" />
 
-    </RelativeLayout>-->
+    </RelativeLayout>
 
 </LinearLayout>
+-->

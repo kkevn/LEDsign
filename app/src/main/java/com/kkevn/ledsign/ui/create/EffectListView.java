@@ -3,26 +3,35 @@ package com.kkevn.ledsign.ui.create;
 import android.content.Context;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.kkevn.ledsign.MainActivity;
 import com.kkevn.ledsign.R;
 
 import java.util.Collections;
 import java.util.Vector;
 
+// https://github.com/chthai64/SwipeRevealLayout
+
 // adapter class
 public class EffectListView extends RecyclerView.Adapter<EffectListViewHolder> implements ItemTouchHelperAdapter {
 
     private Vector<Effect> effects;
+    private Context context;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     private DragListener mDragListener;
 
+    private final ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
+
     public EffectListView(Context context, Vector<Effect> effects, DragListener dragListener) {
+        this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.effects = effects;
         this.mDragListener = dragListener;
@@ -38,6 +47,14 @@ public class EffectListView extends RecyclerView.Adapter<EffectListViewHolder> i
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(EffectListViewHolder holder, int position) {
+
+        viewBinderHelper.setOpenOnlyOne(true);
+        viewBinderHelper.bind(holder.swipeRevealLayout, String.valueOf(effects.get(position).getType()));
+        viewBinderHelper.closeLayout(String.valueOf(effects.get(position).getType()));
+
+        //holder.bindData(effects.get(position));
+        // probably not needed due to the below doing the same
+
         holder.iv_icon.setImageResource(getEffectIcon(effects, position));
         holder.tv_effect.setText(effects.get(position).getType());
         holder.tv_param.setText(effects.get(position).getParam());
@@ -50,6 +67,31 @@ public class EffectListView extends RecyclerView.Adapter<EffectListViewHolder> i
                     mDragListener.onStartDrag(holder);
                 }
                 return false;
+            }
+        });
+
+        holder.tv_test1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(context, "Removal of " + holder.getAdapterPosition(), Toast.LENGTH_SHORT).show();
+                //Log.i("EffectListViewHolder", "Removal of " + holder.getAdapterPosition());
+                removeItem(holder.getAdapterPosition());
+            }
+        });
+        holder.tv_test2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(context, "Dupe of " + holder.getAdapterPosition(), Toast.LENGTH_SHORT).show();
+                //Log.i("EffectListViewHolder", "Dupe of " + holder.getAdapterPosition());
+                duplicateItem(holder.getAdapterPosition());
+            }
+        });
+        holder.tv_test3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(context, "Edit of " + holder.getAdapterPosition(), Toast.LENGTH_SHORT).show();
+                //Log.i("EffectListViewHolder", "Edit of " + holder.getAdapterPosition());
+                editItem(holder.getAdapterPosition());
             }
         });
     }

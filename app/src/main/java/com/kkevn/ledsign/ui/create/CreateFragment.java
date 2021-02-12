@@ -2,6 +2,7 @@ package com.kkevn.ledsign.ui.create;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -63,6 +65,7 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
 
         RecyclerView rv = root.findViewById(R.id.lv_list);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        rv.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayout.VERTICAL));
         adapter = new EffectListView(getContext(), effects_list, this);
         adapter.setClickListener(this);
         rv.setAdapter(adapter);

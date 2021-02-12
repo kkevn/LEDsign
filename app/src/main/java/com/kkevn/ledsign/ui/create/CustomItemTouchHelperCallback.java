@@ -1,11 +1,17 @@
 package com.kkevn.ledsign.ui.create;
 
+import android.graphics.Canvas;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.MotionEvent;
+import android.view.View;
+
+import static android.support.v7.widget.helper.ItemTouchHelper.ACTION_STATE_SWIPE;
 
 // https://medium.com/@ipaulpro/drag-and-swipe-with-recyclerview-6a6f0c422efd
+
 public class CustomItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     private final ItemTouchHelperAdapter itemTouchHelperAdapter;
@@ -27,8 +33,8 @@ public class CustomItemTouchHelperCallback extends ItemTouchHelper.Callback {
     @Override
     public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
         int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-        int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
-        return makeMovementFlags(dragFlags, swipeFlags);
+        //int swipeFlags = ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
+        return makeMovementFlags(dragFlags, 0);
     }
 
     @Override

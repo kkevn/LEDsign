@@ -10,12 +10,15 @@ import android.support.v13.view.DragStartHelper;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.DragEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.kkevn.ledsign.R;
 
 public class EffectListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, ItemTouchHelperViewHolder {
@@ -24,6 +27,10 @@ public class EffectListViewHolder extends RecyclerView.ViewHolder implements Vie
     TextView tv_param;
     ImageView iv_drag;
     private EffectListView.ItemClickListener mClickListener;
+
+    // swipe layout
+    TextView tv_test1, tv_test2, tv_test3;
+    SwipeRevealLayout swipeRevealLayout;
 
     /**
      * Constructor for a custom view holder for a single effect item in the effect list.
@@ -43,7 +50,18 @@ public class EffectListViewHolder extends RecyclerView.ViewHolder implements Vie
         // enable listeners
         this.mClickListener = mClickListener;
         itemView.setOnClickListener(this);
-        itemView.setOnCreateContextMenuListener(this);
+        //itemView.setOnCreateContextMenuListener(this);
+
+        // swipe layout
+        tv_test1 = itemView.findViewById(R.id.tv_test1);
+        tv_test2 = itemView.findViewById(R.id.tv_test2);
+        tv_test3 = itemView.findViewById(R.id.tv_test3);
+        swipeRevealLayout = itemView.findViewById(R.id.swipe_layout);
+    }
+
+    void bindData(Effect effect) {
+        tv_effect.setText(effect.getType());
+        tv_param.setText(effect.getParam());
     }
 
     /**
