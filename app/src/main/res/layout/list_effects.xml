@@ -1,65 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.chauthai.swipereveallayout.SwipeRevealLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.chauthai.swipereveallayout.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/swipe_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:mode="same_level"
-    app:dragEdge="left">
+    app:dragEdge="left"
+    app:mode="same_level">
 
     <!-- hidden options layout on swipe -->
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="12dp">
 
-        <TextView
-            android:id="@+id/tv_test1"
-            android:layout_width="100dp"
+        <LinearLayout
+            android:id="@+id/ll_remove"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginEnd="12dp"
+            android:orientation="vertical"
             android:gravity="center"
-            android:background="@color/colorDisconnected"
-            android:text="Remove"/>
+            android:background="@color/colorRemove"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="12dp" >
 
-        <TextView
-            android:id="@+id/tv_test2"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:background="@color/colorAccent"
-            android:text="Duplicate"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_round_delete_outline_24" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_test3"
-            android:layout_width="100dp"
+        <LinearLayout
+            android:id="@+id/ll_duplicate"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginEnd="12dp"
+            android:orientation="vertical"
             android:gravity="center"
-            android:background="@color/colorConnected"
-            android:text="Edit"/>
+            android:background="@color/colorDuplicate"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="12dp" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_round_file_copy_24" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_edit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/colorEdit"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="12dp" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_round_edit_24" />
+        </LinearLayout>
 
     </LinearLayout>
 
     <!-- main layout for a single effect item -->
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
-        android:background="@color/colorSecondaryLight"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorSecondaryLight"
+        android:orientation="horizontal">
 
         <RelativeLayout
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
             android:padding="4dp">
 
             <ImageView
                 android:id="@+id/iv_icon"
-                android:background="@drawable/effect_icon_border"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
+                android:background="@drawable/effect_icon_border"
                 android:padding="4dp" />
 
             <TextView
@@ -81,22 +107,22 @@
                 android:layout_below="@id/tv_effect"
                 android:layout_toEndOf="@id/iv_icon"
                 android:layout_toRightOf="@id/iv_icon"
-                android:paddingTop="2dp"
                 android:paddingLeft="8dp"
+                android:paddingTop="2dp"
                 android:textSize="18dp" />
 
         </RelativeLayout>
 
         <ImageView
             android:id="@+id/iv_drag"
-            android:background="@drawable/drag_icon_border"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="5"
             android:layout_alignParentRight="true"
+            android:layout_weight="5"
+            android:background="@drawable/drag_icon_border"
             android:padding="1dp"
             android:scaleX="0.75"
-            android:scaleY="0.75"/>
+            android:scaleY="0.75" />
 
         <!--<RelativeLayout
             android:layout_width="match_parent"
@@ -112,8 +138,7 @@
                 android:layout_alignParentRight="true"
                 android:padding="1dp" />
 
-        </RelativeLayout>
-        -->
+        </RelativeLayout>-->
 
     </LinearLayout>
 

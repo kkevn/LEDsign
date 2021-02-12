@@ -48,9 +48,11 @@ public class EffectListView extends RecyclerView.Adapter<EffectListViewHolder> i
     @Override
     public void onBindViewHolder(EffectListViewHolder holder, int position) {
 
+        String id = String.valueOf(effects.get(position).getType());
+
         viewBinderHelper.setOpenOnlyOne(true);
         viewBinderHelper.bind(holder.swipeRevealLayout, String.valueOf(effects.get(position).getType()));
-        viewBinderHelper.closeLayout(String.valueOf(effects.get(position).getType()));
+        viewBinderHelper.closeLayout(id);
 
         //holder.bindData(effects.get(position));
         // probably not needed due to the below doing the same
@@ -70,27 +72,30 @@ public class EffectListView extends RecyclerView.Adapter<EffectListViewHolder> i
             }
         });
 
-        holder.tv_test1.setOnClickListener(new View.OnClickListener() {
+        holder.ll_remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Toast.makeText(context, "Removal of " + holder.getAdapterPosition(), Toast.LENGTH_SHORT).show();
                 //Log.i("EffectListViewHolder", "Removal of " + holder.getAdapterPosition());
+                viewBinderHelper.closeLayout(id);
                 removeItem(holder.getAdapterPosition());
             }
         });
-        holder.tv_test2.setOnClickListener(new View.OnClickListener() {
+        holder.ll_duplicate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Toast.makeText(context, "Dupe of " + holder.getAdapterPosition(), Toast.LENGTH_SHORT).show();
                 //Log.i("EffectListViewHolder", "Dupe of " + holder.getAdapterPosition());
+                viewBinderHelper.closeLayout(id);
                 duplicateItem(holder.getAdapterPosition());
             }
         });
-        holder.tv_test3.setOnClickListener(new View.OnClickListener() {
+        holder.ll_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Toast.makeText(context, "Edit of " + holder.getAdapterPosition(), Toast.LENGTH_SHORT).show();
                 //Log.i("EffectListViewHolder", "Edit of " + holder.getAdapterPosition());
+                viewBinderHelper.closeLayout(id);
                 editItem(holder.getAdapterPosition());
             }
         });
@@ -144,6 +149,8 @@ public class EffectListView extends RecyclerView.Adapter<EffectListViewHolder> i
     void removeItem(int i) {
         effects.removeElementAt(i);
         notifyItemRemoved(i);
+
+        // add undo?
     }
 
     /*@Override

@@ -14,7 +14,9 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.DragEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +31,8 @@ public class EffectListViewHolder extends RecyclerView.ViewHolder implements Vie
     private EffectListView.ItemClickListener mClickListener;
 
     // swipe layout
-    TextView tv_test1, tv_test2, tv_test3;
+    //ImageButton iv_remove, ib_duplicate, iv_edit;
+    LinearLayout ll_remove, ll_duplicate, ll_edit;
     SwipeRevealLayout swipeRevealLayout;
 
     /**
@@ -53,12 +56,13 @@ public class EffectListViewHolder extends RecyclerView.ViewHolder implements Vie
         //itemView.setOnCreateContextMenuListener(this);
 
         // swipe layout
-        tv_test1 = itemView.findViewById(R.id.tv_test1);
-        tv_test2 = itemView.findViewById(R.id.tv_test2);
-        tv_test3 = itemView.findViewById(R.id.tv_test3);
+        ll_remove = itemView.findViewById(R.id.ll_remove);
+        ll_duplicate = itemView.findViewById(R.id.ll_duplicate);
+        ll_edit = itemView.findViewById(R.id.ll_edit);
         swipeRevealLayout = itemView.findViewById(R.id.swipe_layout);
     }
 
+    // not needed
     void bindData(Effect effect) {
         tv_effect.setText(effect.getType());
         tv_param.setText(effect.getParam());

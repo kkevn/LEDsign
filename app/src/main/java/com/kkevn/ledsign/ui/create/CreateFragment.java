@@ -65,7 +65,7 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
 
         RecyclerView rv = root.findViewById(R.id.lv_list);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        rv.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayout.VERTICAL));
+        //rv.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayout.VERTICAL));
         adapter = new EffectListView(getContext(), effects_list, this);
         adapter.setClickListener(this);
         rv.setAdapter(adapter);

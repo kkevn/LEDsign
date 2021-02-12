@@ -13,4 +13,8 @@
     <color name="colorAccent">#44BBFF</color>
     <color name="colorDisconnected">#ff3232</color>
     <color name="colorConnected">#69ff69</color>
+
+    <color name="colorRemove">#eb3434</color>
+    <color name="colorDuplicate">#3483eb</color>
+    <color name="colorEdit">#eb8f34</color>
 </resources>
