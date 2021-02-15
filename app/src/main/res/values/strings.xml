@@ -33,7 +33,9 @@
     <string name="menu_prof_save">Save Profile</string>
     <string name="menu_prof_bt">Bluetooth</string>
     <string name="menu_prof_rename">Rename Profile</string>
-    <string name="menu_prof_reset">Reset Profile</string>
+    <string name="menu_prof_reset_menu">Reset Profile</string>
+    <string name="menu_prof_clear">Clear Effects</string>
+    <string name="menu_prof_reset">Reset Signal</string>
     <string name="menu_prof_upload">Upload Profile</string>
 
     <!-- effects list menu -->
@@ -75,5 +77,9 @@
     <string name="notify_require_bt">Allow Bluetooth for Uploading Profiles</string>
 
     <string name="notify_failed_upload">Profile Failed to Upload</string>
+
+    <!-- edit text allowable characters -->
+    <string name="edit_text_inputs">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqr‌​stuvwxyz0123456789_-\u0020</string>
+    <string name="edit_text_hexadecimal">ABCDEFabcdef0123456789</string>
 
 </resources>

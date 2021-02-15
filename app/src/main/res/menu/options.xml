@@ -23,9 +23,18 @@
     <item android:id="@+id/menu_prof_rename"
         android:title="@string/menu_prof_rename"
         app:showAsAction="never"/>
-    <item android:id="@+id/menu_prof_reset"
+    <item
         android:title="@string/menu_prof_reset"
-        app:showAsAction="never"/>
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/menu_prof_clear"
+                android:title="@string/menu_prof_clear" />
+            <item
+                android:id="@+id/menu_prof_reset"
+                android:title="@string/menu_prof_reset" />
+        </menu>
+    </item>
     <item android:id="@+id/menu_prof_upload"
         android:title="@string/menu_prof_upload"
         app:showAsAction="never"/>

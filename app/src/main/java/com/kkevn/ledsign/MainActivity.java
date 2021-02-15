@@ -3,6 +3,7 @@ package com.kkevn.ledsign;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,6 +40,14 @@ import com.kkevn.ledsign.ui.create.CreateFragment;
 import com.kkevn.ledsign.ui.create.Effect;
 import com.kkevn.ledsign.ui.create.SelectEffectListView;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Array;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.Vector;
@@ -268,6 +277,166 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /*
+    * Profile 1.ledsign
+    * my_profile.ledsign
+    * A New Profile.ledsign
+    * A New Profile (2).ledsign
+    * A New Profile (3).ledsign
+    * A New Profile (7).ledsign
+    * New Profile.ledsign
+    * New Profile 1.ledsign
+    * New Profile 1 (2).ledsign
+    * New Profile (2).ledsign
+    * New Profile (3).ledsign
+    * New Profile (7).ledsign
+    * */
+
+    // 0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz_-
+    // requires that fileList() returns alpha sorted list
+    private String newProfileName() {
+
+        boolean isFilenameUsed = false;
+
+        // get current profile name and names of existing files
+        String filename = ("" + toolbar.getTitle()).trim();
+        String[] files = fileList();
+
+        // check if any existing files already have the same current profile name
+        for (String file : files) {
+
+            // remove extension from current filename before comparing
+            file = file.substring(0, file.lastIndexOf('.'));
+            Log.i("lol", "ext scrubbed: " + file);
+
+            // flag that filename match was found
+            if (file.equals(filename)) {
+                isFilenameUsed = true;
+                break;
+            }
+        }
+
+        // attempt to find next valid "duplicate" filename
+        if (isFilenameUsed) {
+
+            // earliest possible "duplicate" would start at '2'
+            int i = 2;
+
+            // search through all filenames again
+            for (String file : files) {
+
+                Log.i("lol5", "here");
+
+                // remove extension from current filename before comparing
+                file = file.substring(0, file.lastIndexOf('.'));
+
+                // !!!! Probably not able to get to if below, cuz first file dont have (x)
+                /// btw, this will keep saving new profs when trying to save to one
+                // figure better way to get default saves going
+
+                // find any "duplicate" filenames that match the proposed filename
+                if (file.contains("(") && (file.substring(0, file.lastIndexOf(' '))).equals(filename)) {
+
+                    Log.i("lol6", "there");
+
+                    // assign earliest "duplicate" value to proposed filename
+                    if (file.equals(filename + " (" + i + ")")) {
+                        i++;
+                    } else {
+                        filename += " (" + i +  ")";
+                        Log.i("lol7", "new repeat");
+                        break;
+                    }
+                } else {
+                    continue;
+                }
+
+                // ignore filenames that are not already "duplicate" names or do not match the proposed file name
+                /*if (!(file.contains("(") && file.contains(")"))) {
+                   continue;
+                }
+                else if (file.contains("(") && !(file.substring(0, file.lastIndexOf(' '))).equals(filename)) {
+                    continue;
+                }
+
+                if (file.equals(filename + " (" + i + ")")) {
+                    i++;
+                } else {
+                    filename += "(" + i +  ")";
+                }*/
+            }
+        }
+
+        // return unused filename with concatenated file extension
+        return filename + ".ledsign";
+    }
+
+    // https://www.youtube.com/watch?v=EcfUkjlL9RI
+    private String saveProfile() {
+
+        String filename = newProfileName();
+        String fileContents = "test string/\ntest again";
+
+        FileOutputStream fos = null;
+
+        try {
+            // write contents here
+            fos = openFileOutput(filename, Context.MODE_PRIVATE);
+            //fos = getApplicationContext().openFileOutput(filename, Context.MODE_PRIVATE);
+            fos.write(fileContents.getBytes());
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            filename = "<error>";
+        } catch (IOException e) {
+            e.printStackTrace();
+            filename = "<error>";
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    filename = "<error>";
+                }
+            }
+        }
+        return filename;
+    }
+
+    private void loadProfile(String filename) {
+        FileInputStream fis = null;
+        try {
+            //fis = getApplicationContext().openFileInput(filename);
+            fis = openFileInput(filename);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        InputStreamReader inputStreamReader = new InputStreamReader(fis, StandardCharsets.UTF_8);
+        StringBuilder stringBuilder = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(inputStreamReader)) {
+            String line = reader.readLine();
+            while (line != null) {
+                //effects_list.add(new Effect("", ""));
+                stringBuilder.append(line).append('\n');
+                line = reader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace(); // error opening file
+        } finally {
+            //String contents = stringBuilder.toString();
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
     /**
      * Inflate a new menu object with the proper XML layout.
      *
@@ -298,9 +467,13 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_prof_save:
                 // User chose the "Save Profile" item, save profile to disk
-                String name = "test01";
+                String filename = saveProfile();
 
-                Snackbar.make(getCurrentFocus(), "Profile \'"+ name + "\' saved", Snackbar.LENGTH_SHORT).show();
+                if (!filename.equals("<error>"))
+                    Snackbar.make(getCurrentFocus(), "Profile \'" + filename + "\' saved", Snackbar.LENGTH_SHORT).show();
+                else
+                    Snackbar.make(getCurrentFocus(), "Error saving profile", Snackbar.LENGTH_INDEFINITE).show();
+
                 return true;
 
             case R.id.menu_prof_bt:
@@ -315,9 +488,12 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Rename", Toast.LENGTH_SHORT).show();
                 return true;
 
+            case R.id.menu_prof_clear:
+                CreateFragment.removeEffects();
+                return true;
+
             case R.id.menu_prof_reset:
                 //pb.setVisibility(View.GONE);
-                CreateFragment.removeEffects();
                 Toast.makeText(this, "Reset", Toast.LENGTH_SHORT).show();
                 try {
                     if (MainActivity.ct.isAlive()) {
