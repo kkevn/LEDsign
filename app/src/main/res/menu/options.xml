@@ -24,7 +24,7 @@
         android:title="@string/menu_prof_rename"
         app:showAsAction="never"/>
     <item
-        android:title="@string/menu_prof_reset"
+        android:title="@string/menu_prof_reset_menu"
         app:showAsAction="never">
         <menu>
             <item
