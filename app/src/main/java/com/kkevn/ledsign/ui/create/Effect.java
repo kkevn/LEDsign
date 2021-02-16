@@ -1,10 +1,12 @@
 package com.kkevn.ledsign.ui.create;
 
+import com.google.gson.annotations.Expose;
+
 public class Effect {
 
-    public final static String TEXT_SCROLL = "Scrolling Text";
-    public final static String COLOR_SOLID = "Solid Color";
-    public final static String COLOR_RAINBOW = "Rainbow Wave";
+    public final static transient String TEXT_SCROLL = "Scrolling Text";
+    public final static transient String COLOR_SOLID = "Solid Color";
+    public final static transient String COLOR_RAINBOW = "Rainbow Wave";
 
     public enum Effect_Types {
         EFFECT_TEXT_SCROLL(TEXT_SCROLL), EFFECT_COLOR_SOLID(COLOR_SOLID), EFFECT_COLOR_RAINBOW(COLOR_RAINBOW);
@@ -20,7 +22,9 @@ public class Effect {
         }
     }
 
+    @Expose
     private String type;
+    @Expose
     private String param;
 
     public Effect(String type) {

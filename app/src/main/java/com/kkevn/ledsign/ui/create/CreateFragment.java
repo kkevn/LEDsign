@@ -124,6 +124,10 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
         return result;
     }
 
+    public static Vector getList() {
+        return effects_list;
+    }
+
     /* process clicks on the context menu */
     @Override
     public boolean onContextItemSelected(MenuItem item) {

@@ -5,10 +5,13 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.util.TimeZone;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresPermission;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.MenuItem;
@@ -32,6 +35,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kkevn.ledsign.bluetooth.BluetoothDialogFragment;
 import com.kkevn.ledsign.bluetooth.ConnectedThread;
 import com.kkevn.ledsign.bluetooth.PairedListView;
@@ -41,16 +46,29 @@ import com.kkevn.ledsign.ui.create.Effect;
 import com.kkevn.ledsign.ui.create.SelectEffectListView;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.Writer;
 import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 import java.util.Vector;
+
+import static java.util.Arrays.asList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -71,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
 
     Vector<Effect> effects_list = new Vector<>();
     static SelectEffectListView selv;
+
+    private Gson gson;
 
     /* Bluetooth objects */
     public static ConnectedThread ct;
@@ -94,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 
         /*FloatingActionButton*/ fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -334,6 +356,10 @@ public class MainActivity extends AppCompatActivity {
                 /// btw, this will keep saving new profs when trying to save to one
                 // figure better way to get default saves going
 
+                if ((file.substring(0, file.lastIndexOf(' '))).equals(filename)) {
+
+                }
+
                 // find any "duplicate" filenames that match the proposed filename
                 if (file.contains("(") && (file.substring(0, file.lastIndexOf(' '))).equals(filename)) {
 
@@ -368,11 +394,63 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // return unused filename with concatenated file extension
-        return filename + ".ledsign";
+        //return filename + ".ledsign";
+        return filename;
+    }
+
+
+    private String saveProfile() {
+        //String filename = newProfileName();
+        //String filename = getApplicationContext().getFilesDir() + "\\" + new SimpleDateFormat("MM.dd'-'HH:mm:ss").format(new Date()) + ".json";
+        //String filename = new SimpleDateFormat("MM.dd'-'HH:mm:ss").format(new Date()) + ".json";
+        String filename = toolbar.getTitle() + ".json";
+
+        try {
+
+            File x = new File(getApplicationContext().getFilesDir(), filename);
+
+            //Writer writer = Files.newBufferedWriter(Paths.get(filename));
+            Writer writer = new FileWriter(x);
+            //Writer writer = Files.newBufferedWriter(getFilesDir().)
+            //Writer writer = Files.newBufferedWriter(Paths.get(getFilesDir() + "\\" + filename + ".json"));
+            gson.toJson(CreateFragment.getList(), writer);
+            //gson.toJson(effects_list, new FileWriter(getFilesDir() + "\\\\" + filename));
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return filename;
+    }
+
+    private void loadProfile(String filename) {
+        try {
+            //Reader reader = Files.newBufferedReader(Paths.get(filename));
+            File x = new File(getApplicationContext().getFilesDir(), filename);
+            Reader reader = new FileReader(x);
+            //Reader reader = Files.newBufferedReader(Paths.get(getFilesDir() + "\\" + filename));
+
+            //Vector<Effect> ef = (Vector<Effect>) Arrays.asList(gson.fromJson(reader, Effect[].class));
+            //effects_list = new Vector<>(Arrays.asList(gson.fromJson(reader, Effect[].class)));
+            Effect[] effects = gson.fromJson(reader, Effect[].class);
+
+            //Type ef = new TypeToken<ArrayList<Effect>>(){}.getType();
+            //ArrayList<Effect> eff = gson.fromJson(reader, ef);
+
+            for (Effect e : effects) {
+                CreateFragment.addEffect(e.getType(), e.getParam());
+            }
+            // parse into rv
+            //y.forEach(effect -> CreateFragment.addEffect(effect.getType(), effect.getParam()));
+
+            reader.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // https://www.youtube.com/watch?v=EcfUkjlL9RI
-    private String saveProfile() {
+    private String saveProfile2() {
 
         String filename = newProfileName();
         String fileContents = "test string/\ntest again";
@@ -404,7 +482,7 @@ public class MainActivity extends AppCompatActivity {
         return filename;
     }
 
-    private void loadProfile(String filename) {
+    private void loadProfile2(String filename) {
         FileInputStream fis = null;
         try {
             //fis = getApplicationContext().openFileInput(filename);
