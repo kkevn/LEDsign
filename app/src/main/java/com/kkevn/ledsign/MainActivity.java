@@ -4,14 +4,13 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.icu.util.TimeZone;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresPermission;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.MenuItem;
@@ -40,7 +39,6 @@ import com.google.gson.GsonBuilder;
 import com.kkevn.ledsign.bluetooth.BluetoothDialogFragment;
 import com.kkevn.ledsign.bluetooth.ConnectedThread;
 import com.kkevn.ledsign.bluetooth.PairedListView;
-import com.kkevn.ledsign.ui.configurators.ConfiguratorListeners;
 import com.kkevn.ledsign.ui.create.CreateFragment;
 import com.kkevn.ledsign.ui.create.Effect;
 import com.kkevn.ledsign.ui.create.SelectEffectListView;
@@ -56,19 +54,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.Writer;
-import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.Comparator;
 import java.util.UUID;
 import java.util.Vector;
-
-import static java.util.Arrays.asList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -76,10 +67,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView tv_status;
     private ProgressBar pb;
     private Menu toolbar_menu;
-    private Toolbar toolbar;
+    public Toolbar toolbar;
     private AppBarConfiguration mAppBarConfiguration;
     private static NavController navController;
     FloatingActionButton fab;
+
+    private static String currentProfileName = "New Profile";
 
     private int prev_page = -1;
     private int curr_page;
@@ -107,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
     static public final int MESSAGE_WRITE = 4;
     static public final int MESSAGE_TOAST = 5;
 
+    final public static int UPDATE_TOOLBAR = 7;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        currentProfileName = generateNextAvailableProfileName();
+        toolbar.setTitle(currentProfileName);
 
         gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 
@@ -282,6 +279,7 @@ public class MainActivity extends AppCompatActivity {
                         //toolbar.getMenu().findItem(R.id.action_save).setVisible(true);
                         fab.show();
                         showOptions = true;
+                        toolbar.setTitle(currentProfileName);   // set toolbar to current profile name when retuning to this activity
                     } else {
                         //toolbar.getMenu().findItem(R.id.action_save).setVisible(false);
                         fab.hide();
@@ -299,126 +297,96 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /*
-    * Profile 1.ledsign
-    * my_profile.ledsign
-    * A New Profile.ledsign
-    * A New Profile (2).ledsign
-    * A New Profile (3).ledsign
-    * A New Profile (7).ledsign
-    * New Profile.ledsign
-    * New Profile 1.ledsign
-    * New Profile 1 (2).ledsign
-    * New Profile (2).ledsign
-    * New Profile (3).ledsign
-    * New Profile (7).ledsign
-    * */
+    /**/
+    public static void updateProfileName(String newProfileName) {
+        currentProfileName = newProfileName;
+    }
 
-    // 0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz_-
-    // requires that fileList() returns alpha sorted list
-    private String newProfileName() {
+    /**/
+    private String generateNextAvailableProfileName() {
 
-        boolean isFilenameUsed = false;
+        // get the default profile name as standalone
+        String defaultProfileName = currentProfileName;
 
-        // get current profile name and names of existing files
-        String filename = ("" + toolbar.getTitle()).trim();
-        String[] files = fileList();
+        // get the default name as the new profile name
+        String newProfileName = defaultProfileName;
 
-        // check if any existing files already have the same current profile name
-        for (String file : files) {
+        // get list of profile filenames in app's internal storage directory
+        ArrayList<String> files = new ArrayList(Arrays.asList(getApplicationContext().fileList()));
+
+        // sort filenames in natural order with original/unique filenames ahead of their duplicates
+        files.sort(new Comparator<String>() {
+            @Override
+            public int compare(String s, String t1) {
+
+                // remove extension from current filenames before comparing
+                s = s.substring(0, s.lastIndexOf('.'));
+                t1 = t1.substring(0, t1.lastIndexOf('.'));
+
+                // label original/unique filenames with a zero
+                if (!s.contains("(")) {
+                    s = s.concat(" (0)");
+                }
+                if (!t1.contains("(")) {
+                    t1.concat(" (0)");
+                }
+
+                // return case insensitive comparison
+                return String.CASE_INSENSITIVE_ORDER.compare(s, t1);
+            }
+        });
+
+        // first duplicates start at '2'
+        int duplicate = 2;
+
+        // iterate over existing file names
+        for (String file: files) {
 
             // remove extension from current filename before comparing
             file = file.substring(0, file.lastIndexOf('.'));
-            Log.i("lol", "ext scrubbed: " + file);
 
-            // flag that filename match was found
-            if (file.equals(filename)) {
-                isFilenameUsed = true;
-                break;
+            // if any existing file names already have the current proposed name, increase duplicate label
+            if (file.equals(newProfileName)) {
+                newProfileName = defaultProfileName + " (" + duplicate++ + ")";
             }
         }
 
-        // attempt to find next valid "duplicate" filename
-        if (isFilenameUsed) {
-
-            // earliest possible "duplicate" would start at '2'
-            int i = 2;
-
-            // search through all filenames again
-            for (String file : files) {
-
-                Log.i("lol5", "here");
-
-                // remove extension from current filename before comparing
-                file = file.substring(0, file.lastIndexOf('.'));
-
-                // !!!! Probably not able to get to if below, cuz first file dont have (x)
-                /// btw, this will keep saving new profs when trying to save to one
-                // figure better way to get default saves going
-
-                if ((file.substring(0, file.lastIndexOf(' '))).equals(filename)) {
-
-                }
-
-                // find any "duplicate" filenames that match the proposed filename
-                if (file.contains("(") && (file.substring(0, file.lastIndexOf(' '))).equals(filename)) {
-
-                    Log.i("lol6", "there");
-
-                    // assign earliest "duplicate" value to proposed filename
-                    if (file.equals(filename + " (" + i + ")")) {
-                        i++;
-                    } else {
-                        filename += " (" + i +  ")";
-                        Log.i("lol7", "new repeat");
-                        break;
-                    }
-                } else {
-                    continue;
-                }
-
-                // ignore filenames that are not already "duplicate" names or do not match the proposed file name
-                /*if (!(file.contains("(") && file.contains(")"))) {
-                   continue;
-                }
-                else if (file.contains("(") && !(file.substring(0, file.lastIndexOf(' '))).equals(filename)) {
-                    continue;
-                }
-
-                if (file.equals(filename + " (" + i + ")")) {
-                    i++;
-                } else {
-                    filename += "(" + i +  ")";
-                }*/
-            }
-        }
-
-        // return unused filename with concatenated file extension
-        //return filename + ".ledsign";
-        return filename;
+        // return the first unique new profile name
+        return newProfileName;
     }
 
-
+    /**/
     private String saveProfile() {
-        //String filename = newProfileName();
-        //String filename = getApplicationContext().getFilesDir() + "\\" + new SimpleDateFormat("MM.dd'-'HH:mm:ss").format(new Date()) + ".json";
-        //String filename = new SimpleDateFormat("MM.dd'-'HH:mm:ss").format(new Date()) + ".json";
-        String filename = toolbar.getTitle() + ".json";
 
-        try {
+        String filename;
 
-            File x = new File(getApplicationContext().getFilesDir(), filename);
+        // check if the effects list is empty before attempting to save it
+        if (CreateFragment.getList().isEmpty()) {
+            filename = "<empty>";
+        } else {
 
-            //Writer writer = Files.newBufferedWriter(Paths.get(filename));
-            Writer writer = new FileWriter(x);
-            //Writer writer = Files.newBufferedWriter(getFilesDir().)
-            //Writer writer = Files.newBufferedWriter(Paths.get(getFilesDir() + "\\" + filename + ".json"));
-            gson.toJson(CreateFragment.getList(), writer);
-            //gson.toJson(effects_list, new FileWriter(getFilesDir() + "\\\\" + filename));
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            // get the current profile name with a JSON file extension
+            filename = toolbar.getTitle() + ".json";
+
+            try {
+                // ready a new file in this app's internal storage directory with a filename
+                File file = new File(getApplicationContext().getFilesDir(), filename);
+
+                // setup a FileWriter stream for the above file
+                Writer writer = new FileWriter(file);
+
+                // write the effects list as a JSON list object to the specified file
+                gson.toJson(CreateFragment.getList(), writer);
+
+                // close writer to prevent memory leaks
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                filename = "<error>";
+            }
         }
+
+        // return filename (or error result)
         return filename;
     }
 
@@ -452,7 +420,7 @@ public class MainActivity extends AppCompatActivity {
     // https://www.youtube.com/watch?v=EcfUkjlL9RI
     private String saveProfile2() {
 
-        String filename = newProfileName();
+        String filename = generateNextAvailableProfileName();
         String fileContents = "test string/\ntest again";
 
         FileOutputStream fos = null;
@@ -547,10 +515,13 @@ public class MainActivity extends AppCompatActivity {
                 // User chose the "Save Profile" item, save profile to disk
                 String filename = saveProfile();
 
-                if (!filename.equals("<error>"))
-                    Snackbar.make(getCurrentFocus(), "Profile \'" + filename + "\' saved", Snackbar.LENGTH_SHORT).show();
-                else
+                // show snackbar message according to saveProfile() result
+                if (filename.equals("<error>"))
                     Snackbar.make(getCurrentFocus(), "Error saving profile", Snackbar.LENGTH_INDEFINITE).show();
+                else if (filename.equals("<empty>"))
+                    Snackbar.make(getCurrentFocus(), "Cannot save empty profiles.", Snackbar.LENGTH_INDEFINITE).show();
+                else
+                    Snackbar.make(getCurrentFocus(), "Profile \'" + filename + "\' saved", Snackbar.LENGTH_SHORT).show();
 
                 return true;
 
@@ -561,9 +532,41 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.menu_prof_rename:
-                //handler.obtainMessage(MainActivity.CONNECTING_STATUS, 0, -1).sendToTarget();
-                //pb.setVisibility(View.VISIBLE);
-                Toast.makeText(this, "Rename", Toast.LENGTH_SHORT).show();
+
+                // setup FragmentManager and rename dialog objects
+                FragmentManager fm = getSupportFragmentManager();
+                RenameProfileDialogFragment rpdf = new RenameProfileDialogFragment();
+
+                // send current profile name via Bundle to rename dialog
+                Bundle args = new Bundle();
+                args.putString("profile_name", "" + toolbar.getTitle());
+                rpdf.setArguments(args);
+
+                // reveal the rename dialog
+                rpdf.show(fm, this.getClass().getSimpleName());
+
+                // set listener for when rename dialog is dismissed
+                fm.executePendingTransactions();
+                rpdf.getDialog().setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+
+                        // update new profile name if it was changed
+                        if (!currentProfileName.equals(toolbar.getTitle())) {
+
+                            // rename the file from old to new profile name in the directory
+                            File file = new File(getApplicationContext().getFilesDir(), toolbar.getTitle().toString() + ".json");
+                            if (file.exists())
+                                file.renameTo(new File(getApplicationContext().getFilesDir(), currentProfileName + ".json"));
+
+                            // update toolbar with new profile name when dialog is dismissed
+                            toolbar.setTitle(currentProfileName);
+                        }
+
+                        // prevent dialog from reappearing when resuming app
+                        rpdf.dismiss();
+                    }
+                });
                 return true;
 
             case R.id.menu_prof_clear:

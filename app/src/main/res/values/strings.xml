@@ -44,6 +44,12 @@
     <string name="menu_effect_duplicate">Duplicate</string>
     <string name="menu_effect_remove">Remove</string>
 
+    <!-- rename profile dialog fragment -->
+    <string name="dialog_rename_profile">Enter a new name for this profile:</string>
+    <string name="dialog_rename">Rename</string>
+    <string name="dialog_empty">Name must have at least one character.</string>
+    <string name="dialog_already_exists">This profile name already exists.</string>
+
     <!-- save profile dialog fragment -->
     <string name="dialog_save_profile">Would you like to save your progress?</string>
     <string name="dialog_save">Save</string>
