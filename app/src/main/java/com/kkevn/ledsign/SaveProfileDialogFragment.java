@@ -14,12 +14,13 @@ public class SaveProfileDialogFragment extends DialogFragment {
         builder.setMessage(R.string.dialog_save_profile)
                 .setPositiveButton(R.string.dialog_save, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // save profile
+                        // signal main activity to save the current profile
+                        MainActivity.giveSaveSignal();
                     }
                 })
                 .setNegativeButton(R.string.dialog_discard, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // user cancelled the dialog, discard profile
+                        // user cancelled the dialog, discard changes (by reloading saved file)?
                     }
                 });
         // Create the AlertDialog object and return it

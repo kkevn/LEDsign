@@ -89,6 +89,8 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
         effects_list.add(new Effect(n, p));
         //((BaseAdapter) lv_list.getAdapter()).notifyDataSetChanged();
         adapter.notifyItemInserted(effects_list.size() - 1);
+
+        MainActivity.setProfileUnsaved();
     }
 
     public static void editEffect(int pos, String n, String p) {
@@ -97,12 +99,16 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
         //((BaseAdapter) lv_list.getAdapter()).notifyDataSetChanged();
         //adapter.notifyItemInserted(effects_list.size() - 1);
         adapter.notifyItemChanged(pos);
+
+        MainActivity.setProfileUnsaved();
     }
 
     public static void removeEffects() {
         int size = effects_list.size();
         effects_list.clear();
         adapter.notifyItemRangeRemoved(0, size);
+
+        MainActivity.setProfileUnsaved();
     }
 
     // https://discourse.processing.org/t/how-to-pass-non-static-variable-values/12999s

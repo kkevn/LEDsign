@@ -144,12 +144,15 @@ public class EffectListView extends RecyclerView.Adapter<EffectListViewHolder> i
     void duplicateItem(int i) {
         effects.insertElementAt(effects.get(i), i + 1);
         notifyItemInserted(i + 1);
+
+        MainActivity.setProfileUnsaved();
     }
 
     void removeItem(int i) {
         effects.removeElementAt(i);
         notifyItemRemoved(i);
 
+        MainActivity.setProfileUnsaved();
         // add undo?
     }
 

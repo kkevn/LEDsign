@@ -73,12 +73,13 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fab;
 
     private static String currentProfileName = "New Profile";
+    private static boolean doSaveProfile = false;
 
     private int prev_page = -1;
     private int curr_page;
 
     private boolean showOptions = true;
-    private boolean currentProfileSaved = true;
+    private static boolean currentProfileSaved = true;
 
     Vector<Effect> effects_list = new Vector<>();
     static SelectEffectListView selv;
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_new_profile, R.id.nav_load_profile, R.id.nav_settings,
+                R.id.nav_new_profile, R.id.nav_load_profile, R.id.nav_settings, R.id.nav_help, R.id.nav_about,
                 R.id.nav_config_scrolling_text)
                 .setDrawerLayout(drawer)
                 .build();
@@ -269,8 +270,46 @@ public class MainActivity extends AppCompatActivity {
                 curr_page = destination.getId();
 
                 // prompt user to save profile before navigating away from the edit profile fragment
-                if (prev_page == R.id.nav_new_profile /*&& currentProfileSaved == false*/) {
-                    new SaveProfileDialogFragment().show(getSupportFragmentManager(), this.getClass().getSimpleName());
+                //if (prev_page == R.id.nav_new_profile  /*&& currentProfileSaved == false*/) {
+                //    new SaveProfileDialogFragment().show(getSupportFragmentManager(), this.getClass().getSimpleName());
+                //}
+
+                // detect user navigating away from the edit profile fragment (but not from configurator fragments)
+                switch (curr_page) {
+                    case R.id.nav_load_profile:
+                    case R.id.nav_settings:
+                    case R.id.nav_help:
+                    case R.id.nav_about:
+
+                        // prompt a save profile only if the current profile has unsaved changes
+                        if (!currentProfileSaved && prev_page == R.id.nav_new_profile) {
+                            //new SaveProfileDialogFragment().show(getSupportFragmentManager(), this.getClass().getSimpleName());
+
+                            // setup FragmentManager and save profile dialog objects
+                            FragmentManager fm = getSupportFragmentManager();
+                            SaveProfileDialogFragment spdf = new SaveProfileDialogFragment();
+
+                            // reveal the save profile dialog
+                            spdf.show(fm, this.getClass().getSimpleName());
+
+                            // set listener for when save profile dialog is dismissed
+                            fm.executePendingTransactions();
+                            spdf.getDialog().setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialogInterface) {
+
+                                    // save profile if it was requested
+                                    if (doSaveProfile == true) {
+                                        saveProfile();
+                                        doSaveProfile = false;
+                                    }
+
+                                    // prevent dialog from reappearing when resuming app
+                                    spdf.dismiss();
+                                }
+                            });
+                        }
+                        break;
                 }
 
                 // attempt to change the toolbar's save button depending on current fragment in view
@@ -300,6 +339,16 @@ public class MainActivity extends AppCompatActivity {
     /**/
     public static void updateProfileName(String newProfileName) {
         currentProfileName = newProfileName;
+    }
+
+    /**/
+    public static void giveSaveSignal() {
+        doSaveProfile = true;
+    }
+
+    /**/
+    public static void setProfileUnsaved() {
+        currentProfileSaved = false;
     }
 
     /**/
@@ -380,6 +429,9 @@ public class MainActivity extends AppCompatActivity {
 
                 // close writer to prevent memory leaks
                 writer.close();
+
+                // update save status flag
+                currentProfileSaved = true;
             } catch (IOException e) {
                 e.printStackTrace();
                 filename = "<error>";
