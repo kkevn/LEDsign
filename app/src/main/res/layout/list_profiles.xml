@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.chauthai.swipereveallayout.SwipeRevealLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_profile_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:dragEdge="left"
+    app:mode="same_level">
+
+    <include
+        android:id="@+id/swipe_menu"
+        layout="@layout/swipe_menu" />
+
+    <!-- main layout for a single profile item -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:padding="4dp">
+
+            <TextView
+                android:id="@+id/tv_count"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="@drawable/effect_icon_border"
+                android:padding="4dp"
+                android:textSize="48dp"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/tv_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@id/tv_count"
+                android:layout_toRightOf="@id/tv_count"
+                android:paddingLeft="8dp"
+                android:paddingTop="2dp"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"
+                android:maxLines="1" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_profile"
+                android:layout_toEndOf="@id/tv_count"
+                android:layout_toRightOf="@id/tv_count"
+                android:paddingLeft="8dp"
+                android:paddingTop="2dp"
+                android:textSize="18dp"
+                android:textStyle="italic"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</com.chauthai.swipereveallayout.SwipeRevealLayout>

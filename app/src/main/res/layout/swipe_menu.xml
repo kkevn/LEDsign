@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- hidden options layout on swipe -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="12dp" >
+
+    <LinearLayout
+        android:id="@+id/ll_remove"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="12dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/colorRemove"
+        android:foreground="?attr/selectableItemBackground"
+        android:padding="12dp" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_round_delete_outline_24" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_duplicate"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="12dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/colorDuplicate"
+        android:foreground="?attr/selectableItemBackground"
+        android:padding="12dp" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_round_file_copy_24" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_edit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/colorEdit"
+        android:foreground="?attr/selectableItemBackground"
+        android:padding="12dp" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_round_edit_24" />
+    </LinearLayout>
+
+</LinearLayout>

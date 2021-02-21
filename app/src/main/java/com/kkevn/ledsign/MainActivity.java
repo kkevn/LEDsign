@@ -75,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
     private static String currentProfileName = "New Profile";
     private static boolean doSaveProfile = false;
 
+    private static String loadProfileName = "";
+    private static boolean doLoadProfile = false;
+
     private int prev_page = -1;
     private int curr_page;
 
@@ -274,6 +277,12 @@ public class MainActivity extends AppCompatActivity {
                 //    new SaveProfileDialogFragment().show(getSupportFragmentManager(), this.getClass().getSimpleName());
                 //}
 
+                if (prev_page == R.id.nav_load_profile && doLoadProfile == true) {
+                    loadProfile(loadProfileName);
+                    doLoadProfile = false;
+                    //toolbar.setTitle(loadProfileName.replace(".json", ""));
+                }
+
                 // detect user navigating away from the edit profile fragment (but not from configurator fragments)
                 switch (curr_page) {
                     case R.id.nav_load_profile:
@@ -349,6 +358,15 @@ public class MainActivity extends AppCompatActivity {
     /**/
     public static void setProfileUnsaved() {
         currentProfileSaved = false;
+    }
+
+    /**/
+    public static void giveLoadSignal(String profileToLoad) {
+        doLoadProfile = true;
+        //loadProfileName = currentProfileName = profileToLoad;
+        loadProfileName = profileToLoad;
+        currentProfileName = profileToLoad.replace(".json", "");
+        navigateToFragment("");
     }
 
     /**/
@@ -442,27 +460,29 @@ public class MainActivity extends AppCompatActivity {
         return filename;
     }
 
+    /**/
     private void loadProfile(String filename) {
         try {
-            //Reader reader = Files.newBufferedReader(Paths.get(filename));
+            // fetch the file in this app's internal storage directory with its filename
             File x = new File(getApplicationContext().getFilesDir(), filename);
-            Reader reader = new FileReader(x);
-            //Reader reader = Files.newBufferedReader(Paths.get(getFilesDir() + "\\" + filename));
 
-            //Vector<Effect> ef = (Vector<Effect>) Arrays.asList(gson.fromJson(reader, Effect[].class));
-            //effects_list = new Vector<>(Arrays.asList(gson.fromJson(reader, Effect[].class)));
+            // setup a FileReader stream for the above file
+            Reader reader = new FileReader(x);
+
+            // read the JSON list object into an Effect object array
             Effect[] effects = gson.fromJson(reader, Effect[].class);
 
-            //Type ef = new TypeToken<ArrayList<Effect>>(){}.getType();
-            //ArrayList<Effect> eff = gson.fromJson(reader, ef);
-
+            // clear profile creation page and fill with effects from specified file
+            CreateFragment.removeEffects();
             for (Effect e : effects) {
                 CreateFragment.addEffect(e.getType(), e.getParam());
             }
-            // parse into rv
-            //y.forEach(effect -> CreateFragment.addEffect(effect.getType(), effect.getParam()));
 
+            // close reader to prevent memory leaks
             reader.close();
+
+            // update save status flag (prevents save dialog from unnecessarily prompting)
+            currentProfileSaved = true;
 
         } catch (IOException e) {
             e.printStackTrace();
