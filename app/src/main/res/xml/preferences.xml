@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:key="@string/pref_general_key"
+        android:title="@string/pref_general_title">
+
+        <SwitchPreferenceCompat
+            android:key="@string/pref_auto_load_key"
+            android:title="@string/pref_auto_load_title"
+            android:summary="@string/pref_auto_load_summary"
+            android:defaultValue="false"
+            android:enabled="false"
+            app:isPreferenceVisible="false" />
+
+        <EditTextPreference
+            android:key="@string/pref_default_name_key"
+            android:title="@string/pref_default_name_title"
+            android:summary="@string/menu_new_profile"
+            android:defaultValue="@string/menu_new_profile" />
+
+        <ListPreference
+            android:key="@string/pref_theme_key"
+            android:title="@string/pref_theme_title"
+            android:summary="%s"
+            android:entries="@array/pref_theme_entries"
+            android:entryValues="@array/pref_theme_values"
+            android:defaultValue="0" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="@string/pref_3d_preview_key"
+        android:title="@string/pref_3d_preview_title">
+
+        <SwitchPreferenceCompat
+            android:key="@string/pref_auto_rotate_key"
+            android:title="@string/pref_auto_rotate_title"
+            android:summary="@string/pref_auto_rotate_summary"
+            android:defaultValue="false" />
+
+        <SeekBarPreference
+            android:key="@string/pref_sensitivity_key"
+            android:title="@string/pref_sensitivity_title"
+            android:summary="@string/pref_sensitivity_summary"
+            app:showSeekBarValue="false"
+            android:defaultValue="1"
+            android:max="3"
+            app:seekBarIncrement="1" />
+
+        <MultiSelectListPreference
+            android:key="@string/pref_hud_key"
+            android:title="@string/pref_hud_title"
+            android:summary="@string/pref_hud_summary"
+            android:entries="@array/pref_hud_entries"
+            android:entryValues="@array/pref_hud_values" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -6,12 +6,14 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -84,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean showOptions = true;
     private static boolean currentProfileSaved = true;
 
+    private SharedPreferences sharedPreferences;
+
     Vector<Effect> effects_list = new Vector<>();
     static SelectEffectListView selv;
 
@@ -113,8 +117,16 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // update the default profile name to what is found in Settings
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        currentProfileName = sharedPreferences.getString(getString(R.string.pref_default_name_key), "");
+
         currentProfileName = generateNextAvailableProfileName();
         toolbar.setTitle(currentProfileName);
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
 
         gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 
@@ -450,6 +462,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // update save status flag
                 currentProfileSaved = true;
+
             } catch (IOException e) {
                 e.printStackTrace();
                 filename = "<error>";

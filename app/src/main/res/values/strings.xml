@@ -8,6 +8,64 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <!-- shared preferences items -->
+    <string name="pref_general_key">GENERAL</string>
+    <string name="pref_general_title">General</string>
+
+    <string name="pref_auto_load_key">AUTO_LOAD</string>
+    <string name="pref_auto_load_title">Auto-Load Last Profile</string>
+    <string name="pref_auto_load_summary">Whether or not launching this app should auto-load the last used profile.</string>
+
+    <string name="pref_default_name_key">DEFAULT_NAME</string>
+    <string name="pref_default_name_title">Default Profile Name</string>
+    <string name="pref_default_name_summary">Specifies the default name new profiles will use.</string>
+
+    <string name="pref_theme_key">THEME</string>
+    <string name="pref_theme_title">Theme</string>
+    <string name="pref_theme_summary"></string>
+
+    <string-array name="pref_theme_entries">
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+
+    <string-array name="pref_theme_values">
+        <item>LIGHT</item>
+        <item>DARK</item>
+    </string-array>
+
+    <string name="pref_3d_preview_key">3D_PREVIEW</string>
+    <string name="pref_3d_preview_title">3D Preview</string>
+
+    <string name="pref_auto_rotate_key">AUTO_ROTATE</string>
+    <string name="pref_auto_rotate_title">Auto-Rotate</string>
+    <string name="pref_auto_rotate_summary">Whether or not the 3D preview should initially auto-rotate.</string>
+
+    <string name="pref_sensitivity_key">SENSITIVITY</string>
+    <string name="pref_sensitivity_title">Rotation Sensitivity</string>
+    <string name="pref_sensitivity_summary">1.0x</string>
+
+    <string name="pref_hud_key">HUD</string>
+    <string name="pref_hud_title">Hide HUD Buttons</string>
+    <string name="pref_hud_summary">Select which HUD buttons should be hidden.</string>
+
+    <string-array name="pref_hud_entries">
+        <item>Recenter</item>
+        <item>Auto-Rotate</item>
+        <item>Rotate Once Left</item>
+        <item>Rotate Once Right</item>
+    </string-array>
+
+    <string-array name="pref_hud_values">
+        <item>CENTER</item>
+        <item>AUTO</item>
+        <item>LEFT</item>
+        <item>RIGHT</item>
+    </string-array>
+
+    <string-array name="empty_array">
+    </string-array>
+
     <!-- nav header bluetooth labels -->
     <string name="nav_header_title">Bluetooth Status:</string>
     <string name="status_connected">Connected</string>

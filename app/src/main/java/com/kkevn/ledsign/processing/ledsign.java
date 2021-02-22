@@ -6,8 +6,14 @@
 
 package com.kkevn.ledsign.processing;
 
+import android.content.SharedPreferences;
+import android.support.v7.preference.PreferenceManager;
+
 import com.kkevn.ledsign.R;
 import com.kkevn.ledsign.ui.create.CreateFragment;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import processing.core.*;
 
@@ -171,9 +177,53 @@ public class ledsign extends PApplet {
         size(displayWidth, displayHeight / 2, P3D);
     }
 
+    /**/
+    public void readSettings() {
+
+        // get references to all relevant preference keys
+        String SENSITIVITY_KEY = getContext().getResources().getString(R.string.pref_sensitivity_key);
+        String AUTO_ROTATE_KEY = getContext().getResources().getString(R.string.pref_auto_rotate_key);
+        String HUD_KEY = getContext().getResources().getString(R.string.pref_hud_key);
+
+        // create the SharedPreferences object to get preferences from
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        // update the sensitivity value to what is found in the settings
+        sensitivity = (float) (sharedPreferences.getInt(SENSITIVITY_KEY, 0) + 1.0f) / 2.0f;
+
+        // update the auto rotate status according to what is found in the settings
+        if (sharedPreferences.getBoolean(AUTO_ROTATE_KEY, false)) {
+            ((HUDToggleButton) hud[3]).toggle();
+            auto_rotate = true;
+        }
+
+        // "reset" hide selections by revealing all HUD elements
+        for (HUDElement e : hud) {
+            e.setHidden(false);
+        }
+
+        // for each selection in Settings, hide the specified selections
+        for (String s : sharedPreferences.getStringSet(HUD_KEY, new HashSet<>())) {
+            switch (s) {
+                case "CENTER":
+                    hud[0].setHidden(true);
+                    break;
+                case "LEFT":
+                    hud[1].setHidden(true);
+                    break;
+                case "RIGHT":
+                    hud[2].setHidden(true);
+                    break;
+                case "AUTO":
+                    hud[3].setHidden(true);
+                    break;
+            }
+        }
+    }
+
     public void draw() {
         background(128);
-
+        readSettings();
         int timeElapsed = millis() - lastPrint;
 
         //push();
@@ -204,7 +254,8 @@ public class ledsign extends PApplet {
         if (!auto_rotate) {
             rotateY(radians(yr));
         } else {
-            rotateY(radians(yr -= 0.5f));
+            //rotateY(radians(yr -= 0.5f));
+            rotateY(radians(yr -= sensitivity));
             //rotateX(radians(xr -= 0.5f));
         }
 
@@ -312,7 +363,8 @@ public class ledsign extends PApplet {
     void drawHUD() {
         hint(DISABLE_DEPTH_TEST);
         for (HUDElement e : hud) {
-            e.display();
+            if (!e.isHidden())
+                e.display();
         }
         hint(ENABLE_DEPTH_TEST);
     }
@@ -1670,6 +1722,7 @@ lm5 -> {}
     class HUDElement {
 
         int x, y, id;
+        boolean hide;
 
         /**
          * Constructor for the HUDElement object.
@@ -1682,6 +1735,8 @@ lm5 -> {}
             this.y = y;
 
             this.id = element_count++;
+
+            this.hide = false;
         }
 
         /**
@@ -1702,6 +1757,24 @@ lm5 -> {}
          */
         int getID() {
             return this.id;
+        }
+
+        /**
+         * Returns the hide status of this element.
+         *
+         * @return {boolean} Hide status of this element.
+         */
+        boolean isHidden() {
+            return this.hide;
+        }
+
+        /**
+         * Updates the hide status of this element.
+         *
+         * @param {boolean} New hide status.
+         */
+        void setHidden(boolean hide) {
+            this.hide = hide;
         }
 
         /**
