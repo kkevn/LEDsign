@@ -17,4 +17,26 @@
     <color name="colorRemove">#eb3434</color>
     <color name="colorDuplicate">#3483eb</color>
     <color name="colorEdit">#eb8f34</color>
+
+    <color name="colorRed">#ff0000</color>
+    <color name="colorGreen">#00ff00</color>
+    <color name="colorBlue">#0000ff</color>
+    <color name="colorYellow">#ffff00</color>
+    <color name="colorOrange">#ff6600</color>
+    <color name="colorPurple">#ff00ff</color>
+    <color name="colorPink">#ff9999</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorBlack">#000000</color>
+
+    <array name="accents">
+        <item>@color/colorRed</item>
+        <item>@color/colorGreen</item>
+        <item>@color/colorBlue</item>
+        <item>@color/colorYellow</item>
+        <item>@color/colorOrange</item>
+        <item>@color/colorPurple</item>
+        <item>@color/colorPink</item>
+        <item>@color/colorWhite</item>
+        <item>@color/colorBlack</item>
+    </array>
 </resources>

@@ -2,24 +2,24 @@ package com.kkevn.ledsign.ui.settings;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.renderscript.Sampler;
-import android.support.annotation.Nullable;
 import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
-import android.support.v7.preference.SeekBarPreference;
+import android.support.v7.preference.PreferenceManager;
+import android.widget.LinearLayout;
 
 import com.kkevn.ledsign.R;
 
 public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
+
+    private LinearLayout ll_color;
+    private SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener;
 
     /*@Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
     }*/
-
-    private SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener;
 
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
@@ -40,20 +40,25 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
                     }
                     name = name.replaceAll("[^A-Za-z0-9_ \\-]","");
 
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+                    SharedPreferences.Editor editor = settings.edit();
                     editor.putString(getResources().getString(R.string.pref_default_name_key), name);
                     editor.commit();
+
+                    ((EditTextPreference)preference).setText(name);
 
                     preference.setSummary(name);
                 } else if (key.equals(getResources().getString(R.string.pref_sensitivity_key))) {
                     double value = (sharedPreferences.getInt(getResources().getString(R.string.pref_sensitivity_key), 0) + 1.0) / 2.0 ;
                     preference.setSummary("" + value + "x");
+                } else if (key.equals(getResources().getString(R.string.pref_color_key))) {
+                    int color = sharedPreferences.getInt(getResources().getString(R.string.pref_color_key), 0);
+                    ll_color = getActivity().findViewById(R.id.ll_accent_color);
+                    ll_color.setBackgroundColor(color);
+                    //preference.setWidgetLayoutResource(ll_color.getId());
                 }
             }
         };
-
-
-        getResources().getString(R.string.pref_default_name_key);
     }
 
     @Override
@@ -79,11 +84,24 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
         editor.commit();
         pref_name.setSummary(name);
 
+        ((EditTextPreference)pref_name).setText(name);
+
         // update the SeekBarPreference summary with current sensitivity value
         String SENSITIVITY_KEY = getResources().getString(R.string.pref_sensitivity_key);
         Preference pref_sens = findPreference(SENSITIVITY_KEY);
         double value = (getPreferenceScreen().getSharedPreferences().getInt(SENSITIVITY_KEY, 0) + 1.0) / 2.0;
         pref_sens.setSummary("" + value + "x");
+
+        // update the AccentColorPreference widget with current color
+        String COLOR_KEY = getResources().getString(R.string.pref_color_key);
+        Preference pref_color = findPreference(COLOR_KEY);
+        int color = getPreferenceScreen().getSharedPreferences().getInt(COLOR_KEY, 0);
+        if (ll_color != null) {
+            ll_color = getActivity().findViewById(R.id.ll_accent_color);
+            ll_color.setBackgroundColor(color);
+            //pref_color.setWidgetLayoutResource(ll_color.getId());
+        }
+
     }
 
     @Override
@@ -91,5 +109,14 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
         super.onPause();
 
         getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(preferenceChangeListener);
+    }
+
+    @Override
+    public void onDisplayPreferenceDialog(Preference preference) {
+        if (preference instanceof AccentColorPreference) {
+            AccentColorPreferenceDialog.newInstance().show(getFragmentManager(), null);
+        } else {
+            super.onDisplayPreferenceDialog(preference);
+        }
     }
 }

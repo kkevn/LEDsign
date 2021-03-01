@@ -90,7 +90,7 @@
             android:thumbTint="@android:color/holo_green_light"
             android:max="255"
             android:min="0"
-            android:progress="64"/>
+            android:progress="64" />
     </LinearLayout>
 
     <LinearLayout

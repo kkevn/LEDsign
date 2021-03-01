@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- contains elements for color accent dialog -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_color_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="#323232"
+        android:text="@string/pref_color_title" />
+
+    <GridView
+        android:id="@+id/gv_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:horizontalSpacing="24dp"
+        android:verticalSpacing="24dp"
+        android:numColumns="5">
+    </GridView>
+
+    <Button
+        android:id="@+id/b_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/dialog_cancel"
+        android:textColor="@color/colorAccent"
+        android:textAlignment="viewEnd"
+        android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackground" />
+
+</LinearLayout>

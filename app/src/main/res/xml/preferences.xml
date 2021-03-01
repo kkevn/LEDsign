@@ -28,6 +28,12 @@
             android:entryValues="@array/pref_theme_values"
             android:defaultValue="0" />
 
+        <com.kkevn.ledsign.ui.settings.AccentColorPreference
+            android:key="@string/pref_color_key"
+            android:title="@string/pref_color_title"
+            android:summary="@string/pref_color_summary"
+            android:widgetLayout="@layout/widget_preference_accent_color"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

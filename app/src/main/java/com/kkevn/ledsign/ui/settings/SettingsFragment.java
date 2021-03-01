@@ -1,7 +1,6 @@
 package com.kkevn.ledsign.ui.settings;
 
 import android.os.Bundle;
-import android.support.v14.preference.PreferenceFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
