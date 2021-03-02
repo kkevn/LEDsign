@@ -70,6 +70,44 @@
     <string-array name="empty_array">
     </string-array>
 
+    <!-- help contents -->
+    <string name="help_title_create">New Profile</string>
+    <string name="help_title_load">Load Profile</string>
+    <string name="help_title_bluetooth">Bluetooth</string>
+    <string name="help_title_3d">3D Preview</string>
+
+    <string-array name="help_title_create">
+        <item>add an effect</item>
+        <item>edit an effect</item>
+        <item>duplicate an effect</item>
+        <item>remove an effect</item>
+        <item>clear all effects</item>
+        <item>reorder effects</item>
+        <item>save your profile</item>
+        <item>rename your profile</item>
+    </string-array>
+
+    <string-array name="help_title_load">
+        <item>edit a profile</item>
+        <item>duplicate a profile</item>
+        <item>delete a profile</item>
+    </string-array>
+
+    <string-array name="help_title_bluetooth">
+        <item>connect to hardware cube</item>
+        <item>check connection status</item>
+        <item>upload your profile</item>
+        <item>reset the hardware cube</item>
+    </string-array>
+
+    <string-array name="help_title_3d">
+        <item>free rotate the preview cube</item>
+        <item>quick rotate 90°</item>
+        <item>enable auto-rotation</item>
+        <item>recenter the preview cube</item>
+    </string-array>
+
+
     <!-- nav header bluetooth labels -->
     <string name="nav_header_title">Bluetooth Status:</string>
     <string name="status_connected">Connected</string>
