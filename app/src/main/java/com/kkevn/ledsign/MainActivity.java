@@ -264,6 +264,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public static void navigateToHelpFragmentWithBundle(int title, int subtitle) {
+
+        Bundle args = new Bundle();
+        args.putInt("title", title);
+        args.putInt("subtitle", subtitle);
+
+        navController.navigate(R.id.nav_help_item, args);
+    }
+
     private void populateEffects() {
         for (Effect.Effect_Types e: Effect.Effect_Types.values()) {
             effects_list.add(new Effect(e.toString()));

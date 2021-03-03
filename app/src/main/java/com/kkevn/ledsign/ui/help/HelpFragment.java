@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.widget.ExpandableListView;
 
+import com.kkevn.ledsign.MainActivity;
 import com.kkevn.ledsign.R;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class HelpFragment extends Fragment {
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
 
                 // i = group, i1 = child
+                MainActivity.navigateToHelpFragmentWithBundle(i, i1);
 
                 return false;
             }
