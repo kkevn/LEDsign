@@ -70,43 +70,6 @@
     <string-array name="empty_array">
     </string-array>
 
-    <!-- help contents -->
-    <string name="help_title_create">New Profile</string>
-    <string name="help_title_load">Load Profile</string>
-    <string name="help_title_bluetooth">Bluetooth</string>
-    <string name="help_title_3d">3D Preview</string>
-
-    <string-array name="help_title_create">
-        <item>add an effect</item>
-        <item>edit an effect</item>
-        <item>duplicate an effect</item>
-        <item>remove an effect</item>
-        <item>clear all effects</item>
-        <item>reorder effects</item>
-        <item>save your profile</item>
-        <item>rename your profile</item>
-    </string-array>
-
-    <string-array name="help_title_load">
-        <item>edit a profile</item>
-        <item>duplicate a profile</item>
-        <item>delete a profile</item>
-    </string-array>
-
-    <string-array name="help_title_bluetooth">
-        <item>connect to hardware cube</item>
-        <item>check connection status</item>
-        <item>upload your profile</item>
-        <item>reset the hardware cube</item>
-    </string-array>
-
-    <string-array name="help_title_3d">
-        <item>free rotate the preview cube</item>
-        <item>quick rotate 90°</item>
-        <item>enable auto-rotation</item>
-        <item>recenter the preview cube</item>
-    </string-array>
-
 
     <!-- nav header bluetooth labels -->
     <string name="nav_header_title">Bluetooth Status:</string>
@@ -187,5 +150,109 @@
     <!-- edit text allowable characters -->
     <string name="edit_text_inputs">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqr‌​stuvwxyz0123456789_-\u0020</string>
     <string name="edit_text_hexadecimal">ABCDEFabcdef0123456789</string>
+
+
+    <!-- help contents -->
+    <string name="help_title_create">New Profile</string>
+    <string name="help_title_load">Load Profile</string>
+    <string name="help_title_bluetooth">Bluetooth</string>
+    <string name="help_title_3d">3D Preview</string>
+
+    <string-array name="help_title_create">
+        <item>add an effect</item>
+        <item>edit an effect</item>
+        <item>duplicate an effect</item>
+        <item>remove an effect</item>
+        <item>clear all effects</item>
+        <item>reorder effects</item>
+        <item>save your profile</item>
+        <item>rename your profile</item>
+    </string-array>
+
+    <string-array name="help_videos_create">
+        <item>@raw/video_1</item>
+        <item>@raw/video_1</item>
+        <item>@raw/video_1</item>
+        <item>@raw/video_1</item>
+        <item>@raw/video_1</item>
+        <item>@raw/video_1</item>
+        <item>@raw/video_1</item>
+        <item>@raw/video_1</item>
+    </string-array>
+
+    <string-array name="help_title_load">
+        <item>edit a profile</item>
+        <item>duplicate a profile</item>
+        <item>delete a profile</item>
+    </string-array>
+
+    <string-array name="help_videos_load">
+        <item>@raw/video_1</item>
+        <item>@raw/video_1</item>
+        <item>@raw/video_1</item>
+    </string-array>
+
+    <string-array name="help_title_bluetooth">
+        <item>connect to hardware cube</item>
+        <item>check connection status</item>
+        <item>upload your profile</item>
+        <item>reset the hardware cube</item>
+    </string-array>
+
+    <string-array name="help_videos_bluetooth">
+        <item>@raw/video_1</item>
+        <item>@raw/video_1</item>
+        <item>@raw/video_1</item>
+        <item>@raw/video_1</item>
+    </string-array>
+
+    <string-array name="help_title_3d">
+        <item>free rotate the preview cube</item>
+        <item>quick rotate 90°</item>
+        <item>enable auto-rotation</item>
+        <item>recenter the preview cube</item>
+    </string-array>
+
+    <string-array name="help_videos_3d">
+        <item>@raw/video_1</item>
+        <item>@raw/video_1</item>
+        <item>@raw/video_1</item>
+        <item>@raw/video_1</item>
+    </string-array>
+
+    <!-- New Profile help steps -->
+    <string-array name="help_steps_create">
+        <item>• Tap the floating action button|• Select an effect from the list when prompted|• Customize the effect parameters|• Tap the \'Submit\' button to confirm</item>
+        <item>• Slide right on the desired effect|• Tap the yellow edit button|• Adjust the effect\'s parameters|• Tap the \'Submit\' button to confirm changes</item>
+        <item>• Slide right on the desired effect|• Tap the blue duplicate button</item>
+        <item>• Slide right on the desired effect|• Tap the red remove button</item>
+        <item>• Tap the 3 dots in the toolbar|• Select \'Reset Profile\' from menu|• Tap the \'Clear Effects\' button</item>
+        <item>• Press and hold the drag handle of effect|• Drag effect to new position in list|• Let go of drag handle to confirm</item>
+        <item>• Tap the save icon in the toolbar</item>
+        <item>• Tap the 3 dots in the toolbar|• Select \'Rename Profile\' from menu|• Enter new name in text area|• Tap the \'Rename\' button to confirm</item>
+    </string-array>
+
+    <!-- Load Profile help steps -->
+    <string-array name="help_steps_load">
+        <item>• Slide right on the desired profile|• Tap the yellow edit button|• Adjust the profile\'s effects as desired|• Tap the save icon in the toolbar to confirm changes</item>
+        <item>• Slide right on the desired profile|• Tap the blue duplicate button</item>
+        <item>• Slide right on the desired profile|• Tap the red remove button</item>
+    </string-array>
+
+    <!-- Bluetooth help steps -->
+    <string-array name="help_steps_bluetooth">
+        <item>• Tap the Bluetooth icon in the toolbar|• Allow Bluetooth connection if requested|• Select the device from the list when prompted|• Wait for connection to establish|• Repeat above if connection fails</item>
+        <item>• Tap the 3 bars in the toolbar|• Observe current connection status</item>
+        <item>• Tap the 3 dots in the toolbar|• Select \'Upload Profile\' from menu|• Wait for changes to take effect</item>
+        <item>• Tap the 3 dots in the toolbar|• Select \'Reset Profile\' from menu|• Tap the \'Reset Signal\' button</item>
+    </string-array>
+
+    <!-- Bluetooth help steps -->
+    <string-array name="help_steps_3d">
+        <item>• Press and hold anywhere in the 3D preview |• Swipe in desired direction to rotate|• Let go to confirm rotation</item>
+        <item>• Tap the left arrow button to rotate once left|• Tap the right arrow button to rotate once right</item>
+        <item>• Tap the \'Auto\' button to toggle auto-rotation|• Tap it once more to disable auto-rotation</item>
+        <item>• Tap the \'Recenter\' button to reorient the preview</item>
+    </string-array>
 
 </resources>
