@@ -37,7 +37,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_below="@+id/fl_video"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="12dp">
         
         <TextView
             android:id="@+id/tv_help_title"
@@ -53,23 +55,25 @@
             android:id="@+id/expand_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            expandableTextView:maxCollapsedLines="2">
+            expandableTextView:maxCollapsedLines="0">
 
             <TextView
                 android:id="@id/expandable_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:textSize="18sp" />
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="12dp"
+                android:textSize="20sp" />
 
             <ImageButton
                 android:id="@id/expand_collapse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleX="2"
+                android:scaleY="2"
                 android:padding="16dp"
                 android:layout_gravity="right|bottom"
-                android:background="@android:color/transparent"/>
+                android:background="@android:color/transparent" />
 
         </com.ms.square.android.expandabletextview.ExpandableTextView>
         

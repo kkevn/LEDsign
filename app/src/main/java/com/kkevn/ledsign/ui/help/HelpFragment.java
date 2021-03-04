@@ -36,7 +36,7 @@ public class HelpFragment extends Fragment {
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
 
                 // i = group, i1 = child
-                MainActivity.navigateToHelpFragmentWithBundle(i, i1);
+                MainActivity.navigateToHelpFragmentWithBundle(i, i1, items.get(groups.get(i))[i1]);
 
                 return false;
             }
