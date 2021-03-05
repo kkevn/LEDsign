@@ -19,8 +19,8 @@ public class HelpFragment extends Fragment {
 
     private ExpandableListView elv_contents;
     HelpExpandableListAdapter adapter;
-    List<String> groups;
-    HashMap<String, String[]> items;
+    static List<String> groups;
+    static HashMap<String, String[]> items;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_help, container, false);
@@ -36,7 +36,7 @@ public class HelpFragment extends Fragment {
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
 
                 // i = group, i1 = child
-                MainActivity.navigateToHelpFragmentWithBundle(i, i1, items.get(groups.get(i))[i1]);
+                MainActivity.navigateToHelpFragmentWithBundle(i, i1);
 
                 return false;
             }
@@ -44,6 +44,10 @@ public class HelpFragment extends Fragment {
         fillList();
 
         return root;
+    }
+
+    public static String getHelpItem(int i, int i1) {
+        return items.get(groups.get(i))[i1];
     }
 
     private void fillList() {

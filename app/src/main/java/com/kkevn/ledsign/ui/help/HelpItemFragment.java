@@ -76,21 +76,20 @@ public class HelpItemFragment extends Fragment {
 
         Bundle arguments = getArguments();
         if (arguments != null) {
-            if (arguments.containsKey("title") && arguments.containsKey("subtitle")&& arguments.containsKey("sub")) {
+            if (arguments.containsKey("title") && arguments.containsKey("subtitle")) {
                 int title = getArguments().getInt("title");
                 int subtitle = getArguments().getInt("subtitle");
-                String sub = getArguments().getString("sub");
-                updateViews(title, subtitle, sub);
+                updateViews(title, subtitle);
             }
         }
 
         return root;
     }
 
-    private void updateViews(int title, int subtitle, String sub) {
+    private void updateViews(int title, int subtitle) {
 
         // update the help topic title
-        tv_help_title.setText("How to " + sub);
+        tv_help_title.setText("How to " + HelpFragment.getHelpItem(title, subtitle));
 
         // references for resources
         String[] steps;

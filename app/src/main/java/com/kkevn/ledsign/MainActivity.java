@@ -264,12 +264,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static void navigateToHelpFragmentWithBundle(int title, int subtitle, String sub) {
+    public static void navigateToHelpFragmentWithBundle(int title, int subtitle) {
 
         Bundle args = new Bundle();
         args.putInt("title", title);
         args.putInt("subtitle", subtitle);
-        args.putString("sub", sub);
 
         navController.navigate(R.id.nav_help_item, args);
     }
