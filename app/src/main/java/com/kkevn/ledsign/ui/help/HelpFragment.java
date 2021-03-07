@@ -18,29 +18,34 @@ import java.util.List;
 public class HelpFragment extends Fragment {
 
     private ExpandableListView elv_contents;
-    HelpExpandableListAdapter adapter;
+    private HelpExpandableListAdapter adapter;
     static List<String> groups;
     static HashMap<String, String[]> items;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_help, container, false);
 
+        // obtain reference to ExpandableListView in layout
         elv_contents = root.findViewById(R.id.elv_contents);
+
+        // initialize data structures that will contain category labels
         groups = new ArrayList<>();
         items = new HashMap<>();
 
+        // set adapter for ExpandableListView and click listener
         adapter = new HelpExpandableListAdapter(getContext(), groups, items);
         elv_contents.setAdapter(adapter);
         elv_contents.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
 
-                // i = group, i1 = child
-                MainActivity.navigateToHelpFragmentWithBundle(i, i1);
-
+                // navigate to help item page for current category and index (with length of this category)
+                MainActivity.navigateToHelpFragmentWithBundle(i, i1, items.get(groups.get(i)).length);
                 return false;
             }
         });
+
+        // populate list with category labels from strings.xml
         fillList();
 
         return root;

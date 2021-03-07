@@ -44,6 +44,7 @@ import com.kkevn.ledsign.bluetooth.PairedListView;
 import com.kkevn.ledsign.ui.create.CreateFragment;
 import com.kkevn.ledsign.ui.create.Effect;
 import com.kkevn.ledsign.ui.create.SelectEffectListView;
+import com.kkevn.ledsign.ui.help.HelpViewPagerFragment;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -264,11 +265,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static void navigateToHelpFragmentWithBundle(int title, int subtitle) {
+    public static void navigateToHelpFragmentWithBundle(int category, int index, int length) {
 
         Bundle args = new Bundle();
-        args.putInt("title", title);
-        args.putInt("subtitle", subtitle);
+        args.putInt(HelpViewPagerFragment.CATEGORY, category);
+        args.putInt(HelpViewPagerFragment.CATEGORY_INDEX, index);
+        args.putInt(HelpViewPagerFragment.CATEGORY_LENGTH, length);
 
         navController.navigate(R.id.nav_help_item, args);
     }

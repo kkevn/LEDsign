@@ -34,6 +34,12 @@
 
     <fragment
         android:id="@+id/nav_help_item"
+        android:name="com.kkevn.ledsign.ui.help.HelpViewPagerFragment"
+        android:label="@string/menu_help"
+        tools:layout="@layout/pager_help_items" />
+
+    <fragment
+        android:id="@+id/nav_help_item_fragment"
         android:name="com.kkevn.ledsign.ui.help.HelpItemFragment"
         android:label="@string/menu_help"
         tools:layout="@layout/fragment_help_item" />
