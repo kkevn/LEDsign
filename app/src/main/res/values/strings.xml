@@ -1,5 +1,38 @@
 <resources>
     <string name="app_name">LEDsign</string>
+    <string name="app_version">1.0</string>
+    <string name="app_author">Kevin Kowalski</string>
+    <string name="app_link">https://github.com/kkevn/LEDsign</string>
+    <string name="app_description">LEDsign provides quick and intuitive customization of multi-effect profiles that can be uploaded via Bluetooth to the physical complement of this project for real-world display.</string>
+
+    <!-- about info for Processing -->
+    <string name="processing_name">Processing for Android</string>
+    <string name="processing_version">4.1.1</string>
+    <string name="processing_author">Processing Foundation</string>
+    <string name="processing_link">https://android.processing.org/</string>
+    <string name="processing_description">Processing for Android is an Android Library that extends the Processing software language to run sketches on Android devices.</string>
+
+    <!-- about info for Gson -->
+    <string name="gson_name">Gson</string>
+    <string name="gson_version">2.8.6</string>
+    <string name="gson_author">Google</string>
+    <string name="gson_link">https://github.com/google/gson</string>
+    <string name="gson_description">Gson is a Java library that can be used to convert Java Objects into their JSON representation.</string>
+
+    <!-- about info for SwipeRevealLayout -->
+    <string name="swipereveal_name">SwipeRevealLayout</string>
+    <string name="swipereveal_version">1.4.1</string>
+    <string name="swipereveal_author">Chau Thai</string>
+    <string name="swipereveal_link">https://github.com/chthai64/SwipeRevealLayout</string>
+    <string name="swipereveal_description">SwipeRevealLayout is an Android library providing a layout that can be swiped to reveal another layout.</string>
+
+    <!-- about info for ExpandableTextView -->
+    <string name="expandabletext_name">ExpandableTextView</string>
+    <string name="expandabletext_version">0.1.4</string>
+    <string name="expandabletext_author">Manabu S.</string>
+    <string name="expandabletext_link">https://github.com/Manabu-GT/ExpandableTextView</string>
+    <string name="expandabletext_description">ExpandableTextView is an Android library that allows developers to easily create a TextView which can expand/collapse.</string>
+
 
     <!-- default created strings -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
