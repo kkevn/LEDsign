@@ -849,27 +849,29 @@ public class MainActivity extends AppCompatActivity {
 
         // fetch URL for which about page item was clicked
         switch (v.getId()) {
-            case R.id.cv_processing:
-                url = getResources().getString(R.string.processing_link);
-                break;
-            case R.id.cv_gson:
-                url = getResources().getString(R.string.gson_link);
-                break;
-            case R.id.cv_swipereveal:
-                url = getResources().getString(R.string.swipereveal_link);
+            case R.id.cv_supportlibrary:
+                url = getResources().getString(R.string.support_link);
                 break;
             case R.id.cv_expandabletext:
                 url = getResources().getString(R.string.expandabletext_link);
                 break;
-            case R.id.cv_supportlibrary:
-                url = getResources().getString(R.string.support_link);
+            case R.id.cv_gson:
+                url = getResources().getString(R.string.gson_link);
+                break;
+            case R.id.cv_processing:
+                url = getResources().getString(R.string.processing_link);
+                break;
+            case R.id.cv_swipereveal:
+                url = getResources().getString(R.string.swipereveal_link);
                 break;
             default:
                 url = getResources().getString(R.string.app_link);
         }
 
         // set intent for the default device browser to view the selected link
-        Intent browser = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        startActivity(browser);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 }
