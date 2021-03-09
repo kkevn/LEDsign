@@ -33,6 +33,14 @@
     <string name="expandabletext_link">https://github.com/Manabu-GT/ExpandableTextView</string>
     <string name="expandabletext_description">ExpandableTextView is an Android library that allows developers to easily create a TextView which can expand/collapse.</string>
 
+    <!-- about info for Material Navigation Drawer -->
+    <string name="materialdrawer_name">Material Navigation Drawer</string>
+    <string name="materialdrawer_version">1.4</string>
+    <string name="materialdrawer_author">Pedro Oliveira</string>
+    <string name="materialdrawer_link">https://github.com/kanytu/Android-studio-material-template</string>
+    <string name="materialdrawer_description">A template for Android Studio to create applications with a Material navigation drawer.</string>
+
+
     <!-- about info for Android Support Libraries -->
     <string name="support_name">Android Support Libraries</string>
     <string name="support_version">28.0.0</string>

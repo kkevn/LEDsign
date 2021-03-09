@@ -29,6 +29,10 @@
             layout="@layout/cardview_about_gson" />
 
         <include
+            android:id="@+id/cv_materialdrawer"
+            layout="@layout/cardview_about_materialdrawer" />
+
+        <include
             android:id="@+id/cv_processing"
             layout="@layout/cardview_about_processing" />
 

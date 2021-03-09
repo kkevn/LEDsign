@@ -858,6 +858,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.cv_gson:
                 url = getResources().getString(R.string.gson_link);
                 break;
+            case R.id.cv_materialdrawer:
+                url = getResources().getString(R.string.materialdrawer_link);
+                break;
             case R.id.cv_processing:
                 url = getResources().getString(R.string.processing_link);
                 break;
