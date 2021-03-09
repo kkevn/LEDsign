@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -840,5 +841,35 @@ public class MainActivity extends AppCompatActivity {
     public static void manageMyConnectedSocket(BluetoothSocket socket) {
         ct = new ConnectedThread(socket, handler);
         ct.start();
+    }
+
+    public void openLink(View v) {
+
+        String url;
+
+        // fetch URL for which about page item was clicked
+        switch (v.getId()) {
+            case R.id.cv_processing:
+                url = getResources().getString(R.string.processing_link);
+                break;
+            case R.id.cv_gson:
+                url = getResources().getString(R.string.gson_link);
+                break;
+            case R.id.cv_swipereveal:
+                url = getResources().getString(R.string.swipereveal_link);
+                break;
+            case R.id.cv_expandabletext:
+                url = getResources().getString(R.string.expandabletext_link);
+                break;
+            case R.id.cv_supportlibrary:
+                url = getResources().getString(R.string.support_link);
+                break;
+            default:
+                url = getResources().getString(R.string.app_link);
+        }
+
+        // set intent for the default device browser to view the selected link
+        Intent browser = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(browser);
     }
 }

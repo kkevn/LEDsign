@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="12dp"
     android:foreground="?android:attr/selectableItemBackground"
-    android:clickable="true">
+    android:clickable="true"
+    android:onClick="openLink">
 
     <LinearLayout
         android:id="@+id/ll_about"
