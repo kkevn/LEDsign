@@ -18,25 +18,25 @@
             layout="@layout/about_ledsign" />
 
         <include
-            android:id="@+id/cv_processing"
-            layout="@layout/cardview_about_processing" />
-
-        <include
-            android:id="@+id/cv_gson"
-            layout="@layout/cardview_about_gson" />
-
-        <include
-            android:id="@+id/cv_swipereveal"
-            layout="@layout/cardview_about_swipereveal" />
+            android:id="@+id/cv_supportlibrary"
+            layout="@layout/cardview_about_supportlibrary" />
 
         <include
             android:id="@+id/cv_expandabletext"
             layout="@layout/cardview_about_expandabletext" />
 
         <include
-            android:id="@+id/cv_supportlibrary"
-            layout="@layout/cardview_about_supportlibrary" />
+            android:id="@+id/cv_gson"
+            layout="@layout/cardview_about_gson" />
 
+        <include
+            android:id="@+id/cv_processing"
+            layout="@layout/cardview_about_processing" />
+
+        <include
+            android:id="@+id/cv_swipereveal"
+            layout="@layout/cardview_about_swipereveal" />
+        
     </LinearLayout>
 
 </ScrollView>
