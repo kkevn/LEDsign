@@ -35,8 +35,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        android:background="@color/colorSecondaryLight"
-        app:itemTextColor="@color/colorPrimaryDark"
+        app:itemTextAppearance="@drawable/drawer_item"
+        app:itemIconTint="?android:colorControlNormal"
+        android:theme="@style/Theme.AppCompat.DayNight"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
 

@@ -1,13 +1,17 @@
 package com.kkevn.ledsign.ui.settings;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.kkevn.ledsign.MainActivity;
 import com.kkevn.ledsign.R;
 
 public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
@@ -51,11 +55,15 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
                 } else if (key.equals(getResources().getString(R.string.pref_sensitivity_key))) {
                     double value = (sharedPreferences.getInt(getResources().getString(R.string.pref_sensitivity_key), 0) + 1.0) / 2.0 ;
                     preference.setSummary("" + value + "x");
+                } else if (key.equals(getResources().getString(R.string.pref_theme_key))) {
+                    //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    getActivity().recreate();
                 } else if (key.equals(getResources().getString(R.string.pref_color_key))) {
                     int color = sharedPreferences.getInt(getResources().getString(R.string.pref_color_key), 0);
                     ll_color = getActivity().findViewById(R.id.ll_accent_color);
                     ll_color.setBackgroundColor(color);
                     //preference.setWidgetLayoutResource(ll_color.getId());
+                    getActivity().recreate();
                 }
             }
         };
@@ -91,6 +99,16 @@ public class SettingsPreferenceFragment extends PreferenceFragmentCompat {
         Preference pref_sens = findPreference(SENSITIVITY_KEY);
         double value = (getPreferenceScreen().getSharedPreferences().getInt(SENSITIVITY_KEY, 0) + 1.0) / 2.0;
         pref_sens.setSummary("" + value + "x");
+
+        // update the app's theme
+        /*String THEME_KEY = getResources().getString(R.string.pref_theme_key);
+        Preference pref_theme = findPreference(THEME_KEY);
+        String theme = getPreferenceScreen().getSharedPreferences().getString(THEME_KEY, "");
+        if (theme.equalsIgnoreCase("LIGHT"))
+            getContext().setTheme(R.style.AppTheme2);
+        else
+            getContext().setTheme(R.style.AppTheme);
+        */
 
         // update the AccentColorPreference widget with current color
         String COLOR_KEY = getResources().getString(R.string.pref_color_key);

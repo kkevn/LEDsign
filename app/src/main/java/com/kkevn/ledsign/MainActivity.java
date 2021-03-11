@@ -7,6 +7,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
@@ -113,22 +117,63 @@ public class MainActivity extends AppCompatActivity {
     final public static int UPDATE_TOOLBAR = 7;
 
     @Override
+    public Resources.Theme getTheme() {
+        Resources.Theme theme = super.getTheme();
+
+        // get the accent color selection preference
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int accent = sharedPreferences.getInt(getString(R.string.pref_color_key), 0);
+
+        // get the possible accent color choices and their respective styles
+        int[] accents = getResources().getIntArray(R.array.accents);
+        int[] accent_styles = {R.style.SelectableAccentColorRed, R.style.SelectableAccentColorGreen, R.style.SelectableAccentColorBlue,
+            R.style.SelectableAccentColorYellow, R.style.SelectableAccentColorOrange, R.style.SelectableAccentColorPurple,
+            R.style.SelectableAccentColorPink, R.style.SelectableAccentColorIndigo, R.style.SelectableAccentColorLime};
+
+        // apply the color accent style that matches the color found in Preferences
+        for (int i = 0; i < accents.length; i++) {
+            if (accent == accents[i]) {
+                theme.applyStyle(accent_styles[i], true);
+            }
+        }
+
+        return theme;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // get a reference to the app's shared preferences
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        //NavigationView navigationView = findViewById(R.id.nav_view);
+
+        // apply the app theme based on current preference selection for the theme
+        String theme = sharedPreferences.getString(getString(R.string.pref_theme_key), "");
+        if (theme.equalsIgnoreCase("LIGHT")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            //navigationView.setItemTextAppearance(R.drawable.drawer_item);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        setTheme(theme.equalsIgnoreCase("LIGHT") ? R.style.CustomLightTheme : R.style.CustomDarkTheme);
+        //setTheme(theme.equalsIgnoreCase("LIGHT") ? R.style.CustomLightTheme : R.style.CustomDarkTheme);
+
+        // apply layout to main activity
         setContentView(R.layout.activity_main);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // update the default profile name to what is found in Settings
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        //sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         currentProfileName = sharedPreferences.getString(getString(R.string.pref_default_name_key), "");
 
         currentProfileName = generateNextAvailableProfileName();
         toolbar.setTitle(currentProfileName);
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-
 
         gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 

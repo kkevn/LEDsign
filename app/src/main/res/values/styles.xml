@@ -1,11 +1,98 @@
 <resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!--<item name="alertDialogTheme">@style/Theme.AppCompat.DayNight.Dialog</item>-->
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+    </style>
+
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme2" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!--<item name="colorAccent">@color/colorSecondaryLight</item>-->
+    </style>
+
+    <!-- colors for a custom Dark theme -->
+    <style name="CustomDarkTheme">
+
+        <!-- background colors -->
+        <!--<item name="android:colorBackground">@color/colorDark</item>
+        <item name="android:textColor">@color/colorDarkText</item>-->
+        <!--<item name="android:textColorSecondary">@color/colorLightSecondary</item>-->
+        <!--<item name="android:popupMenuStyle">@style/ThemeOverlay.AppCompat.Dark</item>
+        <item name="android:popupBackground">@color/colorDark</item>-->
+
+
+
+        <!--<item name="colorAccent">@color/colorSecondaryLight</item>-->
+    </style>
+
+    <!-- colors for a custom Light theme -->
+    <style name="CustomLightTheme">
+
+        <!--<item name="android:colorBackground">@color/colorLightPrimary</item>
+        <item name="android:textColor">@color/colorLightText</item>-->
+        <!--<item name="android:textColorSecondary">@color/colorLightSecondary</item>-->
+        <!--<item name="android:popupBackground">@color/colorLightPrimary</item>
+        <item name="android:popupTheme">@style/ThemeOverlay.AppCompat.Light</item>-->
+
+
+        <!--<item name="colorAccent">@color/colorSecondaryLight</item>-->
+    </style>
+
+    <style name="PopupMenuStyle">
+        <item name="android:background">@color/colorDark</item>
+    </style>
+
+    <!-- styles for all different selectable accent colors -->
+    <style name="SelectableAccentColorRed">
+        <item name="colorAccent">@color/colorRed</item>
+    </style>
+    <style name="SelectableAccentColorGreen">
+        <item name="colorAccent">@color/colorGreen</item>
+    </style>
+    <style name="SelectableAccentColorBlue">
+        <item name="colorAccent">@color/colorBlue</item>
+    </style>
+    <style name="SelectableAccentColorYellow">
+        <item name="colorAccent">@color/colorYellow</item>
+    </style>
+    <style name="SelectableAccentColorOrange">
+        <item name="colorAccent">@color/colorOrange</item>
+    </style>
+    <style name="SelectableAccentColorPurple">
+        <item name="colorAccent">@color/colorPurple</item>
+    </style>
+    <style name="SelectableAccentColorPink">
+        <item name="colorAccent">@color/colorPink</item>
+    </style>
+    <style name="SelectableAccentColorIndigo">
+        <item name="colorAccent">@color/colorIndigo</item>
+    </style>
+    <style name="SelectableAccentColorLime">
+        <item name="colorAccent">@color/colorLime</item>
+    </style>
+
+    <array name="accents_styles">
+        <item>@style/SelectableAccentColorRed</item>
+        <item>@style/SelectableAccentColorGreen</item>
+        <item>@style/SelectableAccentColorBlue</item>
+        <item>@style/SelectableAccentColorYellow</item>
+        <item>@style/SelectableAccentColorOrange</item>
+        <item>@style/SelectableAccentColorPurple</item>
+        <item>@style/SelectableAccentColorPink</item>
+        <item>@style/SelectableAccentColorRed</item>
+        <item>@style/SelectableAccentColorRed</item>
+    </array>
+
+    <style name="WindowAnimationTransition">
+        <item name="android:windowEnterAnimation">@anim/nav_default_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/nav_default_exit_anim</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -29,6 +116,6 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <!--<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
 
 </resources>

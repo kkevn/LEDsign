@@ -10,6 +10,18 @@
     <color name="colorSecondaryDark">#707070</color>
     <color name="colorSecondaryText">#000000</color>
 
+    <!-- Light Theme colors -->
+    <color name="colorLight">#fafafa</color>
+    <color name="colorLightPrimary">#ffffff</color>
+    <color name="colorLightSecondary">#c7c7c7</color>
+    <color name="colorLightText">#000000</color>
+
+    <!-- Dark Theme colors -->
+    <color name="colorDark">#212121</color>
+    <color name="colorDarkPrimary">#484848</color>
+    <color name="colorDarkSecondary">#000000</color>
+    <color name="colorDarkText">#ffffff</color>
+
     <color name="colorAccent">#44BBFF</color>
     <color name="colorDisconnected">#ff3232</color>
     <color name="colorConnected">#69ff69</color>
@@ -18,15 +30,15 @@
     <color name="colorDuplicate">#3483eb</color>
     <color name="colorEdit">#eb8f34</color>
 
-    <color name="colorRed">#ff0000</color>
-    <color name="colorGreen">#00ff00</color>
-    <color name="colorBlue">#0000ff</color>
-    <color name="colorYellow">#ffff00</color>
-    <color name="colorOrange">#ff6600</color>
-    <color name="colorPurple">#ff00ff</color>
-    <color name="colorPink">#ff9999</color>
-    <color name="colorWhite">#ffffff</color>
-    <color name="colorBlack">#000000</color>
+    <color name="colorRed">#d50000</color>
+    <color name="colorGreen">#00c853</color>
+    <color name="colorBlue">#0091ea</color>
+    <color name="colorYellow">#ffd600</color>
+    <color name="colorOrange">#ff6d00</color>
+    <color name="colorPurple">#aa00ff</color>
+    <color name="colorPink">#ff8a80</color>
+    <color name="colorIndigo">#2962ff</color>
+    <color name="colorLime">#aeea00</color>
 
     <array name="accents">
         <item>@color/colorRed</item>
@@ -36,7 +48,7 @@
         <item>@color/colorOrange</item>
         <item>@color/colorPurple</item>
         <item>@color/colorPink</item>
-        <item>@color/colorWhite</item>
-        <item>@color/colorBlack</item>
+        <item>@color/colorIndigo</item>
+        <item>@color/colorLime</item>
     </array>
 </resources>

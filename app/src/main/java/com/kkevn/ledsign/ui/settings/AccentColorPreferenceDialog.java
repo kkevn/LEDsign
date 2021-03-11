@@ -2,6 +2,7 @@ package com.kkevn.ledsign.ui.settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -53,6 +54,10 @@ public class AccentColorPreferenceDialog extends DialogFragment {
                 dismiss();
             }
         });
+
+        // update submit button with current accent color
+        int preferenceAccentColor = PreferenceManager.getDefaultSharedPreferences(getContext()).getInt(getResources().getString(R.string.pref_color_key), 0);
+        b_cancel.setTextColor(preferenceAccentColor);
         b_cancel.setOnClickListener(e -> this.dismiss());
         
         return view;
