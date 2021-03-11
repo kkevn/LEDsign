@@ -1,9 +1,11 @@
 package com.kkevn.ledsign.ui.configurators;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +26,7 @@ public class ScrollingTextFragment extends Fragment {
 
     private View matrix_select, text_scroll, color_picker, cancel_submit;
 
-    private int red = 196, green = 64, blue = 128;
+    private int red = 196, green = 64, blue = 128, defaultTextColor;
 
     private CheckBox cb_front, cb_right, cb_back, cb_left, cb_top;
     private List<CheckBox> cb_selections;
@@ -44,6 +46,10 @@ public class ScrollingTextFragment extends Fragment {
         color_picker = (View) root.findViewById(R.id.color_picker);
         cancel_submit = (View) root.findViewById(R.id.cancel_submit);
 
+        // update submit button with current accent color
+        int preferenceAccentColor = PreferenceManager.getDefaultSharedPreferences(getContext()).getInt(getResources().getString(R.string.pref_color_key), 0);
+        cancel_submit.findViewById(R.id.b_submit).setBackgroundTintList(ColorStateList.valueOf(preferenceAccentColor));
+
         // apply help dialogs to help buttons
         matrix_select.findViewById(R.id.ib_help).setOnClickListener(e -> cl.onHelpClick(getString(R.string.dialog_help_matrix_select)));
         text_scroll.findViewById(R.id.ib_help).setOnClickListener(e -> cl.onHelpClick(getString(R.string.dialog_help_edit_text)));
@@ -61,6 +67,7 @@ public class ScrollingTextFragment extends Fragment {
 
         // apply listener to red seek bar
         tv_red = color_picker.findViewById(R.id.tv_red);
+        defaultTextColor = tv_red.getTextColors().getDefaultColor();
         sb_red = color_picker.findViewById(R.id.sb_red);
         sb_red.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -78,7 +85,7 @@ public class ScrollingTextFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                tv_red.setTextColor(Color.BLACK);
+                tv_red.setTextColor(defaultTextColor);
             }
         });
 
@@ -101,7 +108,7 @@ public class ScrollingTextFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                tv_green.setTextColor(Color.BLACK);
+                tv_green.setTextColor(defaultTextColor);
             }
         });
 
@@ -124,7 +131,7 @@ public class ScrollingTextFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                tv_blue.setTextColor(Color.BLACK);
+                tv_blue.setTextColor(defaultTextColor);
             }
         });
 
