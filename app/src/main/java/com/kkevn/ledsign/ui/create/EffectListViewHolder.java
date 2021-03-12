@@ -96,14 +96,14 @@ public class EffectListViewHolder extends RecyclerView.ViewHolder implements Vie
 
     @Override
     public void onItemSelected() {
-        itemView.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.colorSecondary));
-        itemView.findViewById(R.id.iv_drag).setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.colorSecondary));
+        //itemView.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.colorSecondary));
+        //itemView.findViewById(R.id.iv_drag).setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.colorSecondary));
     }
 
     @Override
     public void onItemClear() {
-        itemView.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.colorSecondaryLight));
-        itemView.findViewById(R.id.iv_drag).setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.colorSecondaryLight));
+        //itemView.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.colorSecondaryLight));
+        //itemView.findViewById(R.id.iv_drag).setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.colorSecondaryLight));
         // also set iv_drag's bg to the left side border
     }
 }
