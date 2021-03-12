@@ -1,6 +1,7 @@
 package com.kkevn.ledsign.ui.help;
 
 import android.content.Context;
+import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +69,7 @@ public class HelpExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         TextView tv_help_title = view.findViewById(R.id.tv_help_title);
+        tv_help_title.setTextColor(PreferenceManager.getDefaultSharedPreferences(context).getInt(context.getResources().getString(R.string.pref_color_key), 0));
         tv_help_title.setText((String) getGroup(i));
 
         return view;
