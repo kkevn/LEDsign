@@ -59,7 +59,8 @@ public class EffectListView extends RecyclerView.Adapter<EffectListViewHolder> i
 
         holder.iv_icon.setImageResource(getEffectIcon(effects, position));
         holder.tv_effect.setText(effects.get(position).getType());
-        holder.tv_param.setText(effects.get(position).getParam());
+        //holder.tv_param.setText(effects.get(position).getParam());
+        holder.tv_param.setText(effects.get(position).getMatrices(true));
         holder.iv_drag.setImageResource(R.drawable.baseline_drag_handle_24);
 
         holder.iv_drag.setOnTouchListener(new View.OnTouchListener() {
@@ -166,8 +167,18 @@ public class EffectListView extends RecyclerView.Adapter<EffectListViewHolder> i
     public static int getEffectIcon(Vector<Effect> v, int i) {
 
         switch (v.get(i).getType()) {
+            case Effect.COLOR_SOLID:
+                return R.drawable.ic_baseline_palette_24;
             case Effect.TEXT_SCROLL:
                 return R.drawable.baseline_text_fields_24;
+            case Effect.COLOR_RAINBOW:
+                return R.drawable.ic_baseline_waves_24;
+            case Effect.COLOR_FADE:
+                return R.drawable.ic_baseline_gradient_24;
+            case Effect.THEATER_CHASE:
+                return R.drawable.ic_baseline_theaters_24;
+            case Effect.RETRO:
+                return R.drawable.ic_baseline_videogame_asset_24;
             default:
                 return R.drawable.baseline_help_24;
         }
