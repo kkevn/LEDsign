@@ -15,6 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="horizontal"
+        android:background="?colorBackgroundFloating"
         android:padding="12dp">
 
         <LinearLayout
@@ -79,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
+            android:foreground="?attr/selectableItemBackground"
             android:clickable="true"
             android:padding="4dp">
 

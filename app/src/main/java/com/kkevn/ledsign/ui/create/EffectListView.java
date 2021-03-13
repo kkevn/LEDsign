@@ -1,6 +1,7 @@
 package com.kkevn.ledsign.ui.create;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -58,6 +59,11 @@ public class EffectListView extends RecyclerView.Adapter<EffectListViewHolder> i
         // probably not needed due to the below doing the same
 
         holder.iv_icon.setImageResource(getEffectIcon(effects, position));
+        int colors[] = effects.get(position).getColor();
+        if (colors[0] == 1)
+            holder.iv_icon.setColorFilter(Color.rgb(colors[1], colors[2], colors[3]));
+        else
+            holder.iv_icon.setBackground(context.getDrawable(R.drawable.icon_gradient));
         holder.tv_effect.setText(effects.get(position).getType());
         //holder.tv_param.setText(effects.get(position).getParam());
         holder.tv_param.setText(effects.get(position).getMatrices(true));

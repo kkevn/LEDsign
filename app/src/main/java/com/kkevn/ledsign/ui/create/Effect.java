@@ -2,6 +2,9 @@ package com.kkevn.ledsign.ui.create;
 
 import com.google.gson.annotations.Expose;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Effect {
 
     public final static transient String TEXT_SCROLL = "Scrolling Text";
@@ -53,6 +56,44 @@ public class Effect {
         return this.param;
     }
 
+    public int[] getColor() {
+        int[] colors = new int[4];
+
+        // check if current effect has any RGB values using regex
+        if (param.matches(".*(;[0-9]{1,3}){3}[;}].*")) {
+            //String extractedInputs = param.substring(param.indexOf(';') + 1, param.length() - 1);
+            //String extractedInputs = param.split("(;[0-9]{1,3}){3}[;}]", 1)[1];
+
+            // extract the section of the effect parameters containing RGB values using regex
+            String extractedInputs = "";
+            Pattern p = Pattern.compile("(;[0-9]{1,3}){3}[;}]");
+            Matcher m = p.matcher(param);
+            if (m.find())
+                extractedInputs = m.group(0);
+
+            // mark colors array as having RGB
+            colors[0] = 1;
+
+            // initialize variables
+            String val = "";
+            int pos = 1;
+
+            // parse the RGB integers into the colors array
+            for (int i = 1; i < extractedInputs.length(); i++) {
+                char curr = extractedInputs.charAt(i);
+                if (curr != ';') {
+                    val += curr;
+                } else {
+                    colors[pos++] = Integer.parseInt(val);
+                    val = "";
+                }
+                if (pos > 3)
+                    break;
+            }
+        }
+        return colors;
+    }
+
     public String getMatrices(boolean asText) {
 
         String[] matrices = {"Front", "Right", "Back", "Left", "Top"};
@@ -64,7 +105,7 @@ public class Effect {
 
             for (int i = 0; i < sides.length(); i++) {
                 if (sides.charAt(i) == '1') {
-                    sidesAsText += (matrices[i] + " - ");
+                    sidesAsText += (matrices[i] + " + ");
                 }
             }
             return "[ " + sidesAsText.substring(0, sidesAsText.length() - 3) + " ]";
