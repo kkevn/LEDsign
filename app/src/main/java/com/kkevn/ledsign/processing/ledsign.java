@@ -7,6 +7,7 @@
 package com.kkevn.ledsign.processing;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.v7.preference.PreferenceManager;
 
 import com.kkevn.ledsign.R;
@@ -61,6 +62,7 @@ public class ledsign extends PApplet {
 
     LinkedMatrixContainer[] containers;
 
+    Color accentColor;
     HUDElement[] hud;
     boolean auto_rotate = false;
 
@@ -114,10 +116,10 @@ public class ledsign extends PApplet {
         //containers = (LinkedMatrixContainer[]) append(containers, new LinkedMatrixEffect_TextScroll("10001", "hello there;50;50;50"));
 
         hud = new HUDElement[4];
-        hud[0] = new HUDButton(width / 20, height / 12, "Reset");
-        hud[1] = new HUDButton(width / 20, height / 10 * 8, "  < ");
+        hud[0] = new HUDButton(width / 32, height / 24, "  R  ");
+        hud[1] = new HUDButton(width / 32, height / 10 * 8, "  < ");
         hud[2] = new HUDButton(width / 10 * 9, height / 10 * 8, "  > ");
-        hud[3] = new HUDToggleButton(width / 10 * 9, height / 12, "Auto");
+        hud[3] = new HUDToggleButton(width / 10 * 9, height / 24, "  A  ");
         //hud[4] = new HUDButton(int(width / 10 * 8.5), height / 10 * 8, "^");
         //hud[5] = new HUDButton(int(width / 10 * 8.5), height / 10 * 9, "v");
 
@@ -183,6 +185,7 @@ public class ledsign extends PApplet {
         // get references to all relevant preference keys
         String SENSITIVITY_KEY = getContext().getResources().getString(R.string.pref_sensitivity_key);
         String AUTO_ROTATE_KEY = getContext().getResources().getString(R.string.pref_auto_rotate_key);
+        String COLOR_KEY = getContext().getResources().getString(R.string.pref_color_key);
         String HUD_KEY = getContext().getResources().getString(R.string.pref_hud_key);
 
         // create the SharedPreferences object to get preferences from
@@ -197,9 +200,17 @@ public class ledsign extends PApplet {
             auto_rotate = true;
         }
 
-        // "reset" hide selections by revealing all HUD elements
+        // get the accent color found in the settings
+        int color = sharedPreferences.getInt(COLOR_KEY, 0);
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
+        accentColor = Color.valueOf(r, g, b);
+
+        // "reset" hide selections by revealing all HUD elements and apply accent color to them
         for (HUDElement e : hud) {
             e.setHidden(false);
+            e.setColor(r, g, b);
         }
 
         // for each selection in Settings, hide the specified selections
@@ -1721,7 +1732,7 @@ lm5 -> {}
 
     class HUDElement {
 
-        int x, y, id;
+        int x, y, id, r, g, b;
         boolean hide;
 
         /**
@@ -1733,6 +1744,8 @@ lm5 -> {}
         HUDElement(int x, int y) {
             this.x = x;
             this.y = y;
+
+            this.r = this.g = this.b = 200;
 
             this.id = element_count++;
 
@@ -1778,6 +1791,19 @@ lm5 -> {}
         }
 
         /**
+         * Updates the hide status of this element.
+         *
+         * @param {int} New red RGB value for this element.
+         * @param {int} New green RGB value for this element.
+         * @param {int} New blue RGB value for this element.
+         */
+        void setColor(int r, int g, int b) {
+            this.r = r;
+            this.g = g;
+            this.b = b;
+        }
+
+        /**
          * Detects whether or not the mouse pointer is currently hovering
          * over the coordinate of this element.
          *
@@ -1796,7 +1822,7 @@ lm5 -> {}
 
     class HUDButton extends HUDElement {
 
-        int w, d = 64, r = 100, g = 100, b = 200;
+        int w, d = 128;//, r = 100, g = 100, b = 200;
         String text;
 
         /**
@@ -1824,15 +1850,19 @@ lm5 -> {}
          */
         @Override
         void display() {
-            if (this.isHovered())
-                this.b = 100;
-            else
-                this.b = 200;
+            if (this.isHovered()) {
+                this.r = this.g = this.b = 64;
+            }
+            else {
+                this.r = (int) accentColor.red();
+                this.g = (int) accentColor.green();
+                this.b = (int) accentColor.blue();
+            }
             fill(this.r, this.g, this.b);
-            rect(this.x, this.y, this.w, this.d);
+            rect(this.x, this.y, this.w, this.d, 24);
             fill(200);
-            textSize(36);
-            text(this.text, this.x + 1, (float) (this.y + this.d / 1.5));
+            textSize(128);
+            text(this.text, (float) (this.x - this.d / 2.75), (float) (this.y + this.d / 1.15));
         }
 
         /**
@@ -1855,7 +1885,7 @@ lm5 -> {}
 
     class HUDToggleButton extends HUDButton {
 
-        int w, d = 64, r = 100, g = 100, b = 200;
+        int w, d = 128;//, r = 100, g = 100, b = 200;
         boolean isToggled = false;
 
         /**
@@ -1884,21 +1914,18 @@ lm5 -> {}
         @Override
         void display() {
             if (!isToggled) {
-                if (this.isHovered())
-                    this.b = 150;
-                else
-                    this.b = 200;
+                this.r = this.g = this.b = 64;
             } else {
-                if (this.isHovered())
-                    this.b = 150;
-                else
-                    this.b = 100;
+                this.r = (int) accentColor.red();
+                this.g = (int) accentColor.green();
+                this.b = (int) accentColor.blue();
             }
             fill(this.r, this.g, this.b);
-            rect(this.x, this.y, this.w, this.d);
+            rect(this.x, this.y, this.w, this.d, 24);
             fill(200);
-            textSize(36);
-            text(this.text, this.x + 1, (float) (this.y + this.d / 1.5));
+            textSize(128);
+            //text(this.text, this.x + 1, (float) (this.y + this.d / 1.5));
+            text(this.text, (float) (this.x - this.d / 2.75), (float) (this.y + this.d / 1.15));
         }
 
         /**
