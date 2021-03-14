@@ -294,12 +294,12 @@
         <item>• Tap the 3 dots in the toolbar|• Select \'Reset Profile\' from menu|• Tap the \'Reset Signal\' button</item>
     </string-array>
 
-    <!-- Bluetooth help steps -->
+    <!-- 3D Preview help steps -->
     <string-array name="help_steps_3d">
         <item>• Press and hold anywhere in the 3D preview |• Swipe in desired direction to rotate|• Let go to confirm rotation</item>
         <item>• Tap the left arrow button to rotate once left|• Tap the right arrow button to rotate once right</item>
-        <item>• Tap the \'Auto\' button to toggle auto-rotation|• Tap it once more to disable auto-rotation</item>
-        <item>• Tap the \'Recenter\' button to reorient the preview</item>
+        <item>• Tap the button labeled \'A\' to toggle auto-rotation|• Tap it once more to disable auto-rotation</item>
+        <item>• Tap the button labeled \'R\' to reorient the preview</item>
     </string-array>
 
 </resources>
