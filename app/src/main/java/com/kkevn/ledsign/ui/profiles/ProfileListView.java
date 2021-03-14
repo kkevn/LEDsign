@@ -1,6 +1,8 @@
 package com.kkevn.ledsign.ui.profiles;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 // https://github.com/chthai64/SwipeRevealLayout
 
@@ -57,7 +60,13 @@ public class ProfileListView extends RecyclerView.Adapter<ProfileListViewHolder>
         viewBinderHelper.bind(holder.swipeRevealLayout, String.valueOf(profiles.get(position).getName()));
         viewBinderHelper.closeLayout(id);
 
-        holder.tv_count.setText((position + 1) + ".");
+        holder.tv_count.setText((position + 1) + "");
+        Random r = new Random();
+        int color = Color.argb(0x77, r.nextInt(256), r.nextInt(256), r.nextInt(256));
+        GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[] {color, color});
+        gd.setGradientType(GradientDrawable.SWEEP_GRADIENT);
+        gd.setCornerRadius(128f);
+        holder.tv_count.setBackground(gd);
         holder.tv_profile.setText(profiles.get(position).getName().replace(".json", ""));
         holder.tv_date.setText(getLastDateModified(position));
 
@@ -159,7 +168,8 @@ public class ProfileListView extends RecyclerView.Adapter<ProfileListViewHolder>
 
     /**/
     private String getLastDateModified(int pos) {
-        return new SimpleDateFormat("MM/dd/yyyy - HH:mm:ss").format(new Date(profiles.get(pos).lastModified()));
+        //return new SimpleDateFormat("E, MM/dd/yyyy, hh:mm:ss a").format(new Date(profiles.get(pos).lastModified()));
+        return new SimpleDateFormat("EEEE, MMMM dd, yyyy, hh:mm:ss a").format(new Date(profiles.get(pos).lastModified()));
     }
 
     /**/
