@@ -51,9 +51,9 @@ public class ScrollingTextFragment extends Fragment {
         cancel_submit.findViewById(R.id.b_submit).setBackgroundTintList(ColorStateList.valueOf(preferenceAccentColor));
 
         // apply help dialogs to help buttons
-        matrix_select.findViewById(R.id.ib_help).setOnClickListener(e -> cl.onHelpClick(getString(R.string.dialog_help_matrix_select)));
-        text_scroll.findViewById(R.id.ib_help).setOnClickListener(e -> cl.onHelpClick(getString(R.string.dialog_help_edit_text)));
-        color_picker.findViewById(R.id.ib_help).setOnClickListener(e -> cl.onHelpClick(getString(R.string.dialog_help_color_picker)));
+        matrix_select.findViewById(R.id.info_help).findViewById(R.id.ib_help).setOnClickListener(e -> cl.onHelpClick(getString(R.string.dialog_help_matrix_select)));
+        text_scroll.findViewById(R.id.info_help).findViewById(R.id.ib_help).setOnClickListener(e -> cl.onHelpClick(getString(R.string.dialog_help_edit_text)));
+        color_picker.findViewById(R.id.info_help).findViewById(R.id.ib_help).setOnClickListener(e -> cl.onHelpClick(getString(R.string.dialog_help_color_picker)));
 
         // find check boxes
         cb_front = matrix_select.findViewById(R.id.cb_matrix_front);

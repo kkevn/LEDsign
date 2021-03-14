@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginVertical="4dp">
+    android:layout_marginVertical="4dp"
+    android:paddingStart="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,15 +19,9 @@
             android:textSize="24dp"
             android:textStyle="bold" />
 
-        <ImageButton
-            android:id="@+id/ib_help"
-            android:background="@drawable/baseline_help_24"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:scaleX="0.75"
-            android:scaleY="0.75"
-            android:layout_margin="4dp" />
+        <include
+            android:id="@+id/info_help"
+            layout="@layout/configurator_help" />
 
     </LinearLayout>
 

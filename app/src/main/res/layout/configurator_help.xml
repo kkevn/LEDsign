@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageButton
+        android:id="@+id/ib_help"
+        android:background="@drawable/baseline_help_24"
+        android:backgroundTint="?colorAccent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:scaleX="0.75"
+        android:scaleY="0.75"
+        android:layout_margin="4dp" />
+
+</LinearLayout>
