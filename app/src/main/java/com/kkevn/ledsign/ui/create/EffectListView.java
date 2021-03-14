@@ -2,6 +2,7 @@ package com.kkevn.ledsign.ui.create;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -60,10 +61,20 @@ public class EffectListView extends RecyclerView.Adapter<EffectListViewHolder> i
 
         holder.iv_icon.setImageResource(getEffectIcon(effects, position));
         int colors[] = effects.get(position).getColor();
-        if (colors[0] == 1)
-            holder.iv_icon.setColorFilter(Color.rgb(colors[1], colors[2], colors[3]));
-        else
-            holder.iv_icon.setBackground(context.getDrawable(R.drawable.icon_gradient));
+        if (colors[0] == 1) {
+            //holder.iv_icon.setColorFilter(Color.rgb(colors[1], colors[2], colors[3]));
+            int color = Color.rgb(colors[1], colors[2], colors[3]);
+            GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[] {color, color});
+            gd.setGradientType(GradientDrawable.SWEEP_GRADIENT);
+            gd.setCornerRadius(48f);
+            holder.iv_icon.setBackground(gd);
+        }
+        else {
+            //holder.iv_icon.setBackground(context.getDrawable(R.drawable.icon_gradient));
+            GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TL_BR, new int[] {0x77ff0000, 0x4400ff00, 0x770000ff});
+            gd.setCornerRadius(48f);
+            holder.iv_icon.setBackground(gd);
+        }
         holder.tv_effect.setText(effects.get(position).getType());
         //holder.tv_param.setText(effects.get(position).getParam());
         holder.tv_param.setText(effects.get(position).getMatrices(true));
