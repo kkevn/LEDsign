@@ -23,6 +23,9 @@ public class ledsign extends PApplet {
     public final static String TEXT_SCROLL = "Scrolling Text";
     public final static String COLOR_SOLID = "Solid Color";
     public final static String COLOR_RAINBOW = "Rainbow Wave";
+    public final static String COLOR_FADE = "Fade";
+
+    String parsedEffects = ",", previousEffects = ",";
 
     PImage grid;
     PShape globe;
@@ -66,6 +69,8 @@ public class ledsign extends PApplet {
     boolean auto_rotate = false;
 
     boolean b_solid = true;
+
+    int fadeR = 255, fadeG = 0, fadeB = 0;
 
     boolean b_crawl = false;
     int x_crawl = 0;
@@ -326,12 +331,13 @@ public class ledsign extends PApplet {
         textScroll(lm1, ("test "), 200, 200, 200);
       }*/
 
-            String parsedEffects = CreateFragment.parseList();
+            previousEffects = parsedEffects;
+            parsedEffects = CreateFragment.parseList();
 
             parseEffectList(parsedEffects);
             //parseEffectList("Scrolling Text{11000;my name is kev;200;200;200},Solid Color{10001;200;200;0},"); good one
             //parseEffectList("Solid Color{10001;200;200;0},Scrolling Text{11000;my name is kev;200;200;200},");
-            //parseEffectList("Scrolling Text{11000;my name;200;200;200},");
+            //parseEffectList("Scrolling Text{11000;my name;200;200;200},Fade{11111;17},");
 
             // build container array first by parsing Android inputs
             // DONT check for dupes before adding new container
@@ -339,6 +345,15 @@ public class ledsign extends PApplet {
             //for (Matrix m : matrices) {
             //    m.clear();
             //}
+
+            // if changes made
+            if (!previousEffects.equals(parsedEffects)) {
+                //println("change made!");
+                //clearCube();
+                //for (Matrix m : matrices) {
+                //    m.clear();
+                //}
+            }
 
             // clear effects if none to render
             if (parsedEffects == ",") {
@@ -366,6 +381,9 @@ public class ledsign extends PApplet {
                         break;
                     case COLOR_RAINBOW:
                         rainbow(container.linked_matrix, 4); // was 3
+                        break;
+                    case COLOR_FADE:
+                        fade(container.linked_matrix, Integer.parseInt(params[0]));
                         break;
                     case TEXT_SCROLL:
                         textScroll(container.linked_matrix, params[0] + " ", Integer.parseInt(params[1]), Integer.parseInt(params[2]), Integer.parseInt(params[3]));
@@ -563,6 +581,9 @@ public class ledsign extends PApplet {
                 case COLOR_RAINBOW:
                     //containers = (LinkedMatrixContainer[]) append(containers, new LinkedMatrixEffect_Rainbow(selections, params));
                     containers[i] = new LinkedMatrixContainer(selections, COLOR_RAINBOW, params);
+                    break;
+                case COLOR_FADE:
+                    containers[i] = new LinkedMatrixContainer(selections, COLOR_FADE, params);
                     break;
                 case TEXT_SCROLL:
                     //containers = (LinkedMatrixContainer[]) append(containers, new LinkedMatrixEffect_TextScroll(selections, params));
@@ -894,6 +915,34 @@ lm5 -> {}
         }
 
         //print("x: " + x_crawl + "\n" + "y: " + y_crawl + "\n\n");
+    }
+
+    /**
+     * Fade the matrix across the RGB color spectrum.
+     *
+     * @param {MatrixTemplate} matrix: Matrix object to animate.
+     */
+    public void fade(MatrixTemplate matrix, int speed) {
+
+        if (fadeR == 255 && fadeG != 255 && fadeB == 0) {
+            fadeG += speed;
+        } else if (fadeR != 0 && fadeG == 255 && fadeB == 0) {
+            fadeR -= speed;
+        } else if (fadeR == 0 && fadeG == 255 && fadeB != 255) {
+            fadeB += speed;
+        } else if (fadeR == 0 && fadeG != 0 && fadeB == 255) {
+            fadeG -= speed;
+        } else if (fadeR != 255 && fadeG == 0 && fadeB == 255) {
+            fadeR += speed;
+        } else if (fadeR == 255 && fadeG == 0 && fadeB != 0) {
+            fadeB -= speed;
+        }
+
+        for (int i = 0; i < matrix.getLEDCount(); i++) {
+            if (matrix.getPriorityAt(i) == 0)// added
+                matrix.setLEDAtIndex(i, fadeR, fadeG, fadeB, 0);
+            //matrix.setLEDAtIndex(i, r, g, b, pos);
+        }
     }
 
     /**
