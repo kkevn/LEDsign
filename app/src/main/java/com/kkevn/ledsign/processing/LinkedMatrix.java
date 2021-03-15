@@ -229,6 +229,16 @@ class LinkedMatrix extends MatrixTemplate {
     }
 
     /**
+     * Clears all of the LEDs in each matrix.
+     */
+    public @Override
+    void clear() {
+        for (int i = 0; i < this.linkedmatrix.length; i++) {
+            this.linkedmatrix[i].clear();
+        }
+    }
+
+    /**
      * Scrolls the contents of this matrix to the left by the
      * specified amount of columns.
      *
@@ -302,6 +312,7 @@ class LinkedMatrix extends MatrixTemplate {
         for (int i = 0; i < this.rowSize; i++) {
             if (letter.charAt((i * this.rowSize) + column) == '1')
                 this.setLEDAtCoord(cols - 2, i, r, g, b, 1);
+                //this.setLEDAtCoord(cols - 2, i, r, g, b, pos);
             //else // added
             //this.getLEDAt(cols - 2, i).setPriority(0);
         }

@@ -82,6 +82,15 @@ class LinkedMatrixContainer {
     }
 
     /**
+     * Returns the Matrix selections applied to this linked matrix.
+     *
+     * @return {String} Matrices applied to this object.
+     */
+    public String getSelections() {
+        return this.selections;
+    }
+
+    /**
      * Returns the type of effect applied to this linked matrix.
      *
      * @return {String} Effect applied to this object.

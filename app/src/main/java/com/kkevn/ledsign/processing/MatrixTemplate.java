@@ -138,6 +138,13 @@ class MatrixTemplate {
     }
 
     /**
+     * Clears all of the LEDs in each matrix.
+     */
+    public void clear() {
+
+    }
+
+    /**
      * Scrolls the contents of this matrix to the left by the
      * specified amount of columns.
      *

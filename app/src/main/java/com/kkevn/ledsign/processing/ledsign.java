@@ -51,7 +51,6 @@ public class ledsign extends PApplet {
 
     int lastPrint;
 
-
     boolean disable = false;
 
     Matrix m0, m1, m2, m3, m4;
@@ -293,8 +292,8 @@ public class ledsign extends PApplet {
         //yr2 += sensitivity / 2;
         //rotateY(degrees(yr2));
         //rotateX(degrees(xr2 + 15f));
-
         drawCube();
+
 
         if (timeElapsed > DELAY) {
 
@@ -327,13 +326,24 @@ public class ledsign extends PApplet {
         textScroll(lm1, ("test "), 200, 200, 200);
       }*/
 
-            parseEffectList(CreateFragment.parseList());
+            String parsedEffects = CreateFragment.parseList();
+
+            parseEffectList(parsedEffects);
             //parseEffectList("Scrolling Text{11000;my name is kev;200;200;200},Solid Color{10001;200;200;0},"); good one
             //parseEffectList("Solid Color{10001;200;200;0},Scrolling Text{11000;my name is kev;200;200;200},");
             //parseEffectList("Scrolling Text{11000;my name;200;200;200},");
 
             // build container array first by parsing Android inputs
             // DONT check for dupes before adding new container
+
+            //for (Matrix m : matrices) {
+            //    m.clear();
+            //}
+
+            // clear effects if none to render
+            if (parsedEffects == ",") {
+                clearCube();
+            }
 
             // TODO
             for (LinkedMatrixContainer container : containers) {
@@ -355,14 +365,13 @@ public class ledsign extends PApplet {
                         }
                         break;
                     case COLOR_RAINBOW:
-                        rainbow(container.linked_matrix, 3);
+                        rainbow(container.linked_matrix, 4); // was 3
                         break;
                     case TEXT_SCROLL:
                         textScroll(container.linked_matrix, params[0] + " ", Integer.parseInt(params[1]), Integer.parseInt(params[2]), Integer.parseInt(params[3]));
                         break;
                 }
             }
-
             lastPrint = millis();
         }
     }
@@ -378,6 +387,37 @@ public class ledsign extends PApplet {
                 e.display();
         }
         hint(ENABLE_DEPTH_TEST);
+    }
+
+    void clearCube() {
+        // 10101
+        //int m0, m1 = 0, m2, m3, m4;
+        int[] xyz = {0, 0, 0, 0, 0};
+        for (LinkedMatrixContainer lmc : containers) {
+            String x = lmc.getSelections();
+
+            for (int i = 0; i < x.length(); i++) {
+                if (x.charAt(i) == '1') {
+                    xyz[i]++;
+                }
+            }
+        }
+
+        if (xyz[0] == 0) {
+            m0.clear();
+        }
+        if (xyz[1] == 0) {
+            m1.clear();
+        }
+        if (xyz[2] == 0) {
+            m2.clear();
+        }
+        if (xyz[3] == 0) {
+            m3.clear();
+        }
+        if (xyz[4] == 0) {
+            m4.clear();
+        }
     }
 
     /**
@@ -593,7 +633,7 @@ lm5 -> {}
             do_lerp = true;
             yr_adjuster = xr_adjuster = 0f;
         }
-        // rotate leftwars pressed
+        // rotate leftwards pressed
         else if (hud[1].isHovered()) {
             println("==> Rotating Left");
             last_click_id = hud[1].getID();
@@ -801,6 +841,7 @@ lm5 -> {}
         for (int i = 0; i < matrix.getLEDCount(); i++) {
             if (matrix.getPriorityAt(i) == 0)// added
                 matrix.setLEDAtIndex(i, r, g, b, 0);
+                //matrix.setLEDAtIndex(i, r, g, b, pos);
         }
     }
 
@@ -1352,6 +1393,15 @@ lm5 -> {}
 
             this.state = 0;
         }
+
+        /**
+         * Clears this LED by setting its RGB value to a dark gray.
+         */
+        public void clear() {
+            this.r = LED_DISABLED_RGB_VALUE;
+            this.g = LED_DISABLED_RGB_VALUE;
+            this.b = LED_DISABLED_RGB_VALUE;
+        }
     }
 
     /**
@@ -1601,6 +1651,16 @@ lm5 -> {}
         }
 
         /**
+         * Clears all of the LEDs on this matrix.
+         */
+        public @Override
+        void clear() {
+            for (int i = 0; i < MATRIX_LEDS; i++) {
+                this.matrix[i].clear();
+            }
+        }
+
+        /**
          * Scrolls the contents of this matrix to the left by the
          * specified amount of columns.
          *
@@ -1640,6 +1700,7 @@ lm5 -> {}
             for (int i = 0; i < MATRIX_ROWS; i++) {
                 if (letter.charAt((i * MATRIX_COLS) + column) == '1')
                     this.setLEDAtCoord(MATRIX_COLS - 2, i, r, g, b, 1);
+                    //this.setLEDAtCoord(MATRIX_COLS - 2, i, r, g, b, pos);
             }
             /*for (var i = 0; i < MATRIX_LEDS; i++) {
               if (letter.charAt(i) == '1')
