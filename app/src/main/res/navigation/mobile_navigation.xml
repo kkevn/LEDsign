@@ -64,8 +64,8 @@
 
     <fragment
         android:id="@+id/nav_config_fade_color"
-        android:name="com.kkevn.ledsign.ui.configurators.FadeColorFragment"
+        android:name="com.kkevn.ledsign.ui.configurators.WaveColorFragment"
         android:label="@string/menu_configure_fade_color"
-        tools:layout="@layout/fragment_configure_fade_color" />
+        tools:layout="@layout/fragment_configure_wave_color" />
 
 </navigation>

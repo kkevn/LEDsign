@@ -22,7 +22,7 @@ import com.kkevn.ledsign.ui.create.Effect;
 import java.util.Arrays;
 import java.util.List;
 
-public class FadeColorFragment extends Fragment{
+public class WaveColorFragment extends Fragment{
 
     private View matrix_select, color_picker, cancel_submit;
 
@@ -36,7 +36,7 @@ public class FadeColorFragment extends Fragment{
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_configure_fade_color, container, false);
+        View root = inflater.inflate(R.layout.fragment_configure_wave_color, container, false);
 
         ConfiguratorListeners cl = new ConfiguratorListeners(getContext(), getFragmentManager());
 
