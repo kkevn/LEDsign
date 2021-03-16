@@ -281,6 +281,9 @@ public class MainActivity extends AppCompatActivity {
                 navController.navigate(R.id.nav_config_solid_color);
                 break;
             case Effect.COLOR_RAINBOW:
+                navController.navigate(R.id.nav_config_wave_color);
+                break;
+            case Effect.COLOR_FADE:
                 navController.navigate(R.id.nav_config_fade_color);
                 break;
             default:
@@ -303,6 +306,9 @@ public class MainActivity extends AppCompatActivity {
                 navController.navigate(R.id.nav_config_solid_color, args);
                 break;
             case Effect.COLOR_RAINBOW:
+                navController.navigate(R.id.nav_config_wave_color, args);
+                break;
+            case Effect.COLOR_FADE:
                 navController.navigate(R.id.nav_config_fade_color, args);
                 break;
             default:
