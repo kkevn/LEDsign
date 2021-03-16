@@ -20,13 +20,6 @@
 
         <View style="@style/Divider"/>
 
-        <include
-            android:id="@+id/color_picker"
-            layout="@layout/configurator_color_picker"
-            android:layout_height="0dp"
-            android:layout_width="wrap_content"
-            android:layout_weight="0.5"/>
-
     </LinearLayout>
 
     <include
