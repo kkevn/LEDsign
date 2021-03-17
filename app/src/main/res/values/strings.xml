@@ -170,6 +170,9 @@
     <string name="dialog_help_info">Help</string>
     <string name="dialog_ok">OK</string>
 
+
+    <string name="message_no_profiles">No profiles have been saved yet.</string>
+
     <!-- tips for help info dialog fragment -->
     <string name="dialog_help_matrix_select">Sets this effect to apply to only the selected sides.
         \n\nEffects can be applied to any combination of at least one side of the cube. The sides

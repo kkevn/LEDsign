@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kkevn.ledsign.R;
@@ -25,11 +26,18 @@ public class ProfilesFragment extends Fragment implements ProfileListView.ItemCl
 
     private ArrayList<File> profiles_list;
 
+    private static TextView tv_empty;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_load_profile, container, false);
 
         // fetch list of saved profile files
         profiles_list = getSavedProfiles();
+
+        tv_empty = root.findViewById(R.id.tv_empty);
+
+        // reveal message if no profiles exist
+        ProfilesFragment.showEmptyMessage(profiles_list.isEmpty());
 
         RecyclerView rv = root.findViewById(R.id.lv_list);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -44,6 +52,10 @@ public class ProfilesFragment extends Fragment implements ProfileListView.ItemCl
     @Override
     public void onItemClick(View view, int position) {
         Toast.makeText(getContext(), "You clicked " + adapter.getItem(position).getName() + " on row number " + position, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void showEmptyMessage(boolean isEmpty) {
+        tv_empty.setVisibility(isEmpty ? View.VISIBLE : View.INVISIBLE);
     }
 
     /**/

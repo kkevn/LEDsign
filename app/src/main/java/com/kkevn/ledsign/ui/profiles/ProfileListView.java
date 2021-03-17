@@ -164,6 +164,9 @@ public class ProfileListView extends RecyclerView.Adapter<ProfileListViewHolder>
         notifyItemRemoved(i);
 
         // add undo?
+
+        // reveal message if no profiles exist
+        ProfilesFragment.showEmptyMessage(profiles.isEmpty());
     }
 
     /**/
