@@ -147,6 +147,14 @@ public class MainActivity extends AppCompatActivity {
         // get a reference to the app's shared preferences
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        // set default accent color on first run of app
+        String COLOR_KEY = getResources().getString(R.string.pref_color_key);
+        if (sharedPreferences.getInt(COLOR_KEY, 0) == 0) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt(COLOR_KEY, getResources().getIntArray(R.array.accents)[7]);
+            editor.commit();
+        }
+
         //NavigationView navigationView = findViewById(R.id.nav_view);
 
         // apply the app theme based on current preference selection for the theme

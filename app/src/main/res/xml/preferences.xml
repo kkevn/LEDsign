@@ -32,7 +32,7 @@
             android:key="@string/pref_color_key"
             android:title="@string/pref_color_title"
             android:summary="@string/pref_color_summary"
-            android:widgetLayout="@layout/widget_preference_accent_color"/>
+            android:widgetLayout="@layout/widget_preference_accent_color" />
 
     </PreferenceCategory>
 
