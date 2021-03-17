@@ -644,6 +644,8 @@ public class MainActivity extends AppCompatActivity {
         toolbar_menu = menu;
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.options, menu);
+
+
         return true;
     }
 
@@ -651,6 +653,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         // customize menu so that it can be icon or in menu, tap on title to edit prof
+
+        // enable or disable save button and 3-dot options menu
+        for (int i = 0; i < toolbar_menu.size(); i++) {
+            toolbar_menu.getItem(i).setVisible(showOptions);
+        }
 
         //toolbar_menu.findItem(R.id.menu_prof_upload).setEnabled(false);
         return super.onPrepareOptionsMenu(menu);
