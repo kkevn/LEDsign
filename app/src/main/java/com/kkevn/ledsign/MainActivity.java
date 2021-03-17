@@ -126,9 +126,9 @@ public class MainActivity extends AppCompatActivity {
 
         // get the possible accent color choices and their respective styles
         int[] accents = getResources().getIntArray(R.array.accents);
-        int[] accent_styles = {R.style.SelectableAccentColorRed, R.style.SelectableAccentColorGreen, R.style.SelectableAccentColorBlue,
-            R.style.SelectableAccentColorYellow, R.style.SelectableAccentColorOrange, R.style.SelectableAccentColorPurple,
-            R.style.SelectableAccentColorPink, R.style.SelectableAccentColorIndigo, R.style.SelectableAccentColorLime};
+        int[] accent_styles = {R.style.SelectableAccentColorRed, R.style.SelectableAccentColorGreen, R.style.SelectableAccentColorBlue, R.style.SelectableAccentColorPurple, R.style.SelectableAccentColorGray,
+                R.style.SelectableAccentColorRed2, R.style.SelectableAccentColorGreen2, R.style.SelectableAccentColorBlue2, R.style.SelectableAccentColorPurple2, R.style.SelectableAccentColorGray2,
+                R.style.SelectableAccentColorRed3, R.style.SelectableAccentColorGreen3, R.style.SelectableAccentColorBlue3, R.style.SelectableAccentColorPurple3, R.style.SelectableAccentColorGray3};
 
         // apply the color accent style that matches the color found in Preferences
         for (int i = 0; i < accents.length; i++) {

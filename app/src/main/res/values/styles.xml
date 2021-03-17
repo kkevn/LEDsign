@@ -59,35 +59,59 @@
     <style name="SelectableAccentColorBlue">
         <item name="colorAccent">@color/colorBlue</item>
     </style>
-    <style name="SelectableAccentColorYellow">
-        <item name="colorAccent">@color/colorYellow</item>
-    </style>
-    <style name="SelectableAccentColorOrange">
-        <item name="colorAccent">@color/colorOrange</item>
-    </style>
     <style name="SelectableAccentColorPurple">
         <item name="colorAccent">@color/colorPurple</item>
     </style>
-    <style name="SelectableAccentColorPink">
-        <item name="colorAccent">@color/colorPink</item>
+    <style name="SelectableAccentColorGray">
+        <item name="colorAccent">@color/colorGray</item>
     </style>
-    <style name="SelectableAccentColorIndigo">
-        <item name="colorAccent">@color/colorIndigo</item>
+    <style name="SelectableAccentColorRed2">
+        <item name="colorAccent">@color/colorRed2</item>
     </style>
-    <style name="SelectableAccentColorLime">
-        <item name="colorAccent">@color/colorLime</item>
+    <style name="SelectableAccentColorGreen2">
+        <item name="colorAccent">@color/colorGreen2</item>
+    </style>
+    <style name="SelectableAccentColorBlue2">
+        <item name="colorAccent">@color/colorBlue2</item>
+    </style>
+    <style name="SelectableAccentColorPurple2">
+        <item name="colorAccent">@color/colorPurple2</item>
+    </style>
+    <style name="SelectableAccentColorGray2">
+        <item name="colorAccent">@color/colorGray2</item>
+    </style>
+    <style name="SelectableAccentColorRed3">
+        <item name="colorAccent">@color/colorRed3</item>
+    </style>
+    <style name="SelectableAccentColorBlue3">
+        <item name="colorAccent">@color/colorBlue3</item>
+    </style>
+    <style name="SelectableAccentColorGreen3">
+        <item name="colorAccent">@color/colorGreen3</item>
+    </style>
+    <style name="SelectableAccentColorPurple3">
+        <item name="colorAccent">@color/colorPurple3</item>
+    </style>
+    <style name="SelectableAccentColorGray3">
+        <item name="colorAccent">@color/colorGray3</item>
     </style>
 
     <array name="accents_styles">
         <item>@style/SelectableAccentColorRed</item>
         <item>@style/SelectableAccentColorGreen</item>
         <item>@style/SelectableAccentColorBlue</item>
-        <item>@style/SelectableAccentColorYellow</item>
-        <item>@style/SelectableAccentColorOrange</item>
         <item>@style/SelectableAccentColorPurple</item>
-        <item>@style/SelectableAccentColorPink</item>
-        <item>@style/SelectableAccentColorRed</item>
-        <item>@style/SelectableAccentColorRed</item>
+        <item>@style/SelectableAccentColorGray</item>
+        <item>@style/SelectableAccentColorRed2</item>
+        <item>@style/SelectableAccentColorGreen2</item>
+        <item>@style/SelectableAccentColorBlue2</item>
+        <item>@style/SelectableAccentColorPurple2</item>
+        <item>@style/SelectableAccentColorGray2</item>
+        <item>@style/SelectableAccentColorRed3</item>
+        <item>@style/SelectableAccentColorGreen3</item>
+        <item>@style/SelectableAccentColorBlue3</item>
+        <item>@style/SelectableAccentColorPurple3</item>
+        <item>@style/SelectableAccentColorGray3</item>
     </array>
 
     <style name="WindowAnimationTransition">

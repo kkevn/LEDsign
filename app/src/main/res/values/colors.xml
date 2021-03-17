@@ -26,29 +26,43 @@
     <color name="colorDisconnected">#ff3232</color>
     <color name="colorConnected">#69ff69</color>
 
-    <color name="colorRemove">#eb3434</color>
+    <color name="colorRemove">#ff1744</color>
     <color name="colorDuplicate">#3483eb</color>
     <color name="colorEdit">#eb8f34</color>
 
-    <color name="colorRed">#d50000</color>
-    <color name="colorGreen">#00c853</color>
-    <color name="colorBlue">#0091ea</color>
-    <color name="colorYellow">#ffd600</color>
-    <color name="colorOrange">#ff6d00</color>
-    <color name="colorPurple">#aa00ff</color>
-    <color name="colorPink">#ff8a80</color>
-    <color name="colorIndigo">#2962ff</color>
-    <color name="colorLime">#aeea00</color>
+    <color name="colorRed">#fc0003</color>
+    <color name="colorGreen">#aeea00</color>
+    <color name="colorBlue">#00b8d4</color>
+    <color name="colorPurple">#6200ea</color>
+    <color name="colorGray">#101010</color>
+
+    <color name="colorRed2">#ff6d00</color>
+    <color name="colorGreen2">#64dd17</color>
+    <color name="colorBlue2">#0091ea</color>
+    <color name="colorPurple2">#aa00ff</color>
+    <color name="colorGray2">#aaaaaa</color>
+
+    <color name="colorRed3">#ffab00</color>
+    <color name="colorGreen3">#00c853</color>
+    <color name="colorBlue3">#2962ff</color>
+    <color name="colorPurple3">#d500f9</color>
+    <color name="colorGray3">#f0f0f0</color>
 
     <array name="accents">
         <item>@color/colorRed</item>
         <item>@color/colorGreen</item>
         <item>@color/colorBlue</item>
-        <item>@color/colorYellow</item>
-        <item>@color/colorOrange</item>
         <item>@color/colorPurple</item>
-        <item>@color/colorPink</item>
-        <item>@color/colorIndigo</item>
-        <item>@color/colorLime</item>
+        <item>@color/colorGray</item>
+        <item>@color/colorRed2</item>
+        <item>@color/colorGreen2</item>
+        <item>@color/colorBlue2</item>
+        <item>@color/colorPurple2</item>
+        <item>@color/colorGray2</item>
+        <item>@color/colorRed3</item>
+        <item>@color/colorGreen3</item>
+        <item>@color/colorBlue3</item>
+        <item>@color/colorPurple3</item>
+        <item>@color/colorGray3</item>
     </array>
 </resources>
