@@ -26,7 +26,7 @@
     <color name="colorDisconnected">#ff3232</color>
     <color name="colorConnected">#69ff69</color>
 
-    <color name="colorRemove">#ff1744</color>
+    <color name="colorRemove">#b71c1c</color>
     <color name="colorDuplicate">#3483eb</color>
     <color name="colorEdit">#eb8f34</color>
 
