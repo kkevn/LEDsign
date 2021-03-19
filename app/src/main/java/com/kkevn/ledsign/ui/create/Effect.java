@@ -50,6 +50,14 @@ public class Effect {
         return this.type;
     }
 
+    public String getTypeCode() {
+        String typeCode = "";
+        for (String s : this.type.split(" ")) {
+            typeCode += s.charAt(0);
+        }
+        return typeCode;
+    }
+
     public String getParam() {
 
         // sort our readable params here maybe with switch?
