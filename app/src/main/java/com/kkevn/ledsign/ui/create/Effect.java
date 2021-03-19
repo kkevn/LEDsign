@@ -11,13 +11,13 @@ public class Effect {
     public final static transient String COLOR_SOLID = "Solid Color";
     public final static transient String COLOR_RAINBOW = "Rainbow Wave";
     public final static transient String COLOR_FADE = "Fade";
+    public final static transient String COLOR_WIPE = "Color Wipe";
     public final static transient String THEATER_CHASE = "Theater Chase";
-    public final static transient String MARQUEE = "Marquee";
     public final static transient String RETRO = "Retro";
 
     public enum Effect_Types {
         EFFECT_COLOR_SOLID(COLOR_SOLID), EFFECT_TEXT_SCROLL(TEXT_SCROLL), EFFECT_COLOR_RAINBOW(COLOR_RAINBOW),
-        EFFECT_FADE(COLOR_FADE), EFFECT_THEATER_CHASE(THEATER_CHASE), EFFECT_MARQUEE(MARQUEE),
+        EFFECT_FADE(COLOR_FADE), EFFECT_WIPE(COLOR_WIPE), EFFECT_THEATER_CHASE(THEATER_CHASE),
         EFFECT_RETRO(RETRO);
 
         private final String stringValue;

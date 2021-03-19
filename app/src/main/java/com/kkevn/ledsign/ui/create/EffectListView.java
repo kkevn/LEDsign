@@ -192,6 +192,8 @@ public class EffectListView extends RecyclerView.Adapter<EffectListViewHolder> i
                 return R.drawable.ic_baseline_waves_24;
             case Effect.COLOR_FADE:
                 return R.drawable.ic_baseline_gradient_24;
+            case Effect.COLOR_WIPE:
+                return R.drawable.ic_baseline_texture_24;
             case Effect.THEATER_CHASE:
                 return R.drawable.ic_baseline_theaters_24;
             case Effect.RETRO:

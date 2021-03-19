@@ -74,4 +74,16 @@
         android:label="@string/menu_configure_fade_color"
         tools:layout="@layout/fragment_configure_fade_color" />
 
+    <fragment
+        android:id="@+id/nav_config_color_wipe"
+        android:name="com.kkevn.ledsign.ui.configurators.ColorWipeFragment"
+        android:label="@string/menu_configure_color_wipe"
+        tools:layout="@layout/fragment_configure_color_wipe" />
+
+    <fragment
+        android:id="@+id/nav_config_theater_chase"
+        android:name="com.kkevn.ledsign.ui.configurators.TheaterChaseFragment"
+        android:label="@string/menu_configure_theater_chase"
+        tools:layout="@layout/fragment_configure_theater_chase" />
+
 </navigation>

@@ -294,6 +294,12 @@ public class MainActivity extends AppCompatActivity {
             case Effect.COLOR_FADE:
                 navController.navigate(R.id.nav_config_fade_color);
                 break;
+            case Effect.COLOR_WIPE:
+                navController.navigate(R.id.nav_config_color_wipe);
+                break;
+            case Effect.THEATER_CHASE:
+                navController.navigate(R.id.nav_config_theater_chase);
+                break;
             default:
                 navController.navigate(R.id.nav_new_profile);
                 break;
@@ -318,6 +324,12 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case Effect.COLOR_FADE:
                 navController.navigate(R.id.nav_config_fade_color, args);
+                break;
+            case Effect.COLOR_WIPE:
+                navController.navigate(R.id.nav_config_color_wipe, args);
+                break;
+            case Effect.THEATER_CHASE:
+                navController.navigate(R.id.nav_config_theater_chase, args);
                 break;
             default:
                 navController.navigate(R.id.nav_new_profile);
