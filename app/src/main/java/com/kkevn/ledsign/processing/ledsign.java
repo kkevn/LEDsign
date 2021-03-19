@@ -20,10 +20,12 @@ import processing.core.*;
 
 public class ledsign extends PApplet {
 
-    public final static String TEXT_SCROLL = "Scrolling Text";
-    public final static String COLOR_SOLID = "Solid Color";
-    public final static String COLOR_RAINBOW = "Rainbow Wave";
-    public final static String COLOR_FADE = "Fade";
+    public final static String TEXT_SCROLL = "ST";
+    public final static String COLOR_SOLID = "SC";
+    public final static String COLOR_RAINBOW = "RW";
+    public final static String COLOR_FADE = "F";
+    public final static String COLOR_WIPE = "CW";
+    public final static String THEATER_CHASE = "TC";
 
     String parsedEffects = ",", previousEffects = ",";
 
