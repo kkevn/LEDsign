@@ -138,6 +138,8 @@
     <string name="menu_configure_solid_color">Configure Solid Color Effect</string>
     <string name="menu_configure_wave_color">Configure Wave Effect</string>
     <string name="menu_configure_fade_color">Configure Fade Effect</string>
+    <string name="menu_configure_color_wipe">Configure Color Wipe Effect</string>
+    <string name="menu_configure_theater_chase">Configure Theater Chase Effect</string>
     <string name="configure_missing_param">Blank Input(s) Detected</string>
 
     <!-- profile options menu -->
@@ -182,6 +184,9 @@
     <string name="dialog_help_color_picker">Sets the desired color for your effect.\n\nAdjust
         the sliders for each RGB value and observe the current color in the preview box.
         Additionally, manually enter a color HEX code in the field below the sliders.</string>
+    <string name="dialog_help_toggle">Toggles a specific attribute on or off.\n\nThe
+        attribute this toggles usually depends on the effect in question. However the label
+        beside the checkbox should be enough of an indicator as to what the attribute toggles.</string>
 
     <!-- bluetooth dialog fragment -->
     <string name="dialog_bt_profile">Select a Paired Device:</string>
