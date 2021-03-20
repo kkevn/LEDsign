@@ -14,7 +14,7 @@ import static processing.core.PApplet.append;
 import static processing.core.PApplet.floor;
 import static processing.core.PApplet.sqrt;
 
-class LinkedMatrix extends MatrixTemplate {
+class LinkedMatrix implements MatrixTemplate {
 
     Matrix[] linkedmatrix;
     int gridSize, rowSize, LEDcount;

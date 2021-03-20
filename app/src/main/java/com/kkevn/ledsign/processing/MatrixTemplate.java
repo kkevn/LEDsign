@@ -10,34 +10,28 @@
 
 package com.kkevn.ledsign.processing;
 
-class MatrixTemplate {
+interface MatrixTemplate {
 
     /**
      * Returns the amount of matrices linked together.
      *
      * @return {int} Total amount of matrices present.
      */
-    public int getMatrixCount() {
-        return 0;
-    }
+    int getMatrixCount();
 
     /**
      * Returns the total LED count from each matrix.
      *
      * @return {int} Total amount of LEDs present from each matrix.
      */
-    public int getLEDCount() {
-        return 0;
-    }
+    int getLEDCount();
 
     /**
      * Returns the row dimension of each matrix.
      *
      * @return {int} Total amount of rows present in a matrix.
      */
-    public int getRowSize() {
-        return 0;
-    }
+    int getRowSize();
 
     /**
      * Returns the LED priority at the specified index.
@@ -46,16 +40,12 @@ class MatrixTemplate {
      *
      * @return {int} LED priority at specified index..
      */
-    public int getPriorityAt(int index) {
-        return 0;
-    }
+    int getPriorityAt(int index);
 
     /**
      * Displays each matrix's unique ID value using its LEDs.
      */
-    public void identify() {
-
-    }
+    void identify();
 
     /**
      * Sets the RGB value of the LED at the specified index.
@@ -65,9 +55,7 @@ class MatrixTemplate {
      * @param {int} g: The desired green RGB value.
      * @param {int} b: The desired blue RGB value.
      */
-    public void setLEDAtIndex(int index, int r, int g, int b) {
-
-    }
+    void setLEDAtIndex(int index, int r, int g, int b);
 
     /**
      * Sets the RGB value and priority of the LED at the specified index.
@@ -78,9 +66,7 @@ class MatrixTemplate {
      * @param {int} b: The desired blue RGB value.
      * @param {int} p: The desired priority level.
      */
-    public void setLEDAtIndex(int index, int r, int g, int b, int p) {
-
-    }
+    void setLEDAtIndex(int index, int r, int g, int b, int p);
 
     /**
      * Sets the RGB value of the LED at the specified coordinate.
@@ -91,9 +77,7 @@ class MatrixTemplate {
      * @param {int} g: The desired green RGB value.
      * @param {int} b: The desired blue RGB value.
      */
-    public void setLEDAtCoord(int x, int y, int r, int g, int b) {
-
-    }
+    void setLEDAtCoord(int x, int y, int r, int g, int b);
 
     /**
      * Sets the RGB value and priority of the LED at the specified coordinate.
@@ -105,9 +89,7 @@ class MatrixTemplate {
      * @param {int} b: The desired blue RGB value.
      * @param {int} p: The desired priority level.
      */
-    public void setLEDAtCoord(int x, int y, int r, int g, int b, int p) {
-
-    }
+    void setLEDAtCoord(int x, int y, int r, int g, int b, int p);
 
     /**
      * Sets the RGB value of the LED at the specified index to
@@ -115,9 +97,7 @@ class MatrixTemplate {
      *
      * @param {int} index: The index of the requested LED.
      */
-    public void undoLEDAtIndex(int index) {
-
-    }
+    void undoLEDAtIndex(int index);
 
     /**
      * Sets the RGB value of the LED at the specified coordinate
@@ -126,23 +106,17 @@ class MatrixTemplate {
      * @param {int} x: The column coordinate of the requested LED.
      * @param {int} y: The row coordinate of the requested LED.
      */
-    public void undoLEDAtCoord(int x, int y) {
-
-    }
+    void undoLEDAtCoord(int x, int y);
 
     /**
      * Visually turns off all of the LEDs in each matrix.
      */
-    public void disable() {
-
-    }
+    void disable();
 
     /**
      * Clears all of the LEDs in each matrix.
      */
-    public void clear() {
-
-    }
+    void clear();
 
     /**
      * Scrolls the contents of this matrix to the left by the
@@ -153,10 +127,7 @@ class MatrixTemplate {
      * @param {int} bg_g: The background green RGB value.
      * @param {int} bg_b: The background blue RGB value.
      */
-    public void scroll(int offset, int bg_r, int bg_g, int bg_b) {
-
-    }
-
+    void scroll(int offset, int bg_r, int bg_g, int bg_b);
     /**
      * Renders a single portion (column) of the given letter at the
      * specified RGB value.
@@ -167,7 +138,5 @@ class MatrixTemplate {
      * @param {int} g: The desired green RGB value of this letter.
      * @param {int} b: The desired blue RGB value of this letter.
      */
-    public void addLetter(String letter, int column, int r, int g, int b) {
-
-    }
+    void addLetter(String letter, int column, int r, int g, int b);
 }

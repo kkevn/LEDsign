@@ -1466,7 +1466,7 @@ lm5 -> {}
     final int MATRIX_COLS = 8;
     final int MATRIX_LEDS = MATRIX_ROWS * MATRIX_COLS;
 
-    class Matrix extends MatrixTemplate {
+    class Matrix implements MatrixTemplate {
 
         int size, id, r, g, b;
         boolean doCircular;
