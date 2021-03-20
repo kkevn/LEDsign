@@ -63,9 +63,15 @@ public class EffectListView extends RecyclerView.Adapter<EffectListViewHolder> i
         int colors[] = effects.get(position).getColor();
         if (colors[0] == 1) {
             //holder.iv_icon.setColorFilter(Color.rgb(colors[1], colors[2], colors[3]));
-            int color = Color.rgb(colors[1], colors[2], colors[3]);
-            GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[] {color, color});
-            gd.setGradientType(GradientDrawable.SWEEP_GRADIENT);
+            GradientDrawable gd;
+            // if theater chase rainbow effect is applied, use multi-color gradient background instead
+            if (effects.get(position).getType().equals(Effect.THEATER_CHASE) && !effects.get(position).getParamAt(4).equals("0")) {
+                gd = new GradientDrawable(GradientDrawable.Orientation.TL_BR, new int[] {0x77ff0000, 0x4400ff00, 0x770000ff});
+            } else {
+                int color = Color.rgb(colors[1], colors[2], colors[3]);
+                gd = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{color, color});
+                gd.setGradientType(GradientDrawable.SWEEP_GRADIENT);
+            }
             gd.setCornerRadius(48f);
             holder.iv_icon.setBackground(gd);
         }
