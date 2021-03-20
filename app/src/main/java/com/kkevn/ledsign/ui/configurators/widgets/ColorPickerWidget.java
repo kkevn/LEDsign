@@ -145,6 +145,15 @@ public class ColorPickerWidget extends ConfiguratorWidget {
 
     /**/
     @Override
+    public void setEnabled(boolean enable) {
+        sb_red.setEnabled(enable);
+        sb_green.setEnabled(enable);
+        sb_blue.setEnabled(enable);
+        et_hex.setEnabled(enable);
+    }
+
+    /**/
+    @Override
     public void updateWidgetInputs(String... inputs) {
 
         // update RGB values with what is specified

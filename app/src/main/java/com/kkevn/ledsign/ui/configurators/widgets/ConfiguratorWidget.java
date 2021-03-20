@@ -6,6 +6,7 @@ public abstract class ConfiguratorWidget {
 
     public ConfiguratorFragment.ConfiguratorListener cl = ConfiguratorFragment.getCl();
 
+    public abstract void setEnabled(boolean enabled);
     public abstract void updateWidgetInputs(String ...inputs);
     public abstract String parseWidgetInputs();
 }

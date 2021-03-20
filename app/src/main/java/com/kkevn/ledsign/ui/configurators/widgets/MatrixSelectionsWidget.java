@@ -35,6 +35,13 @@ final public class MatrixSelectionsWidget extends ConfiguratorWidget {
     }
 
     @Override
+    public void setEnabled(boolean enabled) {
+        for (int i = 0; i < cb_selections.size(); i++) {
+            cb_selections.get(i).setEnabled(enabled);
+        }
+    }
+
+    @Override
     public void updateWidgetInputs(String... inputs) {
 
         // get selections from first and only input

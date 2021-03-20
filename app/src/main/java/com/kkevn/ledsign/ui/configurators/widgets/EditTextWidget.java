@@ -26,6 +26,11 @@ public class EditTextWidget extends ConfiguratorWidget {
     }
 
     @Override
+    public void setEnabled(boolean enabled) {
+        et_text.setEnabled(enabled);
+    }
+
+    @Override
     public void updateWidgetInputs(String... inputs) {
         et_text.setText(inputs[0]);
     }
