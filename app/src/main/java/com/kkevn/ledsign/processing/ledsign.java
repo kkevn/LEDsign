@@ -81,6 +81,7 @@ public class ledsign extends PApplet {
     boolean crawl_back = false;
 
     boolean b_wipe = false;
+    int i_wipe = 0;
 
     boolean b_rainbow = false;
     int xy_rainbow = 0;
@@ -387,6 +388,9 @@ public class ledsign extends PApplet {
                     case COLOR_FADE:
                         fade(container.linked_matrix, Integer.parseInt(params[0]));
                         break;
+                    case COLOR_WIPE:
+                        colorWipe(container.linked_matrix, Integer.parseInt(params[0]), Integer.parseInt(params[1]), Integer.parseInt(params[2]), Integer.parseInt(params[3]));
+                        break;
                     case TEXT_SCROLL:
                         textScroll(container.linked_matrix, params[0] + " ", Integer.parseInt(params[1]), Integer.parseInt(params[2]), Integer.parseInt(params[3]));
                         break;
@@ -586,6 +590,9 @@ public class ledsign extends PApplet {
                     break;
                 case COLOR_FADE:
                     containers[i] = new LinkedMatrixContainer(selections, COLOR_FADE, params);
+                    break;
+                case COLOR_WIPE:
+                    containers[i] = new LinkedMatrixContainer(selections, COLOR_WIPE, params);
                     break;
                 case TEXT_SCROLL:
                     //containers = (LinkedMatrixContainer[]) append(containers, new LinkedMatrixEffect_TextScroll(selections, params));
@@ -920,6 +927,27 @@ lm5 -> {}
     }
 
     /**
+     * ???
+     *
+     * @param {MatrixTemplate} matrix: Matrix object to animate.
+     * @param {int} r: The desired red RGB value.
+     * @param {int} g: The desired green RGB value.
+     * @param {int} b: The desired blue RGB value.
+     * @param {int} runs: The amount of times to iterate this effect.
+     */
+    public void colorWipe(MatrixTemplate matrix, int r, int g, int b, int runs) {
+
+        if (i_wipe >= matrix.getLEDCount()) {
+            matrix.clear();
+            i_wipe = 0;
+        } else {
+            if (matrix.getPriorityAt(i_wipe) == 0) {
+                matrix.setLEDAtIndex(i_wipe++, r, g, b);
+            }
+        }
+    }
+
+    /**
      * Fade the matrix across the RGB color spectrum.
      *
      * @param {MatrixTemplate} matrix: Matrix object to animate.
@@ -944,20 +972,6 @@ lm5 -> {}
             if (matrix.getPriorityAt(i) == 0)// added
                 matrix.setLEDAtIndex(i, fadeR, fadeG, fadeB, 0);
             //matrix.setLEDAtIndex(i, r, g, b, pos);
-        }
-    }
-
-    /**
-     * ???
-     *
-     * @param {MatrixTemplate} matrix: Matrix object to animate.
-     * @param {int} r: The desired red RGB value.
-     * @param {int} g: The desired green RGB valuet.
-     * @param {int} b: The desired blue RGB value.
-     */
-    public void  colorWipe(MatrixTemplate matrix, int r, int g, int b) {
-        for (int i = 0; i < 64; i++) {
-            matrix.setLEDAtIndex(i, r, g, b);
         }
     }
 

@@ -59,6 +59,6 @@ public class ColorWipeFragment extends ConfiguratorFragment{
         int runs = 3;
 
         // return matrix selections and effect parameters in proper format
-        return "{" + selections + ";" + colors + ";" + runs + "}";
+        return "{" + selections + ";" + colors + ";" + runs + ";}";
     }
 }
