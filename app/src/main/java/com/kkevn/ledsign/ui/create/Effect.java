@@ -64,6 +64,16 @@ public class Effect {
         return this.param;
     }
 
+    public String getParamAt(int i) {
+
+        String params = this.param.substring(1, this.param.length() - 1);
+        String[] isolated_params = params.split(";");
+        if (i < isolated_params.length)
+            return isolated_params[i];
+        else
+            return "-";
+    }
+
     public int[] getColor() {
         int[] colors = new int[4];
 
