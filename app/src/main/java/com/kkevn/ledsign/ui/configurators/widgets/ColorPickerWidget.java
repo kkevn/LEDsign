@@ -170,6 +170,6 @@ public class ColorPickerWidget extends ConfiguratorWidget {
     /**/
     @Override
     public String parseWidgetInputs() {
-        return "" + red + ";" + green + ";" + blue + ";";
+        return "" + red + ";" + green + ";" + blue;
     }
 }
