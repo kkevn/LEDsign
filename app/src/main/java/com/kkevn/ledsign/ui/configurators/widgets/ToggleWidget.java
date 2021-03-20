@@ -48,6 +48,8 @@ public class ToggleWidget extends ConfiguratorWidget {
 
         // find toggle CheckBox
         cb_toggle = toggle.findViewById(R.id.cb_toggle);
+
+        // set listener for toggle CheckBox to also disable the provided ConfiguratorWidget
         cb_toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

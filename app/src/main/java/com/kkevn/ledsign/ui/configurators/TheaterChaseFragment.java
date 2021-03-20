@@ -30,11 +30,11 @@ public class TheaterChaseFragment extends ConfiguratorFragment {
         // add MatrixSelectionsWidget object for its layout's logic
         matrixSelections = new MatrixSelectionsWidget(getContext(), root);
 
-        // add ToggleWidget object for its layout's logic
-        doRainbowToggle = new ToggleWidget(getContext(), root, thisEffect);
-
         // add ColorPickerWidget object for its layout's logic
         colorPicker = new ColorPickerWidget(getContext(), root);
+
+        // add ToggleWidget object for its layout's logic
+        doRainbowToggle = new ToggleWidget(getContext(), root, thisEffect, colorPicker);
 
         return root;
     }
