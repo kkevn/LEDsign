@@ -50,6 +50,9 @@ public class TheaterChaseFragment extends ConfiguratorFragment {
 
         // update the color picker to reflect the original inputs
         colorPicker.updateWidgetInputs(isolated_inputs[1], isolated_inputs[2], isolated_inputs[3]);
+
+        // update the toggle to what was originally selected
+        doRainbowToggle.updateWidgetInputs(isolated_inputs[4]);
     }
 
     @Override
@@ -61,7 +64,7 @@ public class TheaterChaseFragment extends ConfiguratorFragment {
         String colors = colorPicker.parseWidgetInputs();
 
         // fetch if using rainbow pattern instead of single color
-        int doRainbow = 0;
+        String doRainbow = doRainbowToggle.parseWidgetInputs();
 
         // return matrix selections and effect parameters in proper format
         return "{" + selections + ";" + colors + ";" + doRainbow + "}";

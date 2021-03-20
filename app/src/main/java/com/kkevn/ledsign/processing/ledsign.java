@@ -83,6 +83,10 @@ public class ledsign extends PApplet {
     boolean b_wipe = false;
     int i_wipe = 0;
 
+    int i_chase = 0;
+    int chase_dir = 1;
+    int frames_rainbow_chase = 0;
+
     boolean b_rainbow = false;
     int xy_rainbow = 0;
     int max_rainbow = 100;
@@ -391,6 +395,9 @@ public class ledsign extends PApplet {
                     case COLOR_WIPE:
                         colorWipe(container.linked_matrix, Integer.parseInt(params[0]), Integer.parseInt(params[1]), Integer.parseInt(params[2]), Integer.parseInt(params[3]));
                         break;
+                    case THEATER_CHASE:
+                        theaterChase(container.linked_matrix, Integer.parseInt(params[0]), Integer.parseInt(params[1]), Integer.parseInt(params[2]), Integer.parseInt(params[3]));
+                        break;
                     case TEXT_SCROLL:
                         textScroll(container.linked_matrix, params[0] + " ", Integer.parseInt(params[1]), Integer.parseInt(params[2]), Integer.parseInt(params[3]));
                         break;
@@ -593,6 +600,9 @@ public class ledsign extends PApplet {
                     break;
                 case COLOR_WIPE:
                     containers[i] = new LinkedMatrixContainer(selections, COLOR_WIPE, params);
+                    break;
+                case THEATER_CHASE:
+                    containers[i] = new LinkedMatrixContainer(selections, THEATER_CHASE, params);
                     break;
                 case TEXT_SCROLL:
                     //containers = (LinkedMatrixContainer[]) append(containers, new LinkedMatrixEffect_TextScroll(selections, params));
@@ -973,6 +983,63 @@ lm5 -> {}
                 matrix.setLEDAtIndex(i, fadeR, fadeG, fadeB, 0);
             //matrix.setLEDAtIndex(i, r, g, b, pos);
         }
+    }
+
+    /**
+     * ???
+     *
+     * @param {MatrixTemplate} matrix: Matrix object to animate.
+     * @param {int} r: The desired red RGB value.
+     * @param {int} g: The desired green RGB value.
+     * @param {int} b: The desired blue RGB value.
+     * @param {int} doRainbow: Determines whether or not to use rainbow coloring instead.
+     */
+    public void theaterChase(MatrixTemplate matrix, int r, int g, int b, int doRainbow) {
+
+        int tempR = r, tempG = g, tempB = b;
+
+        if (frames_rainbow_chase > max_rainbow)
+            frames_rainbow_chase = 0;
+
+        for (int col = 0; col < matrix.getRowSize(); col++) {
+            matrix.clear();
+            for (int row = 0; row < matrix.getMatrixCount() * matrix.getRowSize(); row++) {
+                if (matrix.getPriorityAt(i_chase) == 0) {
+
+                    if (doRainbow != 0) {
+                        push();
+                            colorMode(HSB, 100);
+                            //float p = map(frames_rainbow, 0, max_rainbow, 0, 350);
+                            float p = map(frames_rainbow_chase, 0, max_rainbow, 0, 100);
+                            //print(ceil(p));
+                            //color c = color("hsb(" + ceil(p) + ", 100%, 100%)");
+                            //color colr = color(ceil(p), 100, 100);
+                            int c = color(ceil(p), 100, 100);
+                        pop();
+                        tempR = (int) red(c);
+                        tempG = (int) green(c);
+                        tempB = (int) blue(c);
+                    }
+
+                    if (/*row % 8 == 0 || row % 8 == 1 || row % 8 == 4 || row % 8 == 5*/row % 2 == 0) {
+                        matrix.setLEDAtIndex(i_chase + (8 * row), tempR, tempG, tempB);
+                        matrix.setLEDAtIndex(i_chase + (8 * row) + 4, tempR, tempG, tempB);
+                    }
+                    else {
+                        matrix.setLEDAtIndex((8 * (row + 1)) - (i_chase + 1), tempR, tempG, tempB);
+                        matrix.setLEDAtIndex((8 * (row + 1)) - i_chase - 5, tempR, tempG, tempB);
+                    }
+                }
+            }
+        }
+
+        if (i_chase >= 3)
+            chase_dir = -1;
+        else if (i_chase <= 0)
+            chase_dir = 1;
+
+        i_chase += chase_dir;
+        frames_rainbow_chase++;
     }
 
     /**
