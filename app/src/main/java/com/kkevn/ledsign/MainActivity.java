@@ -526,7 +526,9 @@ public class MainActivity extends AppCompatActivity {
         // check if the effects list is empty before attempting to save it
         if (CreateFragment.getList().isEmpty()) {
             filename = "<empty>";
-        } else {
+        } else if (toolbar.getTitle().toString().trim().isEmpty()) {
+            filename = "<blank>";
+        } else{
 
             // get the current profile name with a JSON file extension
             filename = toolbar.getTitle() + ".json";
@@ -702,6 +704,8 @@ public class MainActivity extends AppCompatActivity {
                     Snackbar.make(getCurrentFocus(), "Error saving profile", Snackbar.LENGTH_INDEFINITE).show();
                 else if (filename.equals("<empty>"))
                     Snackbar.make(getCurrentFocus(), "Cannot save empty profiles.", Snackbar.LENGTH_INDEFINITE).show();
+                else if (filename.equals("<blank>"))
+                    Snackbar.make(getCurrentFocus(), "Cannot save blank name profiles.", Snackbar.LENGTH_INDEFINITE).show();
                 else
                     Snackbar.make(getCurrentFocus(), "Profile \'" + filename + "\' saved", Snackbar.LENGTH_SHORT).show();
 
