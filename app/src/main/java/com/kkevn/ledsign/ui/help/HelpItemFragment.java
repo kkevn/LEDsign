@@ -93,7 +93,6 @@ public class HelpItemFragment extends Fragment {
                 mediaPlayer.setLooping(true);
             }
         });
-        vv_how_to_video.start();
 
         // listener to play or pause/dim VideoView based on ExpandableTextView's current expand state
         etv.setOnExpandStateChangeListener(new ExpandableTextView.OnExpandStateChangeListener() {
@@ -112,6 +111,8 @@ public class HelpItemFragment extends Fragment {
 
         // update the views for the current help item
         updateViews();
+
+        vv_how_to_video.start();
     }
 
     private void updateViews() {

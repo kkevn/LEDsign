@@ -25,8 +25,7 @@
             android:id="@+id/v_dimmer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/black"
-            android:alpha="128" />
+            android:background="@android:color/black" />
 
     </FrameLayout>
 
