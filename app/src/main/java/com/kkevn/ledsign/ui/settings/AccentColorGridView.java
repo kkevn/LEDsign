@@ -5,15 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 
 import com.kkevn.ledsign.R;
 
 public class AccentColorGridView extends BaseAdapter {
     private int[] colors;
     private LayoutInflater mInflater;
+    private int width;
 
     public AccentColorGridView(Context context/*, int[] colors*/) {
         //super(context, 0, colors);
+        width = context.getResources().getSystem().getDisplayMetrics().widthPixels;
         this.mInflater = LayoutInflater.from(context);
         this.colors = context.getResources().getIntArray(R.array.accents);
     }
@@ -47,6 +50,7 @@ public class AccentColorGridView extends BaseAdapter {
             // inflate the current row with a layout
             //LayoutInflater layoutInflater = context.getLayoutInflater();
             v = mInflater.inflate(R.layout.list_color_accent, null, true);
+            v.setLayoutParams(new GridView.LayoutParams(GridView.AUTO_FIT, (int) (width * 0.1)));
 
             // create the view holder
             viewHolder = new AccentColorGridViewHolder(v);

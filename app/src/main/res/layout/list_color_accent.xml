@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/iv_color"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
         android:background="?colorAccent"
         android:foreground="?attr/selectableItemBackground" />
 
