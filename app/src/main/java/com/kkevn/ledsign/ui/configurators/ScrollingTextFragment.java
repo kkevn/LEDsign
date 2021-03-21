@@ -67,6 +67,6 @@ public class ScrollingTextFragment extends ConfiguratorFragment {
         String colors = colorPicker.parseWidgetInputs();
 
         // return matrix selections and effect parameters in proper format
-        return "{" + selections + ";" + text + ";" + colors + "}";
+        return "{" + selections + ";" + text + ";" + colors + ";}";
     }
 }

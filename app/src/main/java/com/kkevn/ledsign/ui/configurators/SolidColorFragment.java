@@ -57,6 +57,6 @@ public class SolidColorFragment extends ConfiguratorFragment {
         String colors = colorPicker.parseWidgetInputs();
 
         // return matrix selections and effect parameters in proper format
-        return "{" + selections + ";" + colors + "}";
+        return "{" + selections + ";" + colors + ";}";
     }
 }
