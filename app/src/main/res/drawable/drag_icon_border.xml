@@ -1,29 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!-- background border for drag icon in effects list -->
-
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item>
-        <shape
-            android:shape="rectangle">
-            <!-- Set the border color of your layout here -->
-            <stroke android:width="1dp" android:color="#000000" />
-
-            <solid android:color="#000000" />
-
-        </shape>
-    </item>
-
-    <!-- This is for border left but
-    you can change this according to your need -->
-    <item android:left="1dp" >
-        <shape
-            android:shape="rectangle">
-            <!-- Set the background color of your layout here -->
-            <stroke android:width="1dp" android:color="?colorBackgroundFloating" />
-
-            <solid android:color="?colorBackgroundFloating" />
-        </shape>
-    </item>
-
-</layer-list>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="0"
+        android:startColor="#000000"
+        android:centerColor="@android:color/transparent"
+        android:centerX="0.01" />
+</shape>
