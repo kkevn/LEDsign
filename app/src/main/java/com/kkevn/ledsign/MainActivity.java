@@ -253,7 +253,8 @@ public class MainActivity extends AppCompatActivity {
                         tv_status.setText(getString(R.string.status_connected) + " [" + (String) (msg.obj) + "]");
                         tv_status.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorConnected));
                         pb.setVisibility(View.GONE);
-                        Toast.makeText(getApplicationContext(),"Connected to " + (String) (msg.obj),Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(),"Connected to " + (String) (msg.obj),Toast.LENGTH_SHORT).show();
+                        Snackbar.make(getCurrentFocus(), "Successfully connected to \'" + (String) (msg.obj) + "\'", Snackbar.LENGTH_SHORT).show();
                     }
                     else {
                         try {
@@ -265,12 +266,14 @@ public class MainActivity extends AppCompatActivity {
                         tv_status.setText(getString(R.string.status_disconnected));
                         tv_status.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorDisconnected));
                         pb.setVisibility(View.GONE);
-                        Toast.makeText(getApplicationContext(),"Failed to connect",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(),"Failed to connect",Toast.LENGTH_SHORT).show();
+                        Snackbar.make(getCurrentFocus(), "Failed to connect to device", Snackbar.LENGTH_LONG).show();
                     }
                 }
 
                 if (msg.what == MESSAGE_WRITE) {
-                    Toast.makeText(getApplicationContext(),"Wrote command",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),"Wrote command",Toast.LENGTH_SHORT).show();
+                    Snackbar.make(getCurrentFocus(), "Device received outgoing command", Snackbar.LENGTH_SHORT).show();
                 }
             }
         };
@@ -704,16 +707,28 @@ public class MainActivity extends AppCompatActivity {
                 // User chose the "Save Profile" item, save profile to disk
                 String filename = saveProfile();
 
-                // show snackbar message according to saveProfile() result
-                if (filename.equals("<error>"))
-                    Snackbar.make(getCurrentFocus(), "Error saving profile", Snackbar.LENGTH_INDEFINITE).show();
-                else if (filename.equals("<empty>"))
-                    Snackbar.make(getCurrentFocus(), "Cannot save empty profiles.", Snackbar.LENGTH_INDEFINITE).show();
-                else if (filename.equals("<blank>"))
-                    Snackbar.make(getCurrentFocus(), "Cannot save blank name profiles.", Snackbar.LENGTH_INDEFINITE).show();
-                else
-                    Snackbar.make(getCurrentFocus(), "Profile \'" + filename + "\' saved", Snackbar.LENGTH_SHORT).show();
+                Snackbar sb = Snackbar.make(getCurrentFocus(), "", Snackbar.LENGTH_INDEFINITE);
 
+                // show snackbar message according to saveProfile() result
+                if (filename.equals("<error>")) {
+                    sb.setText("Error writing profile");
+                    sb.setAction("RETRY", e -> {sb.dismiss();saveProfile();});
+                    //Snackbar.make(getCurrentFocus(), "Error saving profile", Snackbar.LENGTH_INDEFINITE).show();
+                } else if (filename.equals("<empty>")) {
+                    sb.setText("Effects list cannot be empty");
+                    sb.setAction("OK", e -> {sb.dismiss();});
+                    //Snackbar.make(getCurrentFocus(), "Cannot save empty profiles.", Snackbar.LENGTH_INDEFINITE).show();
+                } else if (filename.equals("<blank>")) {
+                    sb.setText("Profile names cannot be blank");
+                    sb.setAction("OK", e -> {sb.dismiss();});
+                    //Snackbar.make(getCurrentFocus(), "Cannot save blank name profiles.", Snackbar.LENGTH_INDEFINITE).show();
+                } else {
+                    //sb = Snackbar.make(getCurrentFocus(), "Profile \'" + filename + "\' successfully saved", Snackbar.LENGTH_SHORT);
+                    sb.setText("Profile \'" + filename + "\' successfully saved");
+                    sb.setDuration(Snackbar.LENGTH_SHORT);
+                }
+
+                sb.show();
                 return true;
 
             case R.id.menu_prof_bt:
@@ -766,16 +781,18 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.menu_prof_reset:
                 //pb.setVisibility(View.GONE);
-                Toast.makeText(this, "Reset", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Reset", Toast.LENGTH_SHORT).show();
                 try {
                     if (MainActivity.ct.isAlive()) {
                         MainActivity.ct.write("<RESET{00000;},>".getBytes());
                     }
                     else {
-                        Toast.makeText(getApplicationContext(),R.string.notify_failed_upload,Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(),R.string.notify_failed_upload,Toast.LENGTH_LONG).show();
+                        Snackbar.make(getCurrentFocus(), "Failed to reset device", Snackbar.LENGTH_LONG).show();
                     }
                 } catch (Exception ioe) {
                     Log.e(this.getClass().getSimpleName(), "error writing to socket", ioe);
+                    Snackbar.make(getCurrentFocus(), "No Bluetooth connection established", Snackbar.LENGTH_LONG).show();
                 }
                 return true;
 
@@ -793,10 +810,12 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     else {
-                        Toast.makeText(getApplicationContext(),R.string.notify_failed_upload,Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(),R.string.notify_failed_upload,Toast.LENGTH_LONG).show();
+                        Snackbar.make(getCurrentFocus(), "Failed to upload profile to device", Snackbar.LENGTH_LONG).show();
                     }
                 } catch (Exception ioe) {
                     Log.e(this.getClass().getSimpleName(), "error writing to socket", ioe);
+                    Snackbar.make(getCurrentFocus(), "No Bluetooth connection established", Snackbar.LENGTH_LONG).show();
                 }
                 return true;
 
@@ -823,7 +842,8 @@ public class MainActivity extends AppCompatActivity {
                 // prompt user with list of paired devices to connect to
                 new BluetoothDialogFragment().show(getSupportFragmentManager(), this.getClass().getSimpleName());
             } else {
-                Toast.makeText(getApplicationContext(), R.string.notify_require_bt, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), R.string.notify_require_bt, Toast.LENGTH_LONG).show();
+                Snackbar.make(getCurrentFocus(), "Bluetooth must be allowed to upload profiles", Snackbar.LENGTH_LONG).show();
             }
         }
     }
@@ -912,7 +932,10 @@ public class MainActivity extends AppCompatActivity {
     private void notifyMissingBluetooth() {
         try {
             if (mBTAdapter == null) {
-                Toast.makeText(getApplicationContext(), R.string.notify_missing_bt, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), R.string.notify_missing_bt, Toast.LENGTH_LONG).show();
+                Snackbar sb = Snackbar.make(fab, "Device is missing Bluetooth support", Snackbar.LENGTH_INDEFINITE);
+                sb.setAction("OK", e -> sb.dismiss());
+                sb.show();
             }
         } catch (NullPointerException npe) {
             Log.e(this.getClass().getSimpleName(), "error finding bluetooth adapter", npe);
