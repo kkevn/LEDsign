@@ -77,8 +77,8 @@
     </string-array>
 
     <string-array name="pref_theme_values">
-        <item>LIGHT</item>
-        <item>DARK</item>
+        <item>0</item>
+        <item>1</item>
     </string-array>
 
     <string name="pref_color_key">COLOR</string>
@@ -226,7 +226,7 @@
     </string-array>
 
     <string-array name="help_videos_create">
-        <item>@raw/video_1</item>
+        <item>@raw/new_effect</item>
         <item>@raw/video_1</item>
         <item>@raw/video_1</item>
         <item>@raw/video_1</item>

@@ -157,15 +157,16 @@ public class MainActivity extends AppCompatActivity {
 
         //NavigationView navigationView = findViewById(R.id.nav_view);
 
+        String THEME_KEY = getResources().getString(R.string.pref_theme_key);
         // apply the app theme based on current preference selection for the theme
-        String theme = sharedPreferences.getString(getString(R.string.pref_theme_key), "");
-        if (theme.equalsIgnoreCase("LIGHT")) {
+        String theme = sharedPreferences.getString(THEME_KEY, "");
+        if (theme.equalsIgnoreCase("0")) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             //navigationView.setItemTextAppearance(R.drawable.drawer_item);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
-        setTheme(theme.equalsIgnoreCase("LIGHT") ? R.style.CustomLightTheme : R.style.CustomDarkTheme);
+        setTheme(theme.equalsIgnoreCase("0") ? R.style.CustomLightTheme : R.style.CustomDarkTheme);
         //setTheme(theme.equalsIgnoreCase("LIGHT") ? R.style.CustomLightTheme : R.style.CustomDarkTheme);
 
         // apply layout to main activity
