@@ -657,7 +657,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        toolbar.setBackgroundColor(getColor(R.color.colorPrimaryDark));
+        //toolbar.setBackgroundColor(getColor(R.color.colorPrimaryDark));
     }
 
     /**
@@ -695,6 +695,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                if (curr_page == R.id.nav_help_item) {
+                    toolbar.setBackgroundColor(getColor(R.color.colorPrimaryDark));
+                }
+                return false;
             case R.id.menu_prof_save:
                 // User chose the "Save Profile" item, save profile to disk
                 String filename = saveProfile();
