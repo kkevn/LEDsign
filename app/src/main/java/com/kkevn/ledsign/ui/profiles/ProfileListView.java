@@ -172,7 +172,7 @@ public class ProfileListView extends RecyclerView.Adapter<ProfileListViewHolder>
     /**/
     private String getLastDateModified(int pos) {
         //return new SimpleDateFormat("E, MM/dd/yyyy, hh:mm:ss a").format(new Date(profiles.get(pos).lastModified()));
-        return new SimpleDateFormat("EEEE, MMMM dd, yyyy, hh:mm:ss a").format(new Date(profiles.get(pos).lastModified()));
+        return new SimpleDateFormat("MMMM dd, yyyy, hh:mm:ss a").format(new Date(profiles.get(pos).lastModified()));
     }
 
     /**/
