@@ -652,6 +652,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        toolbar.setBackgroundColor(getColor(R.color.colorPrimaryDark));
+    }
+
     /**
      * Inflate a new menu object with the proper XML layout.
      *
