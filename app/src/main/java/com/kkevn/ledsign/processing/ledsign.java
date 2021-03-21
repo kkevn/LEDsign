@@ -127,10 +127,10 @@ public class ledsign extends PApplet {
         //containers = (LinkedMatrixContainer[]) append(containers, new LinkedMatrixEffect_TextScroll("10001", "hello there;50;50;50"));
 
         hud = new HUDElement[4];
-        hud[0] = new HUDButton(width / 32, height / 24, "  R  ");
-        hud[1] = new HUDButton(width / 32, height / 10 * 8, "  < ");
-        hud[2] = new HUDButton(width / 10 * 9, height / 10 * 8, "  > ");
-        hud[3] = new HUDToggleButton(width / 10 * 9, height / 24, "  A  ");
+        hud[0] = new HUDButton((int) (width * 0.025), (int) (height * 0.025), "  R  ");
+        hud[1] = new HUDButton((int) (width * 0.025), (int) (height * 0.8), "  < ");
+        hud[2] = new HUDButton((int) (width * 0.875), (int) (height * 0.8), "  > ");
+        hud[3] = new HUDToggleButton((int) (width * 0.875), (int) (height * 0.025), "  A  ");
         //hud[4] = new HUDButton(int(width / 10 * 8.5), height / 10 * 8, "^");
         //hud[5] = new HUDButton(int(width / 10 * 8.5), height / 10 * 9, "v");
 
@@ -1997,13 +1997,13 @@ lm5 -> {}
         }
 
         /**
-         * Detects whether or not the mouse pointer is currently hovering
-         * over the coordinate of this element.
+         * Detects whether or not this element is disabled and if the mouse
+         * pointer is currently hovering over the coordinate of this element.
          *
          * @return {boolean} Hover status of this element.
          */
         boolean isHovered() {
-            return (mouseX == this.x && mouseY == this.y);
+            return (!isHidden() && mouseX == this.x && mouseY == this.y);
         }
     }
 
@@ -2059,13 +2059,14 @@ lm5 -> {}
         }
 
         /**
-         * Detects whether or not the mouse pointer is currently hovering
-         * over the bounds of this button.
+         * Detects whether or not this button is disabled and if the mouse
+         * pointer is currently hovering over the bounds of this button.
          *
          * @return {boolean} Hover status of this button.
          */
         boolean isHovered() {
-            return (mouseX > this.x && mouseX < (this.x + this.w) &&
+            return (!isHidden() &&
+                    mouseX > this.x && mouseX < (this.x + this.w) &&
                     mouseY > this.y && mouseY < (this.y + this.d));
         }
     }
