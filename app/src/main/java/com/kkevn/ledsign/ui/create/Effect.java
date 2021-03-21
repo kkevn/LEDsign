@@ -13,7 +13,7 @@ public class Effect {
     public final static transient String COLOR_FADE = "Fade";
     public final static transient String COLOR_WIPE = "Color Wipe";
     public final static transient String THEATER_CHASE = "Theater Chase";
-    public final static transient String RETRO = "Retro";
+    public final static transient String RETRO = "Retro (WIP)";
 
     public enum Effect_Types {
         EFFECT_COLOR_SOLID(COLOR_SOLID), EFFECT_TEXT_SCROLL(TEXT_SCROLL), EFFECT_COLOR_RAINBOW(COLOR_RAINBOW),
