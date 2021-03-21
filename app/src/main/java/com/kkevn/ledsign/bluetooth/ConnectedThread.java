@@ -61,6 +61,9 @@ public class ConnectedThread extends Thread {
                 readMsg.sendToTarget();
             } catch (IOException e) {
                 Log.d(this.getClass().getSimpleName(), "Input stream was disconnected", e);
+                Message msg = mHandler.obtainMessage(
+                        MainActivity.CONNECTING_STATUS, -1, -1);
+                msg.sendToTarget();
                 break;
             }
         }
