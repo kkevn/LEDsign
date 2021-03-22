@@ -45,8 +45,8 @@ public class BluetoothDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
 
                         // retrieve the device selected from the list
-                        final String address = ((PairedListView) MainActivity.mBTArrayAdapter).getItem(which).getAddress();
-                        final BluetoothDevice device = ((PairedListView) MainActivity.mBTArrayAdapter).getItem(which);
+                        final String address = ((PairedListViewAdapter) MainActivity.mBTArrayAdapter).getItem(which).getAddress();
+                        final BluetoothDevice device = ((PairedListViewAdapter) MainActivity.mBTArrayAdapter).getItem(which);
 
                         // determine if valid BluetoothDevice address was selected
                         if (!address.equals("-1")) {
