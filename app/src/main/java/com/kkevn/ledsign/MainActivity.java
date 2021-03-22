@@ -174,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setBackgroundColor(getColor(R.color.colorPrimaryDark));
 
         // update the default profile name to what is found in Settings
         //sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -699,9 +700,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (curr_page == R.id.nav_help_item) {
+                //if (curr_page == R.id.nav_help_item) {
                     toolbar.setBackgroundColor(getColor(R.color.colorPrimaryDark));
-                }
+                //}
                 return false;
             case R.id.menu_prof_save:
                 // User chose the "Save Profile" item, save profile to disk
