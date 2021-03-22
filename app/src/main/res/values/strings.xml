@@ -226,14 +226,14 @@
     </string-array>
 
     <string-array name="help_videos_create">
-        <item>@raw/new_effect</item>
-        <item>@raw/video_1</item>
-        <item>@raw/video_1</item>
-        <item>@raw/video_1</item>
-        <item>@raw/video_1</item>
-        <item>@raw/video_1</item>
-        <item>@raw/video_1</item>
-        <item>@raw/video_1</item>
+        <item>@raw/create_add</item>
+        <item>@raw/create_edit</item>
+        <item>@raw/create_dupe</item>
+        <item>@raw/create_remove</item>
+        <item>@raw/create_clear</item>
+        <item>@raw/create_reorder</item>
+        <item>@raw/create_save</item>
+        <item>@raw/create_rename</item>
     </string-array>
 
     <string-array name="help_title_load">
@@ -243,9 +243,9 @@
     </string-array>
 
     <string-array name="help_videos_load">
-        <item>@raw/video_1</item>
-        <item>@raw/video_1</item>
-        <item>@raw/video_1</item>
+        <item>@raw/load_edit</item>
+        <item>@raw/load_dupe</item>
+        <item>@raw/load_remove</item>
     </string-array>
 
     <string-array name="help_title_bluetooth">
@@ -256,10 +256,10 @@
     </string-array>
 
     <string-array name="help_videos_bluetooth">
-        <item>@raw/video_1</item>
-        <item>@raw/video_1</item>
-        <item>@raw/video_1</item>
-        <item>@raw/video_1</item>
+        <item>@raw/bluetooth_connect</item>
+        <item>@raw/bluetooth_check_status</item>
+        <item>@raw/bluetooth_upload</item>
+        <item>@raw/bluetooth_reset</item>
     </string-array>
 
     <string-array name="help_title_3d">
@@ -270,10 +270,10 @@
     </string-array>
 
     <string-array name="help_videos_3d">
-        <item>@raw/video_1</item>
-        <item>@raw/video_1</item>
-        <item>@raw/video_1</item>
-        <item>@raw/video_1</item>
+        <item>@raw/preview_free_rotate</item>
+        <item>@raw/preview_quick90</item>
+        <item>@raw/preview_auto_rotate</item>
+        <item>@raw/preview_recenter</item>
     </string-array>
 
     <!-- New Profile help steps -->
