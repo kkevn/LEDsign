@@ -1,3 +1,10 @@
+/**
+ * RenameProfileDialogFragment is the DialogFragment object used to display the prompt for renaming
+ * the current active profile. Used exclusively when selecting to rename a profile.
+ *
+ * @author Kevin Kowalski
+ */
+
 package com.kkevn.ledsign;
 
 import android.app.Dialog;
@@ -13,12 +20,22 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 public class RenameProfileDialogFragment extends DialogFragment {
+
+    /**
+     * Returns a fragment that displays a dialog window floating above the current activity's
+     * window.
+     *
+     * @param {Bundle} savedInstanceState: Bundle object containing activity's previous state.
+     *
+     * @return {Dialog} Dialog window containing an EditText field.
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the Builder class for convenient dialog construction
+
+        // use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        // Get the layout inflater and inflate to set the layout for the dialog
+        // get the layout inflater and inflate to set the layout for the dialog
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         LinearLayout ll_dialog_rename = (LinearLayout) inflater.inflate(R.layout.dialog_rename, null);
 
@@ -29,7 +46,7 @@ public class RenameProfileDialogFragment extends DialogFragment {
         String current_name = getArguments().getString("profile_name");
         et_profile_name.setText(current_name);
 
-        // Use the Builder class for convenient dialog construction
+        // use the Builder class for convenient dialog construction
         builder.setView(ll_dialog_rename)
                 .setMessage(R.string.dialog_rename_profile)
                 .setPositiveButton(R.string.dialog_rename, new DialogInterface.OnClickListener() {
@@ -44,7 +61,7 @@ public class RenameProfileDialogFragment extends DialogFragment {
                     }
                 });
 
-        // Create the AlertDialog object with a reference
+        // create the AlertDialog object with a reference
         AlertDialog dialog = builder.create();
 
         // add listener for changes in new profile name as it is being typed

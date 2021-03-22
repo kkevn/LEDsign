@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.kkevn.ledsign.HelpInfoDialogFragment;
+import com.kkevn.ledsign.ui.configurators.widgets.HelpInfoDialogFragment;
 import com.kkevn.ledsign.MainActivity;
 import com.kkevn.ledsign.R;
 import com.kkevn.ledsign.ui.create.CreateFragment;

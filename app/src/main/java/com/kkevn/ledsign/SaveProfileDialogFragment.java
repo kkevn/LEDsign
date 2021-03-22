@@ -1,3 +1,10 @@
+/**
+ * SaveProfileDialogFragment is the DialogFragment object used to display the prompt for saving
+ * the current active profile if the user navigated away from profile creation with unsaved changes.
+ *
+ * @author Kevin Kowalski
+ */
+
 package com.kkevn.ledsign;
 
 import android.app.Dialog;
@@ -7,9 +14,19 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
 public class SaveProfileDialogFragment extends DialogFragment {
+
+    /**
+     * Returns a fragment that displays a dialog window floating above the current activity's
+     * window.
+     *
+     * @param {Bundle} savedInstanceState: Bundle object containing activity's previous state.
+     *
+     * @return {Dialog} Dialog window containing a prompt to save and action button for saving.
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the Builder class for convenient dialog construction
+
+        // use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.dialog_save_profile)
                 .setPositiveButton(R.string.dialog_save, new DialogInterface.OnClickListener() {
@@ -20,10 +37,11 @@ public class SaveProfileDialogFragment extends DialogFragment {
                 })
                 .setNegativeButton(R.string.dialog_discard, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // user cancelled the dialog, discard changes (by reloading saved file)?
+                        // user cancelled the dialog, don't save
                     }
                 });
-        // Create the AlertDialog object and return it
+
+        // create the AlertDialog object and return it
         return builder.create();
     }
 }
