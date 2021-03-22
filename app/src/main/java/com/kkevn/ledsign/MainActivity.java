@@ -7,9 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,13 +37,12 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kkevn.ledsign.bluetooth.BluetoothDialogFragment;
 import com.kkevn.ledsign.bluetooth.ConnectedThread;
-import com.kkevn.ledsign.bluetooth.PairedListView;
+import com.kkevn.ledsign.bluetooth.PairedListViewAdapter;
 import com.kkevn.ledsign.ui.create.CreateFragment;
 import com.kkevn.ledsign.ui.create.Effect;
 import com.kkevn.ledsign.ui.create.SelectEffectListView;
@@ -223,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
         /* Bluetooth code */
 
         //mBTArrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1);
-        mBTArrayAdapter = new PairedListView(getApplicationContext(), mPairedDevices);
+        mBTArrayAdapter = new PairedListViewAdapter(getApplicationContext(), mPairedDevices);
 
         mBTAdapter = BluetoothAdapter.getDefaultAdapter(); // get a handle on the bluetooth radio
 

@@ -207,6 +207,8 @@
     <string name="edit_text_inputs">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqr‌​stuvwxyz0123456789_-\u0020</string>
     <string name="edit_text_hexadecimal">ABCDEFabcdef0123456789</string>
 
+    <string name="date_time_format_pattern">MMMM dd, yyyy, hh:mm:ss a</string>
+
 
     <!-- help contents -->
     <string name="help_title_create">New Profile</string>
