@@ -1,20 +1,15 @@
 package com.kkevn.ledsign.ui.create;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.preference.PreferenceManager;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -25,19 +20,18 @@ import com.kkevn.ledsign.R;
 //import com.kkevn.ledsign.processing.Sketch;
 import com.kkevn.ledsign.processing.ledsign;
 
-import java.util.Collections;
 import java.util.Vector;
 
 import processing.android.PFragment;
 import processing.core.PApplet;
 
-public class CreateFragment extends Fragment implements EffectListView.ItemClickListener, DragListener {
+public class CreateFragment extends Fragment implements /*EffectListViewAdapter.ItemClickListener,*/ DragListener {
 
     private PApplet sketch;
 
     private static ListView lv_list;
 
-    static EffectListView adapter;
+    static EffectListViewAdapter adapter;
 
     private ItemTouchHelper itemTouchHelper;
 
@@ -68,8 +62,8 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
         RecyclerView rv = root.findViewById(R.id.lv_list);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         //rv.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayout.VERTICAL));
-        adapter = new EffectListView(getContext(), effects_list, this);
-        adapter.setClickListener(this);
+        adapter = new EffectListViewAdapter(getContext(), effects_list, this);
+        //adapter.setClickListener(this);
         rv.setAdapter(adapter);
         //rv.animate();
         ItemTouchHelper.Callback customCallback = new CustomItemTouchHelperCallback(adapter);
@@ -82,10 +76,10 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
         return root;
     }
 
-    @Override
+    /*@Override
     public void onItemClick(View view, int position) {
-        Toast.makeText(getContext(), "You clicked " + adapter.getItem(position).getType() + " on row number " + position, Toast.LENGTH_SHORT).show();
-    }
+        //Toast.makeText(getContext(), "You clicked " + adapter.getEffectAt(position).getType() + " on row number " + position, Toast.LENGTH_SHORT).show();
+    }*/
 
     public static void addEffect(String n, String p) {
         effects_list.add(new Effect(n, p));
@@ -146,20 +140,20 @@ public class CreateFragment extends Fragment implements EffectListView.ItemClick
             // edit selected effect
             case R.id.menu_effect_edit:
 
-                adapter.editItem(item.getGroupId());
+                //adapter.editItem(item.getGroupId());
                 return true;
 
             // duplicate selected effect from list
             case R.id.menu_effect_duplicate:
 
-                adapter.duplicateItem(item.getGroupId());
+                //adapter.duplicateItem(item.getGroupId());
                 return true;
 
             // remove selected effect from list
             case R.id.menu_effect_remove:
 
                 // context menu created with id's at adapter pos
-                adapter.removeItem(item.getGroupId());
+                //adapter.removeItem(item.getGroupId());
                 return true;
 
             default:

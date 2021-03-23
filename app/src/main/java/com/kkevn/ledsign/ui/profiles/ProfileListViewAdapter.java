@@ -47,7 +47,7 @@ public class ProfileListViewAdapter extends RecyclerView.Adapter<ProfileListView
      * Constructor for this ProfileListViewAdapter.
      *
      * @param {Context} context: Reference to context of the current activity.
-     * @param {ArrayList<File>} objects: List of File objects for saved profiles.
+     * @param {ArrayList<File>} profiles: List of File objects for saved profiles.
      */
     public ProfileListViewAdapter(Context context, ArrayList<File> profiles) {
 
@@ -85,7 +85,7 @@ public class ProfileListViewAdapter extends RecyclerView.Adapter<ProfileListView
     public void onBindViewHolder(ProfileListViewHolder holder, int position) {
 
         // get unique ID or name of profile File at specified position
-        String id = getFileAt(position).getName();
+        final String id = getFileAt(position).getName();
 
         // bind the SwipeRevealLayout and only allow one to be open at a time
         viewBinderHelper.setOpenOnlyOne(true);

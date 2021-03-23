@@ -45,7 +45,7 @@ import com.kkevn.ledsign.bluetooth.ConnectedThread;
 import com.kkevn.ledsign.bluetooth.PairedListViewAdapter;
 import com.kkevn.ledsign.ui.create.CreateFragment;
 import com.kkevn.ledsign.ui.create.Effect;
-import com.kkevn.ledsign.ui.create.SelectEffectListView;
+import com.kkevn.ledsign.ui.create.SelectEffectListViewAdapter;
 import com.kkevn.ledsign.ui.help.HelpViewPagerFragment;
 
 import java.io.BufferedReader;
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     Vector<Effect> effects_list = new Vector<>();
-    static SelectEffectListView selv;
+    static SelectEffectListViewAdapter selv;
 
     private Gson gson;
 
@@ -353,7 +353,7 @@ public class MainActivity extends AppCompatActivity {
         for (Effect.Effect_Types e: Effect.Effect_Types.values()) {
             effects_list.add(new Effect(e.toString()));
         }
-        selv = new SelectEffectListView(this, effects_list);
+        selv = new SelectEffectListViewAdapter(this, effects_list);
     }
 
     /**

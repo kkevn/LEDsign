@@ -2,6 +2,7 @@ package com.kkevn.ledsign.ui.create;
 
 import com.google.gson.annotations.Expose;
 
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,6 +45,10 @@ public class Effect {
     public Effect(String type, String param) {
         this.type = type;
         this.param = param;
+    }
+
+    public String getEffectID() {
+        return this.type + this.getParam();// + new Random().nextInt(100);
     }
 
     public String getType() {
