@@ -1,3 +1,10 @@
+/**
+ * HelpItemFragment is the fragment containing the current help item's video tutorial and written
+ * instructions on how to perform said help item within an ExpandableTextView.
+ *
+ * @author Kevin Kowalski
+ */
+
 package com.kkevn.ledsign.ui.help;
 
 import android.content.res.TypedArray;
@@ -8,10 +15,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -20,18 +25,22 @@ import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 public class HelpItemFragment extends Fragment {
 
-    int category, index;
-
+    // declare relevant variables
+    private int category, index;
     private VideoView vv_how_to_video;
     private View v_dimmer;
     private TextView tv_help_title;
     private ExpandableTextView etv;
 
-    //private MediaController mediaController;
-
-    //public HelpItemFragment() {
-    //}
-
+    /**
+     * Returns an instance of this fragment bundled with the category and help item indexes of the
+     * help item this fragment should display.
+     *
+     * @param {int} category: Index of help item category.
+     * @param {int} index: Index of help item within given category.
+     *
+     * @return {HelpItemFragment} Instance of this fragment with Bundle arguments.
+     */
     public static HelpItemFragment newInstance(int category, int index) {
         Bundle args = new Bundle();
         args.putInt(HelpViewPagerFragment.CATEGORY, category);
@@ -41,6 +50,11 @@ public class HelpItemFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Creates this fragment and obtains the bundled arguments for the category and help item index.
+     *
+     * @param {Bundle} savedInstanceState: Bundle object containing activity's previous state.
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,11 +65,28 @@ public class HelpItemFragment extends Fragment {
         }
     }
 
+    /**
+     * Returns a view that contains the layout of this fragment that includes the video of how to
+     * perform the task and written instructions for it.
+     *
+     * @param {LayoutInflater} inflater: LayoutInflater object used to inflate the layout.
+     * @param {ViewGroup} container: Parent view that this fragment's UI should attach to.
+     * @param {Bundle} savedInstanceState: Bundle object containing activity's previous state.
+     *
+     * @return {View} View containing the help item layout
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_help_item, container, false);
     }
 
+    /**
+     * Manipulates the provided view after the fragment is created. Populates the view with the
+     * VideoView and ExpandableTextView for its help item.
+     *
+     * @param {View} view: View to manipulate.
+     * @param {Bundle} savedInstanceState: Bundle object containing activity's previous state.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -66,25 +97,6 @@ public class HelpItemFragment extends Fragment {
         tv_help_title = view.findViewById(R.id.tv_help_title);
         etv = view.findViewById(R.id.expand_text_view);
 
-        /*
-        vv_how_to_video.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-
-                if (vv_how_to_video.isPlaying())
-                    vv_how_to_video.stopPlayback();
-                else
-                    vv_how_to_video.start();
-
-                return true;
-            }
-        });
-
-        mediaController = new MediaController(getContext());
-        vv_how_to_video.setMediaController(mediaController);
-        mediaController.setAnchorView(vv_how_to_video);
-        */
-
         // disable VideoView's audio, set to loop indefinitely, and play automatically
         vv_how_to_video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -94,17 +106,23 @@ public class HelpItemFragment extends Fragment {
             }
         });
 
-        // listener to play or pause/dim VideoView based on ExpandableTextView's current expand state
+        // set listener to play/pause and un-dim/dim the video based on ExpandableTextView status
         etv.setOnExpandStateChangeListener(new ExpandableTextView.OnExpandStateChangeListener() {
             @Override
             public void onExpandStateChanged(TextView textView, boolean isExpanded) {
 
+                // check if ExpandableTextView is collapsed
                 if (!isExpanded) {
+
+                    // play the video and undo any dim
                     vv_how_to_video.start();
                     v_dimmer.getBackground().setAlpha(0);
+
                 } else {
+
+                    // pause the video and dim it half way
                     vv_how_to_video.pause();
-                    v_dimmer.getBackground().setAlpha(128); //255
+                    v_dimmer.getBackground().setAlpha(128);
                 }
             }
         });
@@ -112,9 +130,14 @@ public class HelpItemFragment extends Fragment {
         // update the views for the current help item
         updateViews();
 
+        // play the video by default
         vv_how_to_video.start();
     }
 
+    /**
+     * Updates the fragment's VideoView and ExpandableTextView with the help item it is currently
+     * loaded to display.
+     */
     private void updateViews() {
 
         // update the help topic title

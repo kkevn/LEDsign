@@ -49,7 +49,7 @@ public class CreateFragment extends Fragment implements DragListener {
      */
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        // inflate the dialog's layout
+        // inflate the fragment's layout
         View root = inflater.inflate(R.layout.fragment_new_profile, container, false);
 
         // find the FrameLayout in this fragment's layout and set it up with the Processing sketch
