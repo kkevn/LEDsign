@@ -1,3 +1,10 @@
+/**
+ * MatrixSelectionsWidget is the ConfiguratorWidget responsible for accepting any combination of
+ * matrices that will be customized in the given effect.
+ *
+ * @author Kevin Kowalski
+ */
+
 package com.kkevn.ledsign.ui.configurators.widgets;
 
 import android.content.Context;
@@ -11,11 +18,17 @@ import java.util.List;
 
 final public class MatrixSelectionsWidget extends ConfiguratorWidget {
 
+    // declare relevant variables
     private View matrix_select;
-
     private CheckBox cb_front, cb_right, cb_back, cb_left, cb_top;
     private List<CheckBox> cb_selections;
 
+    /**
+     * Constructor for this ConfiguratorWidget.
+     *
+     * @param {Context} context: Reference to context of the current activity.
+     * @param {View} root: The parent view it will attach itself to.
+     */
     public MatrixSelectionsWidget(Context context, View root) {
 
         // find matrix selection view in root layout
@@ -34,6 +47,11 @@ final public class MatrixSelectionsWidget extends ConfiguratorWidget {
         cb_selections = Arrays.asList(cb_front, cb_right, cb_back, cb_left, cb_top);
     }
 
+    /**
+     * Determines whether or not to disable this ConfiguratorWidget based on the given enabled flag.
+     *
+     * @param {boolean} enabled: Enable flag.
+     */
     @Override
     public void setEnabled(boolean enabled) {
         for (int i = 0; i < cb_selections.size(); i++) {
@@ -41,6 +59,11 @@ final public class MatrixSelectionsWidget extends ConfiguratorWidget {
         }
     }
 
+    /**
+     * Updates the default values of each customizable item with the given inputs.
+     *
+     * @param {String ...} inputs: List of inputs to update with.
+     */
     @Override
     public void updateWidgetInputs(String... inputs) {
 
@@ -53,6 +76,11 @@ final public class MatrixSelectionsWidget extends ConfiguratorWidget {
         }
     }
 
+    /**
+     * Returns the parsed inputs of each customizable item in this ConfiguratorWidget.
+     *
+     * @return {String} Parsed inputs of this widget.
+     */
     @Override
     public String parseWidgetInputs() {
         String selections = "";

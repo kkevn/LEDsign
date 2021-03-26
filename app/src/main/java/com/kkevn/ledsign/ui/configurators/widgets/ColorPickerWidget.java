@@ -1,3 +1,10 @@
+/**
+ * ColorPickerWidget is the ConfiguratorWidget responsible for accepting RGB color values using
+ * SeekBar objects or an EditText object. Previews the currently set color in a simple View.
+ *
+ * @author Kevin Kowalski
+ */
+
 package com.kkevn.ledsign.ui.configurators.widgets;
 
 import android.content.Context;
@@ -12,14 +19,19 @@ import com.kkevn.ledsign.R;
 
 public class ColorPickerWidget extends ConfiguratorWidget {
 
+    // declare relevant variables
     private int red = 255, green = 127, blue = 0, defaultTextColor;
-
     private View color_picker;
-
     private TextView tv_red, tv_green, tv_blue;
     private SeekBar sb_red, sb_green, sb_blue;
     private EditText et_hex;
 
+    /**
+     * Constructor for this ConfiguratorWidget.
+     *
+     * @param {Context} context: Reference to context of the current activity.
+     * @param {View} root: The parent view it will attach itself to.
+     */
     public ColorPickerWidget(Context context, View root) {
 
         // find color picker view in root layout
@@ -127,32 +139,57 @@ public class ColorPickerWidget extends ConfiguratorWidget {
         });
     }
 
-    /**/
+    /**
+     * Returns the currently applied RGB values as a hexadecimal integer.
+     *
+     * @return {int} RGB as hexadecimal.
+     */
     private int getHexColor() {
         return Color.rgb(red, green, blue);
     }
 
-    /**/
+    /**
+     * Returns the currently applied RGB values as a hexadecimal String. Has option to keep or drop
+     * the color's alpha value.
+     *
+     * @param {boolean} keepAlpha: Alpha status.
+     *
+     * @return {String} RGB as hexadecimal.
+     */
     private String getHexString(boolean keepAlpha) {
         String hex = Integer.toHexString(getHexColor());
         return keepAlpha ? hex : hex.substring(2, 8);
     }
 
-    /**/
+    /**
+     * Returns the given RGB value as a padded String so that it is always of length three.
+     *
+     * @param {boolean} val: Value to format.
+     *
+     * @return {String} Formatted RGB value.
+     */
     private String formatRGB(int val) {
         return String.format("%3s", val).replace(' ', '0');
     }
 
-    /**/
+    /**
+     * Determines whether or not to disable this ConfiguratorWidget based on the given enabled flag.
+     *
+     * @param {boolean} enabled: Enable flag.
+     */
     @Override
-    public void setEnabled(boolean enable) {
-        sb_red.setEnabled(enable);
-        sb_green.setEnabled(enable);
-        sb_blue.setEnabled(enable);
-        et_hex.setEnabled(enable);
+    public void setEnabled(boolean enabled) {
+        sb_red.setEnabled(enabled);
+        sb_green.setEnabled(enabled);
+        sb_blue.setEnabled(enabled);
+        et_hex.setEnabled(enabled);
     }
 
-    /**/
+    /**
+     * Updates the default values of each customizable item with the given inputs.
+     *
+     * @param {String ...} inputs: List of inputs to update with.
+     */
     @Override
     public void updateWidgetInputs(String... inputs) {
 
@@ -176,7 +213,11 @@ public class ColorPickerWidget extends ConfiguratorWidget {
         color_picker.findViewById(R.id.v_preview).setBackgroundColor(Color.rgb(red, green, blue));
     }
 
-    /**/
+    /**
+     * Returns the parsed inputs of each customizable item in this ConfiguratorWidget.
+     *
+     * @return {String} Parsed inputs of this widget.
+     */
     @Override
     public String parseWidgetInputs() {
         return "" + red + ";" + green + ";" + blue;
