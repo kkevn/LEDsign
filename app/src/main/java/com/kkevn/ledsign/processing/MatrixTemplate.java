@@ -1,9 +1,7 @@
 /**
- * MatrixTemplate object contains a template for the Matrix and
- * LinkedMatrix objects. It simply contains the necessary common
- * functions between the two so that effects can be easily
- * applied referencing the same functions regardless of whether
- * or not each matrix is linked.
+ * MatrixTemplate object contains a template for the Matrix and LinkedMatrix objects. It simply
+ * contains the necessary common functions between the two so that effects can be easily applied
+ * referencing the same functions regardless of whether or not each matrix is linked.
  *
  * @author Kevin Kowalski
  */

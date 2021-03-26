@@ -1,17 +1,17 @@
 /**
- * LinkedMatrixContainer object contains a reference to each individual
- * linkedmatrix that it is given to create a single object to easily
- * track the status of each effect a matrix requires.
+ * LinkedMatrixContainer object contains a reference to each individual LinkedMatrix that it is
+ * given to create a single object to easily track the status of each effect a matrix requires.
  *
  * @author Kevin Kowalski
  */
 
 package com.kkevn.ledsign.processing;
 
-import com.kkevn.ledsign.processing.ledsign.Matrix;
+import com.kkevn.ledsign.processing.LEDsign.Matrix;
 
 class LinkedMatrixContainer {
 
+    // declare relevant variables
     LinkedMatrix linked_matrix;
     int matrixCount;
     String selections, params, effect;
@@ -40,23 +40,18 @@ class LinkedMatrixContainer {
             }
         }
 
+        // initialize a temporary Matrix array object
         Matrix[] temp = new Matrix[this.matrixCount];
 
-        /*for (int i = 0; i < selections.length(); i++) {
-          if (selections.charAt(i) == '1') {
-            temp[i] = matrices[i];
-          }
-        }*/
-
+        // populate the Matrix array based on given selections
         int temp_i = 0;
         for (int i = 0; i < selections.length(); i++) {
             if (selections.charAt(i) == '1') {
-                //temp[temp_i++] = matrices[i];
-                temp[temp_i++] = ledsign.matrices[i];
+                temp[temp_i++] = LEDsign.matrices[i];
             }
         }
 
-        //this.linked_matrix = new ledsign.LinkedMatrix(temp);
+        // pass the temporary Matrix array to the LinkedMatrix
         this.linked_matrix = new LinkedMatrix(temp);
     }
 

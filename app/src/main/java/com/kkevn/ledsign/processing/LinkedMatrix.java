@@ -1,14 +1,13 @@
 /**
- * LinkedMatrix object contains a reference to each individual matrix
- * that it is linked with to create a single, larger matrix so that
- * multiple matrices can easily be treated as one.
+ * LinkedMatrix object contains a reference to each individual matrix that it is linked with to
+ * create a single, larger matrix so that multiple matrices can easily be treated as one.
  *
  * @author Kevin Kowalski
  */
 
 package com.kkevn.ledsign.processing;
 
-import com.kkevn.ledsign.processing.ledsign.Matrix;
+import com.kkevn.ledsign.processing.LEDsign.Matrix;
 
 import static processing.core.PApplet.append;
 import static processing.core.PApplet.floor;
@@ -16,6 +15,7 @@ import static processing.core.PApplet.sqrt;
 
 class LinkedMatrix implements MatrixTemplate {
 
+    // declare relevant variables
     Matrix[] linkedmatrix;
     int gridSize, rowSize, LEDcount;
 
@@ -31,10 +31,8 @@ class LinkedMatrix implements MatrixTemplate {
         this.linkedmatrix = new Matrix[m.length];
 
         // populate the matrix with the appropriate amount of LEDs
-        //args.forEach(arg => this.linkedmatrix.push(arg));
         int index = 0;
         for (Matrix matrix : m) {
-            //append(this.linkedmatrix, matrix);
             this.linkedmatrix[index++] = matrix;
         }
 
@@ -98,7 +96,7 @@ class LinkedMatrix implements MatrixTemplate {
      *
      * @return {LED} LED object at specified index.
      */
-    public ledsign.LED getLEDAt(int x, int y) {
+    public LEDsign.LED getLEDAt(int x, int y) {
         return this.linkedmatrix[floor(x / this.rowSize)].getLEDAt(x, y);
     }
 
@@ -114,7 +112,6 @@ class LinkedMatrix implements MatrixTemplate {
 
         // fill array with ID from each matrix
         for (int i = 0; i < this.linkedmatrix.length; i++) {
-            //arr_ids.push(this.linkedmatrix[i].getID());
             append(arr_ids, this.linkedmatrix[i].getID());
 
             //TODO
@@ -250,48 +247,23 @@ class LinkedMatrix implements MatrixTemplate {
     public @Override
     void scroll(int offset, int bg_r, int bg_g, int bg_b) {
 
-        // used to adjust indices across matrices at the connecting edges
-        int edge_offset = this.gridSize - this.rowSize;
-
-        //int[] color = {0, 100, 0};
-
+        // iterate over the LinkedMatrix
         for (int x = 0; x < (this.linkedmatrix.length * this.rowSize); x++) {
             for (int y = 0; y < this.rowSize; y++) {
+
+                // get current color of LED at this position
                 int [] clr = this.linkedmatrix[floor(x / this.rowSize)].getLEDAt(x, y).getColor();
 
+                // if this LED has a higher priority, scroll it over
                 if (this.linkedmatrix[floor(x / this.rowSize)].getLEDAt(x, y).getPriority() == 1) {
                     this.setLEDAtCoord(x - 1, y, clr[0], clr[1], clr[2], 1);
                     this.undoLEDAtCoord(x, y);
                 }
 
+                // reset priority at this LED
                 this.linkedmatrix[floor(x / this.rowSize)].getLEDAt(x, y).setPriority(0);
             }
         }
-
-
-    /*for (int i = 0; i < this.LEDcount; i++) {
-
-      // retrieve the color at the current index
-      //int[] color = this.linkedmatrix[floor(i / this.gridSize)].matrix[i % this.gridSize].getColor();
-      int[] led_color = this.linkedmatrix[floor(i / this.gridSize)].matrix[i % this.gridSize].getColor();
-      //Matrix x = this.linkedmatrix[floor(i / this.gridSize)];
-      //LED y = x.matrix[i % this.gridSize];
-      //int[] z = y.getColor();
-
-      // for first columns of a matrix, adjust indices to move towards last column of next matrix
-      if (i % this.rowSize == 0 && this.linkedmatrix[floor(i / this.gridSize)].matrix[i % this.gridSize].getPriority() == 1) {
-        this.setLEDAtIndex(i - edge_offset - offset, led_color[0], led_color[1], led_color[2], 1);
-        //this.linkedmatrix[floor(i / this.gridSize)].matrix[i % this.gridSize].setPriority(0);
-        //this.undoLEDAtIndex(i - edge_offset - offset);
-      }
-      else if (i % this.rowSize != 0 && this.linkedmatrix[floor(i / this.gridSize)].matrix[i % this.gridSize].getPriority() == 1) {
-        this.setLEDAtIndex(i - offset, led_color[0], led_color[1], led_color[2], 1);
-        //this.linkedmatrix[floor(i / this.gridSize)].matrix[i % this.gridSize].setPriority(0);
-        //this.undoLEDAtIndex(i - offset);
-      }
-
-      this.linkedmatrix[floor(i / this.gridSize)].matrix[i % this.gridSize].setPriority(0);
-    }*/
     }
 
     /**
@@ -307,14 +279,15 @@ class LinkedMatrix implements MatrixTemplate {
     public @Override
     void addLetter(String letter, int column, int r, int g, int b) {
 
+        // get the size of a column
         int cols = (this.gridSize / this.rowSize) * this.linkedmatrix.length;
 
+        // if the current letter has a position at this index of the column, add the LED
         for (int i = 0; i < this.rowSize; i++) {
             if (letter.charAt((i * this.rowSize) + column) == '1')
                 this.setLEDAtCoord(cols - 2, i, r, g, b, 1);
-                //this.setLEDAtCoord(cols - 2, i, r, g, b, pos);
-            //else // added
-            //this.getLEDAt(cols - 2, i).setPriority(0);
+            //else
+            //  this.getLEDAt(cols - 2, i).setPriority(0);
         }
     }
 }

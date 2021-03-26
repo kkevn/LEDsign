@@ -6,7 +6,6 @@
 
 package com.kkevn.ledsign.ui.create;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +19,7 @@ import android.support.v4.app.Fragment;
 
 import com.kkevn.ledsign.MainActivity;
 import com.kkevn.ledsign.R;
-import com.kkevn.ledsign.processing.ledsign;
+import com.kkevn.ledsign.processing.LEDsign;
 
 import java.util.Vector;
 
@@ -54,7 +53,7 @@ public class CreateFragment extends Fragment implements DragListener {
 
         // find the FrameLayout in this fragment's layout and set it up with the Processing sketch
         FrameLayout frame = (FrameLayout) root.findViewById(R.id.container);
-        sketch = new ledsign();
+        sketch = new LEDsign();
         PFragment fragment = new PFragment(sketch);
         fragment.setView(frame, getActivity());
 
