@@ -270,8 +270,13 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (msg.what == MESSAGE_WRITE) {
-                    //Toast.makeText(getApplicationContext(),"Wrote command",Toast.LENGTH_SHORT).show();
-                    Snackbar.make(getCurrentFocus(), "Device received outgoing command", Snackbar.LENGTH_SHORT).show();
+
+                    if (msg.arg1 == 0) {
+                        Snackbar.make(getCurrentFocus(), "Device failed to receive outgoing command", Snackbar.LENGTH_LONG).show();
+                    } else {
+                        //Toast.makeText(getApplicationContext(),"Wrote command",Toast.LENGTH_SHORT).show();
+                        Snackbar.make(getCurrentFocus(), "Device received outgoing command", Snackbar.LENGTH_SHORT).show();
+                    }
                 }
             }
         };
