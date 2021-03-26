@@ -1,13 +1,20 @@
+/**
+ * MainActivity is the activity containing the logic for handling and communicating the entire
+ * application between all of its components, such as all fragments and threads.
+ *
+ * @author Kevin Kowalski
+ */
+
 package com.kkevn.ledsign;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -48,18 +55,12 @@ import com.kkevn.ledsign.ui.create.Effect;
 import com.kkevn.ledsign.ui.create.SelectEffectListViewAdapter;
 import com.kkevn.ledsign.ui.help.HelpViewPagerFragment;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.Writer;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -70,49 +71,49 @@ public class MainActivity extends AppCompatActivity {
 
     /* UI objects */
     private TextView tv_status;
-    private ProgressBar pb;
+    private ProgressBar progressBar;
     private Menu toolbar_menu;
-    public Toolbar toolbar;
+    private Toolbar toolbar;
     private AppBarConfiguration mAppBarConfiguration;
     private static NavController navController;
-    FloatingActionButton fab;
+    private FloatingActionButton floatingActionButton;
 
+    /* Effect objects */
+    private Vector<Effect> effects_list = new Vector<>();
+    static SelectEffectListViewAdapter selectEffectListViewAdapter;
+
+    /* Profile variables */
     private static String currentProfileName = "New Profile";
     private static boolean doSaveProfile = false;
-
     private static String loadProfileName = "";
     private static boolean doLoadProfile = false;
-
-    private int prev_page = -1;
-    private int curr_page;
-
-    private boolean showOptions = true;
     private static boolean currentProfileSaved = true;
 
+    /* Miscellaneous */
+    private int prevPage = -1;
+    private int currPage;
+    private boolean showOptions = true;
     private SharedPreferences sharedPreferences;
-
-    Vector<Effect> effects_list = new Vector<>();
-    static SelectEffectListViewAdapter selv;
-
     private Gson gson;
 
     /* Bluetooth objects */
-    public static ConnectedThread ct;
+    public static ConnectedThread connectedThread;
     public static BluetoothAdapter mBTAdapter;
     public static ArrayAdapter mBTArrayAdapter;
-    static ArrayList<BluetoothDevice> mPairedDevices = new ArrayList<>();   // ArrayList over Set for get()
+    private static ArrayList<BluetoothDevice> mPairedDevices = new ArrayList<>();
     public static Handler handler;
     public static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // "random" unique identifier
-
-    // defines for identifying shared types between calling functions
     final public static int REQUEST_ENABLE_BT = 1; // used to identify adding bluetooth names
     final public static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
     final public static int CONNECTING_STATUS = 3; // used in bluetooth handler to identify message status
-    static public final int MESSAGE_WRITE = 4;
-    static public final int MESSAGE_TOAST = 5;
+    final public static int MESSAGE_WRITE = 4;  // used in bluetooth handler to verify message writes
 
-    final public static int UPDATE_TOOLBAR = 7;
-
+    /**
+     * Returns the theme called by the activity. Checks the current theme preference and color
+     * accent to update the styling accordingly.
+     *
+     * @return {Resources.Theme} Theme to use.
+     */
     @Override
     public Resources.Theme getTheme() {
         Resources.Theme theme = super.getTheme();
@@ -137,6 +138,11 @@ public class MainActivity extends AppCompatActivity {
         return theme;
     }
 
+    /**
+     * Creates the activity and initializes all relevant objects.
+     *
+     * @param {Bundle} savedInstanceState: Bundle object containing activity's previous state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,142 +158,365 @@ public class MainActivity extends AppCompatActivity {
             editor.commit();
         }
 
-        //NavigationView navigationView = findViewById(R.id.nav_view);
-
+        // apply the app theme based on current preference selection of app theme
         String THEME_KEY = getResources().getString(R.string.pref_theme_key);
-        // apply the app theme based on current preference selection for the theme
         String theme = sharedPreferences.getString(THEME_KEY, "");
-        if (theme.equalsIgnoreCase("0")) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            //navigationView.setItemTextAppearance(R.drawable.drawer_item);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }
-        setTheme(theme.equalsIgnoreCase("0") ? R.style.CustomLightTheme : R.style.CustomDarkTheme);
-        //setTheme(theme.equalsIgnoreCase("LIGHT") ? R.style.CustomLightTheme : R.style.CustomDarkTheme);
+        AppCompatDelegate.setDefaultNightMode(theme.equalsIgnoreCase("0") ? AppCompatDelegate.MODE_NIGHT_NO : AppCompatDelegate.MODE_NIGHT_YES);
+        //setTheme(theme.equalsIgnoreCase("0") ? R.style.CustomLightTheme : R.style.CustomDarkTheme);
+
+        // ---
 
         // apply layout to main activity
         setContentView(R.layout.activity_main);
 
+        // find the Toolbar in this activity's layout and apply its adapter and touch callback
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setBackgroundColor(getColor(R.color.colorPrimaryDark));
+        toolbar.setBackgroundColor(Color.BLACK);
 
         // update the default profile name to what is found in Settings
-        //sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         currentProfileName = sharedPreferences.getString(getString(R.string.pref_default_name_key), "");
-
         currentProfileName = generateNextAvailableProfileName();
         toolbar.setTitle(currentProfileName);
 
+        // update default values for preferences
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
+        // initialize the Gson object
         gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 
-        /*FloatingActionButton*/ fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        // find the FloatingActionButton in this activity's layout and apply its listener
+        floatingActionButton = findViewById(R.id.fab);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                //HomeFragment.effects_list.add(new Effect("lol", "test"));
-                //CreateFragment.addEffect("???", "test");
+
+                // prompt a list of effects to select from
                 new SelectEffectDialogFragment().show(getSupportFragmentManager(), this.getClass().getSimpleName());
             }
         });
 
+        // find the DrawerLayout and NavigationView in this activity's layout
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
-        pb = findViewById(R.id.pb_loader);
+        // find the TextView in the NavigationView's layout
         tv_status = navigationView.getHeaderView(0).findViewById(R.id.tv_status);
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        // pass navigation menu IDs so they'll be considered as top level destinations
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_new_profile, R.id.nav_load_profile, R.id.nav_settings, R.id.nav_help, R.id.nav_about,
-                R.id.nav_config_scrolling_text)
+                R.id.nav_new_profile, R.id.nav_load_profile, R.id.nav_settings, R.id.nav_help, R.id.nav_about)
                 .setDrawerLayout(drawer)
                 .build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        curr_page = navController.getCurrentDestination().getId();
+        // update reference to the current navigation destination
+        currPage = navController.getCurrentDestination().getId();
 
+        // listen for fragment changes
         onFragmentChange();
 
+        // ---
 
-        /* Bluetooth code */
+        // find the ProgressBar in this activity's layout
+        progressBar = findViewById(R.id.pb_loader);
 
-        //mBTArrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1);
+        // create the Bluetooth adapter and get a handle on the Bluetooth radio
         mBTArrayAdapter = new PairedListViewAdapter(getApplicationContext(), mPairedDevices);
+        mBTAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        mBTAdapter = BluetoothAdapter.getDefaultAdapter(); // get a handle on the bluetooth radio
+        // setup handler to handle communication between threads
+        handler = new Handler() {
+            public void handleMessage(android.os.Message msg) {
 
-        handler = new Handler(){
-            public void handleMessage(android.os.Message msg){
-                /*ifo (msg.what == MESSAGE_READ) o{
-                    String readMessage = null;
-                    try {
-                        readMessage = new String((byte[]) msg.obj, "UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                    //mReadBuffer.setText(readMessage);
-                }*/
-
+                // Bluetooth connection was being established
                 if (msg.what == CONNECTING_STATUS) {
 
+                    // attempting to connect
                     if (msg.arg1 == 0) {
-                        pb.setVisibility(View.VISIBLE);
-                    }
-                    else if (msg.arg1 == 1) {
-                        try {
-                            //tv_status.setText(getString(R.string.status_connected) + " [" + (String) (msg.obj) + "]");
-                            //tv_status.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorConnected));
-                        } catch (NullPointerException npe) {
-                            Log.e(this.getClass().getSimpleName(), "error finding text view", npe);
-                        }
+
+                        // reveal indefinite progress bar
+                        progressBar.setVisibility(View.VISIBLE);
+
+                    } else if (msg.arg1 == 1) {
+
+                        // connection successful...
+
+                        // update Bluetooth status message and hide progress bar
                         tv_status.setText(getString(R.string.status_connected) + " [" + (String) (msg.obj) + "]");
                         tv_status.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorConnected));
-                        pb.setVisibility(View.GONE);
-                        //Toast.makeText(getApplicationContext(),"Connected to " + (String) (msg.obj),Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+
                         Snackbar.make(getCurrentFocus(), "Successfully connected to \'" + (String) (msg.obj) + "\'", Snackbar.LENGTH_SHORT).show();
-                    }
-                    else {
-                        try {
-                            //tv_status.setText(getString(R.string.status_disconnected));
-                            //tv_status.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorDisconnected));
-                        } catch (NullPointerException npe) {
-                            Log.e(this.getClass().getSimpleName(), "error finding text view", npe);
-                        }
+
+                    } else {
+
+                        // connection failed or disconnected...
+
+                        // update Bluetooth status message and hide progress bar
                         tv_status.setText(getString(R.string.status_disconnected));
                         tv_status.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorDisconnected));
-                        pb.setVisibility(View.GONE);
-                        //Toast.makeText(getApplicationContext(),"Failed to connect",Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+
                         Snackbar.make(getCurrentFocus(), "Failed to connect to device", Snackbar.LENGTH_LONG).show();
                     }
                 }
 
+                // Bluetooth message was being written
                 if (msg.what == MESSAGE_WRITE) {
 
+                    // message failed to send
                     if (msg.arg1 == 0) {
                         Snackbar.make(getCurrentFocus(), "Device failed to receive outgoing command", Snackbar.LENGTH_LONG).show();
                     } else {
-                        //Toast.makeText(getApplicationContext(),"Wrote command",Toast.LENGTH_SHORT).show();
                         Snackbar.make(getCurrentFocus(), "Device received outgoing command", Snackbar.LENGTH_SHORT).show();
                     }
                 }
             }
         };
 
+        // check if the current device supports Bluetooth
         notifyMissingBluetooth();
 
+        // build the internal list of available effects
         populateEffects();
     }
 
+    /**
+     * Inflate a new menu object with the proper XML layout.
+     *
+     * @param {Menu} menu: Menu object to inflate.
+     *
+     * @return {boolean} Creation status.
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // save reference to the menu and inflate it
+        toolbar_menu = menu;
+        getMenuInflater().inflate(R.menu.options, menu);
+
+        return true;
+    }
+
+    /**
+     * Prepares the menu object once it has been created.
+     *
+     * @param {Menu} menu: Menu object to prepare.
+     *
+     * @return {boolean} Preparation status.
+     */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        // show or hide toolbar action items based on showOptions status
+        for (int i = 0; i < toolbar_menu.size(); i++) {
+            toolbar_menu.getItem(i).setVisible(showOptions);
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    /**
+     * Listener for which toolbar menu items were selected.
+     *
+     * @param {MenuItem} item: MenuItem selected.
+     *
+     * @return {boolean} Selection status.
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            // hamburger or back arrow pressed
+            case android.R.id.home:
+                // toolbar occasionally resets its own color so force the color
+                toolbar.setBackgroundColor(Color.BLACK);
+                return false;
+
+            // save button pressed
+            case R.id.menu_prof_save:
+
+                // save the current profile and obtain its filename
+                String filename = saveProfile();
+
+                // create a default SnackBar
+                Snackbar sb = Snackbar.make(getCurrentFocus(), "", Snackbar.LENGTH_INDEFINITE);
+
+                // update SnackBar message according to saveProfile() result
+                if (filename.equals("<error>")) {
+                    sb.setText("Error writing profile");
+                    sb.setAction("RETRY", e -> {sb.dismiss();saveProfile();});
+                } else if (filename.equals("<empty>")) {
+                    sb.setText("Effects list cannot be empty");
+                    sb.setAction("OK", e -> {sb.dismiss();});
+                } else if (filename.equals("<blank>")) {
+                    sb.setText("Profile names cannot be blank");
+                    sb.setAction("OK", e -> {sb.dismiss();});
+                } else {
+                    sb.setText("Profile \'" + filename + "\' successfully saved");
+                    sb.setDuration(Snackbar.LENGTH_SHORT);
+                }
+
+                // reveal the SnackBar
+                sb.show();
+                return true;
+
+            // Bluetooth button pressed
+            case R.id.menu_prof_bt:
+
+                // launch bluetooth dialog
+                enableBlueTooth();
+                return true;
+
+            // 3-dots menu rename button pressed
+            case R.id.menu_prof_rename:
+
+                // setup FragmentManager and rename dialog objects
+                FragmentManager fm = getSupportFragmentManager();
+                RenameProfileDialogFragment rpdf = new RenameProfileDialogFragment();
+
+                // send current profile name via Bundle to rename dialog
+                Bundle args = new Bundle();
+                args.putString("profile_name", "" + toolbar.getTitle());
+                rpdf.setArguments(args);
+
+                // reveal the rename dialog
+                rpdf.show(fm, this.getClass().getSimpleName());
+
+                // set listener for when rename dialog is dismissed
+                fm.executePendingTransactions();
+                rpdf.getDialog().setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+
+                        // update new profile name if it was changed
+                        if (!currentProfileName.equals(toolbar.getTitle())) {
+
+                            // rename the file from old to new profile name in the directory
+                            File file = new File(getApplicationContext().getFilesDir(), toolbar.getTitle().toString() + ".json");
+                            if (file.exists())
+                                file.renameTo(new File(getApplicationContext().getFilesDir(), currentProfileName + ".json"));
+
+                            // update toolbar with new profile name when dialog is dismissed
+                            toolbar.setTitle(currentProfileName);
+                        }
+
+                        // prevent dialog from reappearing when resuming app
+                        rpdf.dismiss();
+                    }
+                });
+                return true;
+
+            // 3-dots menu clear button pressed
+            case R.id.menu_prof_clear:
+
+                // clear the current profile of its effects
+                CreateFragment.removeEffects();
+                return true;
+
+            // 3-dots menu reset button pressed
+            case R.id.menu_prof_reset:
+
+                // attempt to send a reset signal to the Arduino
+                try {
+
+                    // send signal if connection still active
+                    if (MainActivity.connectedThread.isAlive()) {
+                        MainActivity.connectedThread.write("<RESET{00000;},>".getBytes());
+                    } else {
+                        Snackbar.make(getCurrentFocus(), "Failed to reset device", Snackbar.LENGTH_LONG).show();
+                    }
+
+                } catch (Exception ioe) {
+                    Log.e(this.getClass().getSimpleName(), "error writing to socket", ioe);
+                    Snackbar.make(getCurrentFocus(), "No Bluetooth connection established", Snackbar.LENGTH_LONG).show();
+                }
+                return true;
+
+            // 3-dots menu upload button pressed
+            case R.id.menu_prof_upload:
+
+                // attempt to send current profile to the Arduino
+                try {
+
+                    // send profile if connection still active
+                    if (MainActivity.connectedThread.isAlive()) {
+
+                        // surround the parsed profile with the start and end flags for the Arduino
+                        String to_bt_effects = "<" + CreateFragment.parseList() + ">";
+
+                        // split the effects into an array
+                        String to_bt[] = to_bt_effects.split("(?<=,)");
+
+                        // send the effects one at a time to the Arduino to not overload it in one go
+                        for (String s : to_bt) {
+                            MainActivity.connectedThread.write(s.getBytes());
+                        }
+                    } else {
+                        Snackbar.make(getCurrentFocus(), "Failed to upload profile to device", Snackbar.LENGTH_LONG).show();
+                    }
+
+                } catch (Exception ioe) {
+                    Log.e(this.getClass().getSimpleName(), "error writing to socket", ioe);
+                    Snackbar.make(getCurrentFocus(), "No Bluetooth connection established", Snackbar.LENGTH_LONG).show();
+                }
+                return true;
+
+            default:
+                // user's action was not recognized, invoke superclass to handle it
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /**
+     * Called when navigating up within the navigation hierarchy.
+     *
+     * @return {boolean} Navigate up status.
+     */
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
+    }
+
+    /**
+     * Called when an activity launched exits. Used to confirm the Bluetooth permissions and prompt
+     * a connection to a Bluetooth device.
+     *
+     * @param {int} requestCode: Request code passed.
+     * @param {int} resultCode: Result code passed.
+     * @param {Intent} Data: Intent that can return result data to the caller.
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent Data) {
+
+        // check request responding to
+        if (requestCode == REQUEST_ENABLE_BT) {
+
+            // ensure the request was successful
+            if (resultCode == RESULT_OK) {
+
+                // prompt user with list of paired devices to connect to
+                new BluetoothDialogFragment().show(getSupportFragmentManager(), this.getClass().getSimpleName());
+
+            } else {
+                Snackbar.make(getCurrentFocus(), "Bluetooth must be allowed to upload profiles", Snackbar.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    /**
+     * Navigates to the fragment containing the configurator for the specified effect. If no effect
+     * is recognized, will simply navigate back to the profile creation page.
+     *
+     * @param {String} selected_effect: Effect that was selected.
+     */
     public static void navigateToFragment(String selected_effect) {
 
+        // navigate to the selected effect's respective configurator
         switch (selected_effect) {
             case Effect.TEXT_SCROLL:
                 navController.navigate(R.id.nav_config_scrolling_text);
@@ -313,12 +542,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Navigates to the fragment containing the configurator for the specified effect. Bundles the
+     * selected effect's information and passes it along to the configurator to use as default
+     * values to prepare for editing. If no effect is recognized, will simply navigate back to the
+     * profile creation page.
+     *
+     * @param {String} selected_effect: Effect that was selected.
+     * @param {int} pos: Position of effect in list.
+     * @param {String} params: Parameters of effect that was selected.
+     */
     public static void navigateToFragmentWithBundle(String selected_effect, int pos, String params) {
 
+        // bundle the specified effect's current information
         Bundle args = new Bundle();
         args.putInt("pos", pos);
         args.putString("params", params);
 
+        // navigate to the selected effect's respective configurator
         switch (selected_effect) {
             case Effect.TEXT_SCROLL:
                 navController.navigate(R.id.nav_config_scrolling_text, args);
@@ -344,26 +585,42 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Navigates to a help item fragment for the help item selected at the given category.
+     *
+     * @param {int} category: Category index of help topics.
+     * @param {int} index: Position of help item in category.
+     * @param {int} length: Size of category.
+     */
     public static void navigateToHelpFragmentWithBundle(int category, int index, int length) {
 
+        // bundle the parameters given
         Bundle args = new Bundle();
         args.putInt(HelpViewPagerFragment.CATEGORY, category);
         args.putInt(HelpViewPagerFragment.CATEGORY_INDEX, index);
         args.putInt(HelpViewPagerFragment.CATEGORY_LENGTH, length);
 
+        // navigate to the help item page
         navController.navigate(R.id.nav_help_item, args);
     }
 
+    /**
+     * Populates the list of all available effects for the prompt for selecting effects.
+     */
     private void populateEffects() {
+
+        // add the effect for each one found
         for (Effect.Effect_Types e: Effect.Effect_Types.values()) {
             effects_list.add(new Effect(e.toString()));
         }
-        selv = new SelectEffectListViewAdapter(this, effects_list);
+
+        // create the select effect list adapter
+        selectEffectListViewAdapter = new SelectEffectListViewAdapter(this, effects_list);
     }
 
     /**
-     * Attempt to change the toolbar's save button's visibility depending on the current fragment in
-     * view. It should only be visible on the design fragment when editing effects.
+     * Attempts to detect changes of navigation. Hides or reveals action items that should only be
+     * visible during profile creation.
      */
     private void onFragmentChange() {
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
@@ -371,30 +628,24 @@ public class MainActivity extends AppCompatActivity {
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
 
                 // update fragment history
-                prev_page = curr_page;
-                curr_page = destination.getId();
+                prevPage = currPage;
+                currPage = destination.getId();
 
-                // prompt user to save profile before navigating away from the edit profile fragment
-                //if (prev_page == R.id.nav_new_profile  /*&& currentProfileSaved == false*/) {
-                //    new SaveProfileDialogFragment().show(getSupportFragmentManager(), this.getClass().getSimpleName());
-                //}
-
-                if (prev_page == R.id.nav_load_profile && doLoadProfile == true) {
+                // check if a profile should be loaded
+                if (prevPage == R.id.nav_load_profile && doLoadProfile == true) {
                     loadProfile(loadProfileName);
                     doLoadProfile = false;
-                    //toolbar.setTitle(loadProfileName.replace(".json", ""));
                 }
 
                 // detect user navigating away from the edit profile fragment (but not from configurator fragments)
-                switch (curr_page) {
+                switch (currPage) {
                     case R.id.nav_load_profile:
                     case R.id.nav_settings:
                     case R.id.nav_help:
                     case R.id.nav_about:
 
                         // prompt a save profile only if the current profile has unsaved changes
-                        if (!currentProfileSaved && prev_page == R.id.nav_new_profile) {
-                            //new SaveProfileDialogFragment().show(getSupportFragmentManager(), this.getClass().getSimpleName());
+                        if (!currentProfileSaved && prevPage == R.id.nav_new_profile) {
 
                             // setup FragmentManager and save profile dialog objects
                             FragmentManager fm = getSupportFragmentManager();
@@ -423,55 +674,74 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
 
-                // attempt to change the toolbar's save button depending on current fragment in view
+                // reveal or hide action items based on whether or not at profile creation
                 try {
                     if (destination.getId() == R.id.nav_new_profile) {
-                        //toolbar.getMenu().findItem(R.id.action_save).setVisible(true);
-                        fab.show();
+                        floatingActionButton.show();
                         showOptions = true;
-                        toolbar.setTitle(currentProfileName);   // set toolbar to current profile name when retuning to this activity
+                        toolbar.setTitle(currentProfileName);
                     } else {
-                        //toolbar.getMenu().findItem(R.id.action_save).setVisible(false);
-                        fab.hide();
+                        floatingActionButton.hide();
                         showOptions = false;
                     }
 
-                    // enable or disable save button and 3-dot options menu
+                    // show or hide toolbar acton items
                     for (int i = 0; i < toolbar_menu.size(); i++) {
                         toolbar_menu.getItem(i).setVisible(showOptions);
                     }
                 } catch (NullPointerException npe) {
-                    Log.e(this.getClass().getSimpleName(), "error finding toolbar's save button", npe);
+                    Log.e(this.getClass().getSimpleName(), "error finding toolbar", npe);
                 }
             }
         });
     }
 
-    /**/
+    /**
+     * Updates the reference to the new profile name.
+     *
+     * @param {String} newProfileName: New profile name.
+     */
     public static void updateProfileName(String newProfileName) {
         currentProfileName = newProfileName;
     }
 
-    /**/
+    /**
+     * Updates the save flag for informing the activity that a profile save is requested.
+     */
     public static void giveSaveSignal() {
         doSaveProfile = true;
     }
 
-    /**/
+    /**
+     * Updates the saved flag for informing the activity that a profile has unsaved changes.
+     */
     public static void setProfileUnsaved() {
         currentProfileSaved = false;
     }
 
-    /**/
+    /**
+     * Updates the load flag for informing the activity that a profile load is requested. Also
+     * updates the current profile name to the one being requested to load and navigates back to
+     * profile creation.
+     *
+     * @param {String} profileToLoad: Name of profile to load.
+     */
     public static void giveLoadSignal(String profileToLoad) {
         doLoadProfile = true;
-        //loadProfileName = currentProfileName = profileToLoad;
         loadProfileName = profileToLoad;
+
+        // remove the extension from the profile name
         currentProfileName = profileToLoad.replace(".json", "");
+
+        // navigate back to profile creation page
         navigateToFragment("");
     }
 
-    /**/
+    /**
+     * Returns the next available unique profile name based on the default profile name preference.
+     *
+     * @return {String} Unique profile name.
+     */
     private String generateNextAvailableProfileName() {
 
         // get the default profile name as standalone
@@ -524,7 +794,11 @@ public class MainActivity extends AppCompatActivity {
         return newProfileName;
     }
 
-    /**/
+    /**
+     * Writes the contents of the current profile to storage and returns its filename.
+     *
+     * @return {String} Saved profile name.
+     */
     private String saveProfile() {
 
         String filename;
@@ -534,7 +808,7 @@ public class MainActivity extends AppCompatActivity {
             filename = "<empty>";
         } else if (toolbar.getTitle().toString().trim().isEmpty()) {
             filename = "<blank>";
-        } else{
+        } else {
 
             // get the current profile name with a JSON file extension
             filename = toolbar.getTitle() + ".json";
@@ -565,9 +839,14 @@ public class MainActivity extends AppCompatActivity {
         return filename;
     }
 
-    /**/
+    /**
+     * Attempts to load the specified filename and update the effects list based on its contents.
+     *
+     * @param {String} filename: Name of profile to load.
+     */
     private void loadProfile(String filename) {
         try {
+
             // fetch the file in this app's internal storage directory with its filename
             File x = new File(getApplicationContext().getFilesDir(), filename);
 
@@ -594,270 +873,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // https://www.youtube.com/watch?v=EcfUkjlL9RI
-    private String saveProfile2() {
-
-        String filename = generateNextAvailableProfileName();
-        String fileContents = "test string/\ntest again";
-
-        FileOutputStream fos = null;
-
-        try {
-            // write contents here
-            fos = openFileOutput(filename, Context.MODE_PRIVATE);
-            //fos = getApplicationContext().openFileOutput(filename, Context.MODE_PRIVATE);
-            fos.write(fileContents.getBytes());
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            filename = "<error>";
-        } catch (IOException e) {
-            e.printStackTrace();
-            filename = "<error>";
-        } finally {
-            if (fos != null) {
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    filename = "<error>";
-                }
-            }
-        }
-        return filename;
-    }
-
-    private void loadProfile2(String filename) {
-        FileInputStream fis = null;
-        try {
-            //fis = getApplicationContext().openFileInput(filename);
-            fis = openFileInput(filename);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        InputStreamReader inputStreamReader = new InputStreamReader(fis, StandardCharsets.UTF_8);
-        StringBuilder stringBuilder = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(inputStreamReader)) {
-            String line = reader.readLine();
-            while (line != null) {
-                //effects_list.add(new Effect("", ""));
-                stringBuilder.append(line).append('\n');
-                line = reader.readLine();
-            }
-        } catch (IOException e) {
-            e.printStackTrace(); // error opening file
-        } finally {
-            //String contents = stringBuilder.toString();
-            if (fis != null) {
-                try {
-                    fis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        //toolbar.setBackgroundColor(getColor(R.color.colorPrimaryDark));
-    }
-
     /**
-     * Inflate a new menu object with the proper XML layout.
-     *
-     * @param {Menu} menu: Menu object to inflate.
-     *
-     * @return {boolean} ???.
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        toolbar_menu = menu;
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.options, menu);
-
-
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-        // customize menu so that it can be icon or in menu, tap on title to edit prof
-
-        // enable or disable save button and 3-dot options menu
-        for (int i = 0; i < toolbar_menu.size(); i++) {
-            toolbar_menu.getItem(i).setVisible(showOptions);
-        }
-
-        //toolbar_menu.findItem(R.id.menu_prof_upload).setEnabled(false);
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                //if (curr_page == R.id.nav_help_item) {
-                    toolbar.setBackgroundColor(getColor(R.color.colorPrimaryDark));
-                //}
-                return false;
-            case R.id.menu_prof_save:
-                // User chose the "Save Profile" item, save profile to disk
-                String filename = saveProfile();
-
-                Snackbar sb = Snackbar.make(getCurrentFocus(), "", Snackbar.LENGTH_INDEFINITE);
-
-                // show snackbar message according to saveProfile() result
-                if (filename.equals("<error>")) {
-                    sb.setText("Error writing profile");
-                    sb.setAction("RETRY", e -> {sb.dismiss();saveProfile();});
-                    //Snackbar.make(getCurrentFocus(), "Error saving profile", Snackbar.LENGTH_INDEFINITE).show();
-                } else if (filename.equals("<empty>")) {
-                    sb.setText("Effects list cannot be empty");
-                    sb.setAction("OK", e -> {sb.dismiss();});
-                    //Snackbar.make(getCurrentFocus(), "Cannot save empty profiles.", Snackbar.LENGTH_INDEFINITE).show();
-                } else if (filename.equals("<blank>")) {
-                    sb.setText("Profile names cannot be blank");
-                    sb.setAction("OK", e -> {sb.dismiss();});
-                    //Snackbar.make(getCurrentFocus(), "Cannot save blank name profiles.", Snackbar.LENGTH_INDEFINITE).show();
-                } else {
-                    //sb = Snackbar.make(getCurrentFocus(), "Profile \'" + filename + "\' successfully saved", Snackbar.LENGTH_SHORT);
-                    sb.setText("Profile \'" + filename + "\' successfully saved");
-                    sb.setDuration(Snackbar.LENGTH_SHORT);
-                }
-
-                sb.show();
-                return true;
-
-            case R.id.menu_prof_bt:
-                // launch bluetooth dialog
-                bluetoothOn();
-                //new BluetoothDialogFragment().show(getSupportFragmentManager(), "MainActivity");
-                return true;
-
-            case R.id.menu_prof_rename:
-
-                // setup FragmentManager and rename dialog objects
-                FragmentManager fm = getSupportFragmentManager();
-                RenameProfileDialogFragment rpdf = new RenameProfileDialogFragment();
-
-                // send current profile name via Bundle to rename dialog
-                Bundle args = new Bundle();
-                args.putString("profile_name", "" + toolbar.getTitle());
-                rpdf.setArguments(args);
-
-                // reveal the rename dialog
-                rpdf.show(fm, this.getClass().getSimpleName());
-
-                // set listener for when rename dialog is dismissed
-                fm.executePendingTransactions();
-                rpdf.getDialog().setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
-
-                        // update new profile name if it was changed
-                        if (!currentProfileName.equals(toolbar.getTitle())) {
-
-                            // rename the file from old to new profile name in the directory
-                            File file = new File(getApplicationContext().getFilesDir(), toolbar.getTitle().toString() + ".json");
-                            if (file.exists())
-                                file.renameTo(new File(getApplicationContext().getFilesDir(), currentProfileName + ".json"));
-
-                            // update toolbar with new profile name when dialog is dismissed
-                            toolbar.setTitle(currentProfileName);
-                        }
-
-                        // prevent dialog from reappearing when resuming app
-                        rpdf.dismiss();
-                    }
-                });
-                return true;
-
-            case R.id.menu_prof_clear:
-                CreateFragment.removeEffects();
-                return true;
-
-            case R.id.menu_prof_reset:
-                //pb.setVisibility(View.GONE);
-                //Toast.makeText(this, "Reset", Toast.LENGTH_SHORT).show();
-                try {
-                    if (MainActivity.ct.isAlive()) {
-                        MainActivity.ct.write("<RESET{00000;},>".getBytes());
-                    }
-                    else {
-                        //Toast.makeText(getApplicationContext(),R.string.notify_failed_upload,Toast.LENGTH_LONG).show();
-                        Snackbar.make(getCurrentFocus(), "Failed to reset device", Snackbar.LENGTH_LONG).show();
-                    }
-                } catch (Exception ioe) {
-                    Log.e(this.getClass().getSimpleName(), "error writing to socket", ioe);
-                    Snackbar.make(getCurrentFocus(), "No Bluetooth connection established", Snackbar.LENGTH_LONG).show();
-                }
-                return true;
-
-            case R.id.menu_prof_upload:
-
-                try {
-                    if (MainActivity.ct.isAlive()) {
-                        //MainActivity.ct.write("0".getBytes());
-                        //MainActivity.ct.write(CreateFragment.parseList().getBytes());
-                        String to_bt_effects = "<" + CreateFragment.parseList() + ">";
-                        String to_bt[] = to_bt_effects.split("(?<=,)");
-                        for (String s : to_bt) {
-                            //System.out.println(s);
-                            MainActivity.ct.write(s.getBytes());
-                        }
-                    }
-                    else {
-                        //Toast.makeText(getApplicationContext(),R.string.notify_failed_upload,Toast.LENGTH_LONG).show();
-                        Snackbar.make(getCurrentFocus(), "Failed to upload profile to device", Snackbar.LENGTH_LONG).show();
-                    }
-                } catch (Exception ioe) {
-                    Log.e(this.getClass().getSimpleName(), "error writing to socket", ioe);
-                    Snackbar.make(getCurrentFocus(), "No Bluetooth connection established", Snackbar.LENGTH_LONG).show();
-                }
-                return true;
-
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent Data) {
-        // Check which request we're responding to
-        if (requestCode == REQUEST_ENABLE_BT) {
-            // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-                // prompt user with list of paired devices to connect to
-                new BluetoothDialogFragment().show(getSupportFragmentManager(), this.getClass().getSimpleName());
-            } else {
-                //Toast.makeText(getApplicationContext(), R.string.notify_require_bt, Toast.LENGTH_LONG).show();
-                Snackbar.make(getCurrentFocus(), "Bluetooth must be allowed to upload profiles", Snackbar.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    /**
-     * Checks if device has support for bluetooth connectivity. Will notify userif no support
+     * Checks if device has support for bluetooth connectivity. Will notify user if no support
      * detected or will prompt user to enable bluetooth if not already enabled. If already enabled,
      * a dialog of paired devices will be shown asking the user to choose which to connect to.
      */
-    private void bluetoothOn() {
+    private void enableBlueTooth() {
         try {
+
             // check for bluetooth support on device
             if (mBTAdapter != null) {
 
@@ -867,6 +890,7 @@ public class MainActivity extends AppCompatActivity {
                     // request bluetooth to be enabled
                     Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                     startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+
                 } else {
 
                     // draw the dialog box containing paired devices that can be connected to
@@ -886,9 +910,8 @@ public class MainActivity extends AppCompatActivity {
      * Disable any existing bluetooth connections and the bluetooth adapter. Also update the
      * bluetooth status indicator.
      */
-    private void bluetoothOff() {
+    private void disableBlueTooth() {
         try {
-
             // TODO
 
             mBTAdapter.disable();
@@ -929,14 +952,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Notifies the user with a toast that the current device does not have support for
+     * Notifies the user with a SnackBar message that the current device does not have support for
      * bluetooth connectivity.
      */
     private void notifyMissingBluetooth() {
         try {
+
+            // first check for valid BlueTooth adapter
             if (mBTAdapter == null) {
-                //Toast.makeText(getApplicationContext(), R.string.notify_missing_bt, Toast.LENGTH_LONG).show();
-                Snackbar sb = Snackbar.make(fab, "Device is missing Bluetooth support", Snackbar.LENGTH_INDEFINITE);
+                Snackbar sb = Snackbar.make(floatingActionButton, "Device is missing Bluetooth support", Snackbar.LENGTH_INDEFINITE);
                 sb.setAction("OK", e -> sb.dismiss());
                 sb.show();
             }
@@ -945,24 +969,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*@Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        try {
-            mBTAdapter.disable(); // turn off
-            //mBluetoothStatus.setText("Bluetooth disabled");
-            Toast.makeText(getApplicationContext(),"Bluetooth turned Off", Toast.LENGTH_SHORT).show();
-        } catch (NullPointerException npe) {
-            Log.e(this.getClass().getSimpleName(), "error finding bluetooth adapter", npe);
-        }
-    }*/
-
+    /**
+     * Creates and starts a new ConnectedThread with the given socket to initiate communication
+     * between this and the target Bluetooth device.
+     */
     public static void manageMyConnectedSocket(BluetoothSocket socket) {
-        ct = new ConnectedThread(socket, handler);
-        ct.start();
+        connectedThread = new ConnectedThread(socket, handler);
+        connectedThread.start();
     }
 
+    /**
+     * Attempts to launch the default browser at the specified web URL based on the view that was
+     * specified. Used exclusively in the About page where tapping a CardView should navigate to
+     * that item's URL.
+     *
+     * @param {View} v: Given view.
+     */
     public void openLink(View v) {
 
         String url;

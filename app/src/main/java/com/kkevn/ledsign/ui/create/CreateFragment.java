@@ -88,7 +88,7 @@ public class CreateFragment extends Fragment implements DragListener {
      *
      * @param {int} requestCode: Request code passed.
      * @param {String[]} permissions: Requested permissions.
-     * @param {int[]} grantResults: Grant results for the corresponding permissions..
+     * @param {int[]} grantResults: Grant results for the corresponding permissions.
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

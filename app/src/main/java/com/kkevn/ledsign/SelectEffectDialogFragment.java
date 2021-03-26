@@ -31,10 +31,10 @@ public class SelectEffectDialogFragment extends DialogFragment {
         // use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.dialog_select_effect)
-                .setAdapter(MainActivity.selv, new DialogInterface.OnClickListener() {
+                .setAdapter(MainActivity.selectEffectListViewAdapter, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // obtain the selected effect and navigate to its ConfiguratorFragment
-                        final String effect_name = MainActivity.selv.getItem(which).getType();
+                        final String effect_name = MainActivity.selectEffectListViewAdapter.getItem(which).getType();
                         MainActivity.navigateToFragment(effect_name);
                     }
                 })
