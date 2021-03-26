@@ -14,7 +14,7 @@ import com.kkevn.ledsign.ui.configurators.ConfiguratorFragment;
 public abstract class ConfiguratorWidget {
 
     // obtain reference to the ConfiguratorListener
-    public final ConfiguratorFragment.ConfiguratorListener cl = ConfiguratorFragment.getCl();
+    public final ConfiguratorFragment.ConfiguratorListener cl = ConfiguratorFragment.getConfiguratorListener();
 
     /**
      * Determines whether or not to disable this ConfiguratorWidget based on the given enabled flag.
