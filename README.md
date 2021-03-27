@@ -44,17 +44,25 @@ The purpose of this project may seem very niche and that is because it was creat
 
 * #### Android
   * [Processing for Android](https://android.processing.org/)
+    * *GNU Lesser General Public License v2.1*
   * [Gson](https://github.com/google/gson)
+    * *Apache License 2.0*
   * [Android Support Libraries](https://developer.android.com/topic/libraries/support-library)
+    * *Apache License 2.0*
   * [Material Navigation Drawer](https://github.com/kanytu/Android-studio-material-template)
+    * *Apache License 2.0*
   * [ExpandableTextView](https://github.com/Manabu-GT/ExpandableTextView)
+    * *Apache License 2.0*
   * [SwipeRevealLayout](https://github.com/chthai64/SwipeRevealLayout)
-
+    * *MIT License*
 
 * #### Arduino
   * [Adafruit NeoPixel](https://github.com/adafruit/Adafruit_NeoPixel)
+    * *GNU Lesser General Public License v3.0*
   * [Adafruit NeoMatrix](https://github.com/adafruit/Adafruit_NeoMatrix)
+    * *GNU General Public License v3.0*
   * [Adafruit GFX](https://github.com/adafruit/Adafruit-GFX-Library)
+    * *BSD License*
 
 ---
 
@@ -64,3 +72,34 @@ The purpose of this project may seem very niche and that is because it was creat
 * **Processing** for application's 3D sketch
 * **Arduino Uno** for hardware support
 * **BlueTooth** for application/Arduino communication
+
+---
+
+### License
+
+```
+MIT License
+
+Copyright (c) 2021 Kevin Kowalski
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+#### Note
+This repository depends on several external libraries (but does not modify them). See the [External Libraries](https://github.com/kkevn/LEDsign#external-libraries) section of this README to view their respective licenses and repositories.
