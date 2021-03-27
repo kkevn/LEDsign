@@ -8,14 +8,14 @@
     <!-- toolbar save button -->
     <item
         android:id="@+id/menu_prof_save"
-        android:icon="@drawable/baseline_save_24"
+        android:icon="@drawable/ic_baseline_save_24"
         android:title="@string/menu_prof_save"
         app:showAsAction="always"/>
 
     <!-- bluetooth button -->
     <item
         android:id="@+id/menu_prof_bt"
-        android:icon="@drawable/baseline_settings_bluetooth_24"
+        android:icon="@drawable/ic_baseline_bluetooth_24"
         android:title="@string/menu_prof_bt"
         app:showAsAction="always"/>
 
@@ -38,4 +38,5 @@
     <item android:id="@+id/menu_prof_upload"
         android:title="@string/menu_prof_upload"
         app:showAsAction="never"/>
+
 </menu>

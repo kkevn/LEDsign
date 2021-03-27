@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- contains layout for help page view pager -->
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -8,14 +11,6 @@
         android:id="@+id/vp_slide"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <!--<View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_above="@id/ll_page_indicator"
-        android:layout_marginBottom="2dp"
-        android:background="@color/colorSecondaryLight"
-        android:alpha="0.75" />-->
 
     <LinearLayout
         android:id="@+id/ll_page_indicator"

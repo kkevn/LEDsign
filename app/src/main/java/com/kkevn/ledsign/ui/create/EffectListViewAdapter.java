@@ -117,7 +117,7 @@ public class EffectListViewAdapter extends RecyclerView.Adapter<EffectListViewHo
         // apply effect name, its list of matrices and a drag icon handle to relevant fields
         holder.tv_effect.setText(currentEffect.getType());
         holder.tv_param.setText(currentEffect.getMatrices(true));
-        holder.iv_drag.setImageResource(R.drawable.baseline_drag_handle_24);
+        holder.iv_drag.setImageResource(R.drawable.ic_baseline_drag_handle_24);
 
         // apply listener to ImageView containing drag handle
         holder.iv_drag.setOnTouchListener(new View.OnTouchListener() {

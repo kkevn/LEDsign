@@ -1,4 +1,6 @@
 <resources>
+
+    <!-- about info for LEDsign -->
     <string name="app_name">LEDsign</string>
     <string name="app_version">1.0</string>
     <string name="app_author">Kevin Kowalski</string>
@@ -40,20 +42,12 @@
     <string name="materialdrawer_link">https://github.com/kanytu/Android-studio-material-template</string>
     <string name="materialdrawer_description">A template for Android Studio to create applications with a Material navigation drawer.</string>
 
-
     <!-- about info for Android Support Libraries -->
     <string name="support_name">Android Support Libraries</string>
     <string name="support_version">28.0.0</string>
     <string name="support_author">Google</string>
     <string name="support_link">https://developer.android.com/topic/libraries/support-library</string>
     <string name="support_description">This package of libraries provides several features that are not built into the standard Android framework, and provides backward compatibility for older devices.</string>
-
-    <!-- default created strings -->
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
 
     <!-- shared preferences items -->
     <string name="pref_general_key">GENERAL</string>
@@ -114,9 +108,6 @@
         <item>RIGHT</item>
     </string-array>
 
-    <string-array name="empty_array">
-    </string-array>
-
 
     <!-- nav header bluetooth labels -->
     <string name="nav_header_title">Bluetooth Status:</string>
@@ -127,13 +118,11 @@
     <!-- nav drawer destinations -->
     <string name="menu_new_profile">New Profile</string>
     <string name="menu_load_profile">Load Profile</string>
-    <string name="menu_bluetooth">Bluetooth</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_about">About</string>
     <string name="menu_help">Help</string>
-    <string name="menu_exit">Exit</string>
 
-    <!-- configurator titles -->
+    <!-- configurator titles and messages -->
     <string name="menu_configure_scrolling_text">Configure Scrolling Text Effect</string>
     <string name="menu_configure_solid_color">Configure Solid Color Effect</string>
     <string name="menu_configure_wave_color">Configure Wave Effect</string>
@@ -151,12 +140,6 @@
     <string name="menu_prof_reset">Reset Signal</string>
     <string name="menu_prof_upload">Upload Profile</string>
 
-    <!-- effects list menu -->
-    <string name="menu_effect_header">Effect Options:</string>
-    <string name="menu_effect_edit">Edit</string>
-    <string name="menu_effect_duplicate">Duplicate</string>
-    <string name="menu_effect_remove">Remove</string>
-
     <!-- rename profile dialog fragment -->
     <string name="dialog_rename_profile">Enter a new name for this profile:</string>
     <string name="dialog_rename">Rename</string>
@@ -168,12 +151,12 @@
     <string name="dialog_save">Save</string>
     <string name="dialog_discard">Discard</string>
 
+    <!-- no profiles saved message -->
+    <string name="message_no_profiles">No profiles have been saved yet.</string>
+
     <!-- help info dialog fragment -->
     <string name="dialog_help_info">Help</string>
     <string name="dialog_ok">OK</string>
-
-
-    <string name="message_no_profiles">No profiles have been saved yet.</string>
 
     <!-- tips for help info dialog fragment -->
     <string name="dialog_help_matrix_select">Sets this effect to apply to only the selected sides.
@@ -197,17 +180,19 @@
     <!-- select effect dialog fragment -->
     <string name="dialog_select_effect">Select an Effect:</string>
 
+    <!-- bluetooth snackbar messages -->
     <string name="notify_missing_bt">Device Missing Bluetooth Support</string>
     <string name="notify_no_paired_bt">No Paired Devices Found</string>
     <string name="notify_require_bt">Allow Bluetooth for Uploading Profiles</string>
-
     <string name="notify_failed_upload">Profile Failed to Upload</string>
 
-    <!-- edit text allowable characters -->
+    <!-- edit text allowable characters and formats -->
     <string name="edit_text_inputs">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqr‌​stuvwxyz0123456789_-\u0020</string>
     <string name="edit_text_hexadecimal">ABCDEFabcdef0123456789</string>
-
     <string name="date_time_format_pattern">MMMM dd, yyyy, hh:mm:ss a</string>
+
+    <!-- miscellaneous strings -->
+    <string name="nav_header_desc">Navigation header</string>
 
 
     <!-- help contents -->

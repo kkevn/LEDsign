@@ -1,40 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- contains labels for group of items in drawer -->
+<!-- contains labels for group of items in navigation drawer -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view"
-    >
+    tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_new_profile"
-            android:icon="@drawable/baseline_create_24"
+            android:icon="@drawable/ic_baseline_create_24"
             android:title="@string/menu_new_profile" />
         <item
             android:id="@+id/nav_load_profile"
-            android:icon="@drawable/baseline_folder_open_24"
+            android:icon="@drawable/ic_baseline_folder_open_24"
             android:title="@string/menu_load_profile" />
     </group>
 
-    <!-- SET A UNIQUE ID TO THE BELOW GROUP -->
     <group android:id="@+id/group_other"
         android:checkableBehavior="single">
 
         <item
             android:id="@+id/nav_settings"
-            android:icon="@drawable/baseline_settings_24"
+            android:icon="@drawable/ic_baseline_settings_24"
             android:title="@string/menu_settings" />
 
         <item
             android:id="@+id/nav_help"
-            android:icon="@drawable/baseline_help_24"
+            android:icon="@drawable/ic_baseline_help_24"
             android:title="@string/menu_help" />
 
         <item
             android:id="@+id/nav_about"
-            android:icon="@drawable/baseline_info_24"
+            android:icon="@drawable/ic_baseline_info_24"
             android:title="@string/menu_about" />
     </group>
+
 </menu>
