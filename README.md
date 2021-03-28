@@ -1,8 +1,10 @@
-# LEDsign
+# LEDsign <img src="https://github.com/kkevn/LEDsign/blob/master/_misc/logo.png" width=7% height=7%>
  
 LEDsign is a project designed to perform a very specific goal: allowing a user to build a list of customizable effects using the LEDsign Android application. Next, the user can decide to upload this list of effects (called a profile) to an Arduino circuit via Bluetooth. This circuit will then render the effects designed in the application.
 
 The purpose of this project may seem very niche and that is because it was created entirely with the intention of being a learning exercise and as a fun side project rather than a useful tool of some sort.
+
+See the contents of the `\_misc\` folder for images of the hardware side of the project including the circuit, 3D model of frame built with K'Nex, and more.
 
 ---
 
