@@ -10,7 +10,9 @@ See the contents of the `\_misc\` folder for images of the hardware side of the 
 
 ### Demonstration
 
-`// todo - insert demo video`
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=mtEeOngl4wU
+" target="_blank"><img src="http://img.youtube.com/vi/mtEeOngl4wU/0.jpg" 
+alt="LEDsign Demo" width="640" height="360" border="10" /></a>
 
 ---
 
