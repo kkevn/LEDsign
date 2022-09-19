@@ -1,5 +1,7 @@
 # LEDsign <img src="https://github.com/kkevn/LEDsign/blob/master/_misc/logo.png" width=7% height=7%>
  
+:star: Featured on the official [Processing for Android gallery](https://android.processing.org/gallery/index.html) :star:
+
 LEDsign is a project designed to perform a very specific goal: allowing a user to build a list of customizable effects using the LEDsign Android application. Next, the user can decide to upload this list of effects (called a profile) to an Arduino circuit via Bluetooth. This circuit will then render the effects designed in the application.
 
 The purpose of this project may seem very niche and that is because it was created entirely with the intention of being a learning exercise and as a fun side project rather than a useful tool of some sort.
